@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
 
+  # "plymouth.enable=0"
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     kernelParams = [
