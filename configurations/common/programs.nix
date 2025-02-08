@@ -4,11 +4,16 @@
     variables = {
       EDITOR = "vim";
     };
+    sessionVariables = {
+      MOZ_USE_XINPUT2 = "1";
+    };
+
     # Common packages
     systemPackages = with pkgs; [
       git
       vim
       kitty
+      wezterm
       vorta
       unzip
       zip
@@ -26,8 +31,6 @@
       pamixer
       pavucontrol
 
-      # WEB
-      firefox
       wofi
 
       # file managers
@@ -89,36 +92,6 @@
 
       # boot
       # policycoreutils
-
-      # LSP
-      python311Packages.python-lsp-server
-      nodePackages_latest.nodemon
-      nodePackages_latest.typescript
-      nodePackages_latest.typescript-language-server
-      nodePackages_latest.vscode-langservers-extracted
-      nodePackages_latest.yaml-language-server
-      nodePackages_latest.dockerfile-language-server-nodejs
-      nodePackages_latest.bash-language-server
-      nodePackages_latest.graphql-language-service-cli
-      #vue-language-server
-      sumneko-lua-language-server
-      marksman
-      markdown-oxide
-      nil
-      zls
-      gopls
-      delve
-      emmet-language-server
-      buf
-      cmake-language-server
-      docker-compose-language-service
-      # vscode-extensions.vadimcn.vscode-lldb # A native debugger powered by LLDB. Debug C++, Rust and other compiled languages.
-      # slint-lsp # https://github.com/slint-ui/slint
-      terraform-ls # https://github.com/hashicorp/terraform-ls
-
-      # vulnerabilities
-      vulnix       #scan command: vulnix --system
-      chkrootkit   #scan command: sudo chkrootkit
 
       # passphrase2pgp
       pass-wayland
@@ -237,10 +210,6 @@
       # themechanger
     ];
   };
-
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-  ];
 
   programs = {
     direnv.enable = true;

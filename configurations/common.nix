@@ -57,9 +57,15 @@
   };
 
   # Configure xdg portal for hyprland
-  xdg.portal = {
-    wlr.enable = true;
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      wlr.enable = true;
+    };
   };
-
   zramSwap.enable = true;
 }

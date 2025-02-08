@@ -7,6 +7,7 @@
     kernelParams = [
       "splash"
       "quiet"
+      "plymouth.enable=1"
       "boot.shell_on_fail"
       "loglevel=3"
       "rd.systemd.show_status=false"

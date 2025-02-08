@@ -12,11 +12,13 @@
       # FIXME: set yours pref USB devices (change {id} to your trusted USB device), use `lsusb` command (from usbutils package) to get list of all connected USB devices including integrated devices like camera, bluetooth, wifi, etc. with their IDs or just disable `usbguard`
       rules = ''
         allow id 1d6b:0002 # Linux Foundation 2.0 root hub
+        allow id 0a12:0001 # Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)
         allow id 0781:5567 # SanDisk Corp. Cruzer Blade
         allow id 1d6b:0003 # Linux Foundation 3.0 root hub
         allow id 046d:c548 # Logitech, Inc. Logi Bolt Receiver
         allow id 1c4f:0202 # SiGma Micro Usb KeyBoard
         allow id 046d:c542 # Logitech, Inc. M185 compact wireless mouse
+        allow id 046d:c52b # Logitech, Inc. Unifying Receiver
       '';
     };
 

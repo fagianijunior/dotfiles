@@ -1,0 +1,27 @@
+mkdir ~/Containers
+cd ~/Containers
+wget https://ftpmirror.infania.net/mirror/archlinux/iso/2025.02.01/archlinux-bootstrap-x86_64.tar.zst
+tar xf archlinux-bootstrap-x86_64.tar.zst --numeric-owner
+sudo mv root.x86_64 arch
+sudo systemd-nspawn -D ~/Containers/arch
+
+# change root password
+passwd
+
+# Configure pacman
+echo 'Server = https://mirror.serverion.com/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+pacman-key --init
+pacman-key --populate
+pacman -Syu
+pacman -S vim git sudo base-devel
+
+# Create user
+useradd -m terabytes -d /home/terabytes -s /bin/bash -G users,wheel,input,power
+passwd terabytes
+exit
+
+# Boot the container
+sudo systemd-nspawn -b -D ~/Containers/arch --bind "/home/terabytes/Workspace:/home/terabytes/Workspace"
+
+# Install asdf
+git clone https://aur.archlinux.org/asdf-vm.git && cd asdf-vm && makepkg -si
