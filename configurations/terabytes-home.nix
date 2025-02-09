@@ -201,7 +201,7 @@ in
       ];
 
       monitor =  [
-        ",highrr,auto,auto"
+        "HDMI-A-1, 2560x1080@60, 0x0, 1.00"
       ];
 
       general = {
@@ -459,7 +459,7 @@ in
       layout = [
         {
           label = "Lock";
-          action = "wlogout";
+          action = "hyprlock";
           text = "Lock";
           keybind = "l";
         }
@@ -495,44 +495,49 @@ in
         }
       ];
 
-      # catpuccin theme
-      # style = {
-      #   background = "#1e1e2e";
-      #   foreground = "#cdd6f4";
-      #   selected   = "#f38ba8";
-
-      #   text = "#cdd6f4";
-      #   textAlpha = "#cdd6f4aa";
-      #   textDim = "#cdd6f4cc";
-
-      #   icon = "#cdd6f4";
-      #   iconAlpha = "#cdd6f4aa";
-      #   iconDim = "#cdd6f4cc";
-
-      #   highlight = "#f38ba8";
-      #   highlightAlpha = "#f38ba8aa";
-      #   highlightDim = "#f38ba8cc";
-
-      #   highlightText = "#f38ba8";
-      #   highlightTextAlpha = "#f38ba8aa";
-      #   highlightTextDim = "#f38ba8cc";
-
-      #   highlightIcon = "#f38ba8";
-      #   highlightIconAlpha = "#f38ba8aa";
-      #   highlightIconDim = "#f38ba8cc";
-
-      #   border = "#1e1e2e";
-      #   borderAlpha = "#1e1e2eaa";
-      #   borderDim = "#1e1e2ecc";
-
-      #   highlightBorder = "#f38ba8";
-      #   highlightBorderAlpha = "#f38ba8aa";
-      #   highlightBorderDim = "#f38ba8cc";
-
-      #   highlightBackground = "#f38ba8";
-      #   highlightBackgroundAlpha = "#f38ba8aa";
-      #   highlightBackgroundDim = "#f38ba8cc";
-      # };
+      style = ''
+        * {
+          background-image: none;
+          box-shadow: none;
+        }
+        window {
+          background-color: rgba(12, 12, 12, 0.6);
+        }
+        button {
+          border-radius: 0;
+          border-color: black;
+          text-decoration-color: #FFFFFF;
+          color: #FFFFFF;
+          background-color: #141414;
+          border-style: solid;
+          border-width: 1px;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 25%;
+        }
+        button:focus, button:active, button:hover {
+          outline-style: none;
+          background-color: #282828;
+        }
+        #lock {
+          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/lock.png"));
+        }
+        #logout {
+          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/logout.png"));
+        }
+        #shutdown {
+          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
+        }
+        #reboot {
+          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/reboot.png"));
+        }
+        #suspend {
+          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/suspend.png"));
+        }
+        #hybernate {
+          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/hibernate.png"));
+        }
+      '';
     };
     home-manager.enable = true;
     rofi = {

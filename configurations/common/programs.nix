@@ -198,7 +198,7 @@
 
       # themes
       numix-icon-theme-circle
-      colloid-icon-theme
+      # colloid-icon-theme
       catppuccin-gtk
       catppuccin-kvantum
       catppuccin-cursors.macchiatoTeal
