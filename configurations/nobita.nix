@@ -6,6 +6,7 @@
   };
 
   networking.hostName = "nobita";
+  powerManagement.cpuFreqGovernor = "performance";
   
   boot.initrd = {
     availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
@@ -16,20 +17,19 @@
     };
   };
 
-
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/7f5bc3ff-1da0-43e6-aa55-d5eeee7b140a";
-    fsType = "ext4";
-  };
-
-    fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/355E-2E1A";
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/7f5bc3ff-1da0-43e6-aa55-d5eeee7b140a";
+      fsType = "ext4";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/355E-2E1A";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
+  };
 
   swapDevices = [{
-    # device = "/dev/disk/by-uuid/1f4f6ac4-14c9-4eec-bbf9-979c0352b259";
     device = "/dev/disk/by-uuid/a1414c71-dd07-4b41-9af4-85f20d456637";
   }];
 
