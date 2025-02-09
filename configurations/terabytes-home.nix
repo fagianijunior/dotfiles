@@ -99,6 +99,14 @@ in
   xdg.configFile."rofi/themes/catppuccin-macchiato.rasi".source = ../dotfiles/rofi/themes/catppuccin-macchiato.rasi;
   xdg.configFile."bat/themes/Catppuccin-macchiato.tmTheme".source = ../dotfiles/bat/themes/Catppuccin-macchiato.tmTheme;
 
+  xdg.configFile."wlogout/icons/hibernate.png".source = ../dotfiles/wlogout/icons/hibernate.png;
+  xdg.configFile."wlogout/icons/lock.png".source = ../dotfiles/wlogout/icons/lock.png;
+  xdg.configFile."wlogout/icons/logout.png".source = ../dotfiles/wlogout/icons/logout.png;
+  xdg.configFile."wlogout/icons/reboot.png".source = ../dotfiles/wlogout/icons/reboot.png;
+  xdg.configFile."wlogout/icons/shutdown.png".source = ../dotfiles/wlogout/icons/shutdown.png;
+  xdg.configFile."wlogout/icons/suspend.png".source = ../dotfiles/wlogout/icons/suspend.png;
+ 
+
    xdg.desktopEntries.firefox = {
     categories = [ "Network" "WebBrowser" ];
     exec = "firefox --profileManager %U";
@@ -202,6 +210,7 @@ in
 
       monitor =  [
         "HDMI-A-1, 2560x1080@60, 0x0, 1.00"
+        "eDP-1, 1920x1080@60, 0x0, 1.00"
       ];
 
       general = {
@@ -423,33 +432,6 @@ in
           kb_variant  = "intl";
         }
       ];
-      # extraConfig = {
-      #   submaps = {
-      #     resize = {
-      #       binde = [
-      #         "$mainMod,l,resizeactive,10 0"
-      #         "$mainMod,h,resizeactive,-10 0"
-      #         "$mainMod,k,resizeactive,0 -10"
-      #         "$mainMod,j,resizeactive,0 10"
-      #       ];
-      #       bind = [ 
-      #         ",escape,submap,reset"
-      #       ];
-      #     };
-      #     reset = {};
-      #     move = {
-      #       binde = [
-      #         "$mainMod,l,movewindow,r"
-      #         "$mainMod,h,movewindow,l"
-      #         "$mainMod,k,movewindow,u"
-      #         "$mainMod,j,movewindow,d"
-      #       ];
-      #       bind = [ 
-      #         ",escape,submap,reset"
-      #       ];
-      #     };
-      #   };
-      # };
     };
   };
 
@@ -458,37 +440,37 @@ in
       enable = true;
       layout = [
         {
-          label = "Lock";
+          label = "lock";
           action = "hyprlock";
           text = "Lock";
           keybind = "l";
         }
         {
-          label = "Logout";
+          label = "logout";
           action = "hyprctl dispatch exit";
           text = "Logout";
           keybind = "e";
         }
         {
-          label = "Shutdown";
+          label = "shutdown";
           action = "systemctl poweroff";
           text = "Shutdown";
           keybind = "s";
         }
         {
-          label = "Reboot";
+          label = "reboot";
           action = "systemctl reboot";
           text = "Reboot";
           keybind = "r";
         }
         {
-          label = "Suspend";
+          label = "suspend";
           action = "systemctl suspend";
           text = "Suspend";
           keybind = "u";
         }
         {
-          label = "Hibernate";
+          label = "hibernate";
           action = "systemctl hibernate";
           text = "Hibernate";
           keybind = "h";
@@ -498,44 +480,51 @@ in
       style = ''
         * {
           background-image: none;
-          box-shadow: none;
         }
         window {
-          background-color: rgba(12, 12, 12, 0.6);
+          background-color: rgba(36, 39, 58, 0.9);
         }
         button {
-          border-radius: 0;
-          border-color: black;
-          text-decoration-color: #FFFFFF;
-          color: #FFFFFF;
-          background-color: #141414;
+          margin: 8px;
+          color: #cad3f5;
+          background-color: #363a4f;
           border-style: solid;
-          border-width: 1px;
+          border-width: 2px;
           background-repeat: no-repeat;
           background-position: center;
           background-size: 25%;
         }
-        button:focus, button:active, button:hover {
+
+        button:active,
+        button:focus,
+        button:hover {
+          color: #8bd5ca;
+          background-color: #24273a;
           outline-style: none;
-          background-color: #282828;
         }
+
         #lock {
-          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/lock.png"));
+          background-image: image(url("icons/lock.png"));
         }
+
         #logout {
-          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/logout.png"));
+          background-image: image(url("icons/logout.png"));
         }
-        #shutdown {
-          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
-        }
-        #reboot {
-          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/reboot.png"));
-        }
+
         #suspend {
-          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/suspend.png"));
+          background-image: image(url("icons/suspend.png"));
         }
-        #hybernate {
-          background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/hibernate.png"));
+
+        #hibernate {
+          background-image: image(url("icons/hibernate.png"));
+        }
+
+        #shutdown {
+          background-image: image(url("icons/shutdown.png"));
+        }
+
+        #reboot {
+          background-image: image(url("icons/reboot.png"));
         }
       '';
     };

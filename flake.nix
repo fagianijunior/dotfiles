@@ -7,7 +7,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
   
-  outputs = inputs@{ self, nixpkgs, systems, home-manager,  ... }: {
+  outputs = inputs@{ self, nixpkgs, systems, home-manager, ... }: {
     nix = {
       settings.experimental-features = [ "nix-command" "flakes" ];
       settings = {
@@ -38,11 +38,11 @@
         modules = [
           ./configurations/common.nix
           ./configurations/doraemon.nix
-          home-manager.nixosModules.home-manager
-          {
+          home-manager.nixosModules.home-manager {
+            home-manager.backupFileExtension = "back.tar.gz";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.terabytes = import ./terabytes-home.nix;
+            home-manager.users.terabytes = import ./configurations/terabytes-home.nix;
 
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
