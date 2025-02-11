@@ -19,6 +19,11 @@
         allow id 1c4f:0202 # SiGma Micro Usb KeyBoard
         allow id 046d:c542 # Logitech, Inc. M185 compact wireless mouse
         allow id 046d:c52b # Logitech, Inc. Unifying Receiver
+
+        allow id 2109:0103 # VIA Labs, Inc. USB 2.0 BILLBOARD
+        allow id 27c6:538d # Shenzhen Goodix Technology Co.,Ltd. FingerPrint
+        allow id 0bda:565a # Realtek Semiconductor Corp. Integrated_Webcam_HD
+        allow id 8087:0aaa # Intel Corp. Bluetooth 9460/9560 Jefferson Peak (JfP)
       '';
     };
 
