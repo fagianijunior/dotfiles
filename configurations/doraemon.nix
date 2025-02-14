@@ -1,8 +1,14 @@
-{ lib, config, ... }:
+# Configurações específicas para doraemon
+{ lib, config, pkgs, ... }:
 {
-  # Configurações específicas para doraemon
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    graphics = {
+      extraPackages = with pkgs; [
+        intel-media-driver
+        intel-vaapi-driver
+      ];
+    };
   };
 
   networking.hostName = "doraemon";
@@ -30,7 +36,7 @@
   };
 
   swapDevices = [{
-    device = "/dev/disk/by-uuid/1c76e1f5-0310-4d0c-a0b4-7cdeb292fb25";
+    device = "/dev/disk/by-uuid/bc6dfe5c-dab8-4e15-88bb-a9b1aecdb0b3";
   }];
 
   services = {

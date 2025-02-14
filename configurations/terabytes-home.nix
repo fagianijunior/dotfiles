@@ -209,8 +209,9 @@ in
       ];
 
       monitor =  [
-        "eDP-1, 1920x1080@60, 0x0, 1.00"
-        "HDMI-A-1, 2560x1080@60, 2560x0, 1.00"
+        "eDP-1, 1920x1080@60, 3440x0, 1.00"
+        "DP-1, 3440x1440@100, 0x0, 1.00"
+        "HDMI-A-1, 2560x1080@60, 1920x0, 1.00"
       ];
 
       general = {
@@ -713,7 +714,7 @@ in
         # Valid strings for installation_mode are "allowed", "blocked",
         # "force_installed" and "normal_installed".
         ExtensionSettings = {
-          "*".installation_mode = "blocked"; # blocks all addons except the ones specified below
+          "*".installation_mode = "allowed"; # blocks all addons except the ones specified below
           # Bitwarden:
           "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/file/4410896/bitwarden_password_manager-2024.12.4.xpi";
@@ -732,6 +733,11 @@ in
           # Theme: Catppuccin-macchiato
           "{030fcc87-b84d-4004-a7de-a6166cdf7333}" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/file/3958203/catppuccin_macchiato-1.0.xpi";
+            installation_mode = "force_installed";
+          };
+          # Corretor Português:
+          "pt-BR@dictionaries.addons.mozilla.org" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/file/4223181/corretor-123.2024.16.151.xpi";
             installation_mode = "force_installed";
           };
         };
