@@ -3,7 +3,7 @@ cd ~/Containers
 wget https://ftpmirror.infania.net/mirror/archlinux/iso/2025.02.01/archlinux-bootstrap-x86_64.tar.zst
 tar xf archlinux-bootstrap-x86_64.tar.zst --numeric-owner
 sudo mv root.x86_64 arch
-sudo systemd-nspawn -D ~/Containers/arch
+    sudo systemd-nspawn -D ~/Containers/arch
 
 # change root password
 passwd
@@ -13,7 +13,7 @@ echo 'Server = https://mirror.serverion.com/archlinux/$repo/os/$arch' > /etc/pac
 pacman-key --init
 pacman-key --populate
 pacman -Syu
-pacman -S vim git sudo base-devel unzip
+pacman -S vim git sudo base-devel unzip bash-completion libxslt libyaml unixodbc less
 
 
 # Create user
@@ -33,3 +33,5 @@ makepkg -si
 
 # Install asdf
 git clone https://aur.archlinux.org/asdf-vm.git && cd asdf-vm && makepkg -si
+echo 'export PATH=\"${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"' >> ~/.bash_profile
+echo '. <(asdf completion bash)' >> ~/.bashrc

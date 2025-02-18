@@ -656,16 +656,12 @@ in
           isDefault = true;     # can be omitted; true if profile ID is 0
           settings = {          # specify profile-specific preferences here; check about:config for options
             "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
-            "browser.startup.homepage" = [
-              "https://suporte.veezor.com"
-              "https://veezor.clickup.com"
-            ];
             "browser.newtabpage.pinned" = [{
-              title = "NixOS";
+              title = "Suporte Veezor";
               url = "https://suporte.veezor.com";
             }
             {
-              title = "ClickUp";
+              title = "Veezor ClickUp";
               url = "https://veezor.clickup.com";
             }];
           };
@@ -693,7 +689,7 @@ in
         DisableTelemetry = true;
         DisableFirefoxStudies = true;
         EnableTrackingProtection = {
-          Value= true;
+          Value = true;
           Locked = true;
           Cryptomining = true;
           Fingerprinting = true;
@@ -750,13 +746,13 @@ in
           # "extensions.screenshots.disabled" = lock-true;
           "browser.topsites.contile.enabled" = lock-false;
           "browser.formfill.enable" = lock-false;
-          "browser.search.suggest.enabled" = lock-false;
-          "browser.search.suggest.enabled.private" = lock-false;
+          "browser.search.suggest.enabled" = lock-true;
+          "browser.search.suggest.enabled.private" = lock-true;
           "browser.startup.page" = "3";
           
           "browser.sessionstore.resume_session_once" = lock-true;
           "browser.urlbar.suggest.searches" = lock-false;
-          "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
+          "browser.urlbar.showSearchSuggestionsFirst" = lock-true;
           "browser.newtabpage.activity-stream.feeds.section.topstories" = lock-false;
           "browser.newtabpage.activity-stream.feeds.snippets" = lock-false;
           "browser.newtabpage.activity-stream.section.highlights.includePocket" = lock-false;
