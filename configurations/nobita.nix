@@ -8,13 +8,30 @@
   networking.hostName = "nobita";
   powerManagement.cpuFreqGovernor = "performance";
   
-  boot.initrd = {
-    availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
-    kernelModules = [ "amdgpu" ];
-
-    luks.devices = {
-      "luks-0e088135-c164-4ff4-84af-62f887cb390c".device = "/dev/disk/by-uuid/0e088135-c164-4ff4-84af-62f887cb390c";
+  boot = {
+    initrd = {
+      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
+      kernelModules = [ "amdgpu" ];
+      luks.devices = {
+        "luks-0e088135-c164-4ff4-84af-62f887cb390c".device = "/dev/disk/by-uuid/0e088135-c164-4ff4-84af-62f887cb390c";
+      };
     };
+    kernelParams = [
+      "splash"
+      "quiet"
+      "plymouth.enable=1"
+      "boot.shell_on_fail"
+      "loglevel=3"
+      "udev.log_priority=3"
+      "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
+      "usbcore.autosuspend=-1"
+      "security=selinux"
+      "radeon.cik_support=0"
+      "amdgpu.cik_support=1"
+      "radeon.si_support=0"
+      "amdgpu.si_support=1"
+    ];
+    blacklistedKernelModules = [ "radeon" ];
   };
 
   fileSystems = {

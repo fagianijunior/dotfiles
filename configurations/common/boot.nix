@@ -4,22 +4,6 @@
   # "plymouth.enable=0"
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    kernelParams = [
-      "splash"
-      "quiet"
-      "plymouth.enable=1"
-      "boot.shell_on_fail"
-      "loglevel=3"
-      "rd.systemd.show_status=false"
-      "rd.udev.log_level=3"
-      "udev.log_priority=3"
-      "kernel.modules_disabled=1"
-      "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
-      "usbcore.autosuspend=-1"
-      "video4linux"
-      "security=selinux"
-    ];
-
     consoleLogLevel = 3; # 0 = panic; 1 = dmesg; 2 = kmsg; 3 = info; 4 = debug; 5 = trace
 
     loader = {

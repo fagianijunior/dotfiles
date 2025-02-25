@@ -77,7 +77,6 @@
       hyprcursor      # Cursor manager. https://github.com/Elvysia/hyprcursor
       hyprlock        # Lock screen. https://github.com/Elvysia/hyprlock
       hypridle        # Idle manager. https://github.com/Elvysia/hypridle
-      hyprpaper       # Wallpaper manager. https://github.com/Elvysia/hyprpaper
       hyprpolkitagent # Polkit
       hyprls          # Language server. https://github.com/Elvysia/hyprls
 

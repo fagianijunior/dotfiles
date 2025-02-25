@@ -31,6 +31,11 @@ cd aws-cli-v2
 makepkg -si
 # remember to populate the ~/.aws/{credentials,config} file
 
+# Install the AWS session manager plugin
+git clone https://aur.archlinux.org/aws-session-manager-plugin.git
+cd aws-session-manager-plugin/
+makepkg -si
+
 # Install asdf
 git clone https://aur.archlinux.org/asdf-vm.git && cd asdf-vm && makepkg -si
 echo 'export PATH=\"${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"' >> ~/.bash_profile
