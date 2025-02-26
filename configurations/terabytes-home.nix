@@ -174,8 +174,8 @@ in
       settings = {
         general = {
           wallpaper_mode = "fill";
-          preload = "~/Pictures/Wallpapers/constelacao.jpg";
-          wallpaper = ",~/Pictures/Wallpapers/constelacao.jpg";
+          preload = "$HOME/.background";
+          wallpaper = ",$HOME/.background";
           ipc = "on";
           splash = true;
         };
@@ -566,8 +566,8 @@ in
         };
         background = {
           monitor = "";
-          path = "$HOME/background";
-          blur_passes = 2;
+          path = "$HOME/.background";
+          blur_passes = 0;
           color = "$base";
         };
         label = [
@@ -628,7 +628,7 @@ in
           inner_color = surface0;
           font_color = text;
           fade_on_empty = "false";
-          placeholder_text = ''<span foreground='' + textAlpha + ''><i>🔐 Logged in as </i><span foreground='' + tealAlpha + ''>$USER</span></span>'';
+          placeholder_text = "🔐 Logged in as $USER";
           hide_input = false;
           check_color = sky;
           fail_color = red;

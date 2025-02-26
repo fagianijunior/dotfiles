@@ -30,6 +30,7 @@
       # sound
       pamixer
       pavucontrol
+      xfce.thunar-volman
 
       wofi
 
