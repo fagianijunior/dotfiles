@@ -1,0 +1,25 @@
+%YAML 1.3
+---
+- Key: [Back Button, pressed]
+- Host: nobita
+- Execute: [dunstify, Change host]
+- Execute: [solaar, config, LIFT, change-host, '1']
+- Execute: [solaar, config, Keyboard K380, change-host, '1']
+...
+---
+- Rule:
+  - Key: [DPI Switch, released]
+  - Setting: [ABF0EF87, dpi, 4000]
+  - Set: [ABF0EF87, dpi, 1200]
+  - Execute: [dunstify, 'DPI: 1200']
+- Rule:
+  - Key: [DPI Switch, released]
+  - Setting: [ABF0EF87, dpi, 1200]
+  - Set: [ABF0EF87, dpi, 2100]
+  - Execute: [dunstify, 'DPI: 2100']
+- Rule:
+  - Key: [DPI Switch, released]
+  - Setting: [ABF0EF87, dpi, 2100]
+  - Set: [ABF0EF87, dpi, 4000]
+  - Execute: [dunstify, 'DPI: 4000']
+...
