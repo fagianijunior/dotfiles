@@ -21,6 +21,7 @@
 
   # Configure keymap in X11
   services = {
+    tailscale.enable = true;
     tumbler.enable = true; 
     auto-cpufreq.enable = true;
 
