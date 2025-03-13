@@ -152,20 +152,20 @@ in
           }
      
           {
-            timeout = 300;                                 # 5min
+            timeout = 600;                                 # 10min
             on-timeout = "loginctl lock-session";            # lock screen when timeout has passed
           }
      
           {
-            timeout = 600;                                 # 10min
+            timeout = 1200;                                 # 20min
             on-timeout = "hyprctl dispatch dpms off";        # screen off when timeout has passed
             on-resume = "hyprctl dispatch dpms on";          # screen on when activity is detected after timeout has fired.
           }
      
-          {
-            timeout = 780;                                 # 13min
-            on-timeout = "systemctl suspend";                # suspend pc
-          }
+          # {
+          #   timeout = 600;                                 # 10min
+          #   on-timeout = "systemctl suspend";                # suspend pc
+          # }
         ];
       };
     };
@@ -719,11 +719,6 @@ in
           # AWS Extend Switch Role:
           "aws-extend-switch-roles@toshi.tilfin.com" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/file/4424241/aws_extend_switch_roles3-6.0.0.xpi";
-            installation_mode = "force_installed";
-          };
-          # Simple Tab Groups:
-          "simple-tab-groups@drive4ik" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/file/4103800/simple_tab_groups-5.2.xpi";
             installation_mode = "force_installed";
           };
           # Theme: Catppuccin-macchiato

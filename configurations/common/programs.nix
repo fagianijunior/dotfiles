@@ -212,7 +212,6 @@
   };
 
   programs = {
-    direnv.enable = true;
     dconf.enable = true;
     thunar.enable = true;
     xfconf.enable = true;

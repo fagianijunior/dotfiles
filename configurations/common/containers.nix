@@ -1,0 +1,6 @@
+{ ... }:
+{
+  containers = {
+    enable = true;
+  };
+}

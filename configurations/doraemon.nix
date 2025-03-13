@@ -3,12 +3,10 @@
 {
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    graphics = {
-      extraPackages = with pkgs; [
-        intel-media-driver
-        intel-vaapi-driver
-      ];
-    };
+    graphics.extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+    ];
   };
 
   networking.hostName = "doraemon";

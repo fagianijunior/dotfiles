@@ -13,7 +13,7 @@ echo 'Server = https://mirror.serverion.com/archlinux/$repo/os/$arch' > /etc/pac
 pacman-key --init
 pacman-key --populate
 pacman -Syu
-pacman -S vim git sudo base-devel unzip bash-completion libxslt libyaml unixodbc less
+pacman -S vim git sudo base-devel unzip bash-completion libxslt libyaml unixodbc less jq
 
 
 # Create user
