@@ -91,8 +91,6 @@ in
     };
   };
 
-  # Exemplo de configuração do Hyprland
-
   xdg.configFile."hypr/pyprland.toml".source = ../dotfiles/hypr/pyprland.toml;
   xdg.configFile."solaar/config.yaml".source = ../dotfiles/solaar/config.yaml;
 
@@ -201,6 +199,7 @@ in
         "poweralertd"
         "avizo-service"
         "systemctl --user start psi-notify"
+        "openvscode-server --host 0.0.0.0 --without-connection-token &"
         "fish -c autostart"
         "[workspace 1] $browser"
         "[workspace 3] telegram-desktop"

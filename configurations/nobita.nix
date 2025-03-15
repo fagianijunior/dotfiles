@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 {
   # Configurações específicas para nobita
   hardware = {
@@ -8,6 +8,11 @@
   networking.hostName = "nobita";
   powerManagement.cpuFreqGovernor = "performance";
   
+  environment.systemPackages = with pkgs; [
+    openrgb-with-all-plugins
+    openvscode-server
+  ];
+
   boot = {
     initrd = {
       availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
@@ -51,6 +56,8 @@
   }];
 
   services = {
+    hardware.openrgb.enable = true;
+    
     xserver.videoDrivers = [ "amdgpu" ];
   };
 }
