@@ -437,6 +437,25 @@ in
   };
 
   programs = {
+    vim = {
+      enable = true;
+      plugins = with pkgs.vimPlugins; [
+        vim-airline
+        nerdtree
+        vim-polyglot
+        ale
+        YouCompleteMe
+        ollama-nvim
+      ];
+      settings = { ignorecase = true; };
+      extraConfig = ''
+        set mouse=a
+      '';
+    };
+    vscode = {
+      enable = true;
+      package = pkgs.vscodium.fhs;
+    };
     wlogout = {
       enable = true;
       layout = [

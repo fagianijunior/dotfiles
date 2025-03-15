@@ -11,20 +11,18 @@
     # Common packages
     systemPackages = with pkgs; [
       git
-      vim
-      kitty
       wezterm
       vorta
       unzip
       zip
       gparted
-      nixfmt-classic
 
       wget
       curl
       tmux
       htop
       tree
+      nil
       nixpkgs-fmt
 
       # sound
@@ -49,7 +47,6 @@
       zathura         # pdf viewer. https://pwmt.org/projects/zathura/
 
       # development
-      vscodium.fhs
       awscli2
       ssm-session-manager-plugin
       buildpack
@@ -229,7 +226,6 @@
 
     fish = {
       enable = true;
-      shellInit = " ";
     };
 
     mtr.enable = true;
