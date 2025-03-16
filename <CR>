@@ -436,30 +436,50 @@ in
   };
 
   programs = {
-    neovim = {
+    nixvim = {
       enable = true;
-      #defaultEditor = true;
-      #viAlias = true;
-      #vimAlias = true;
-
-      #vimdiffAlias = true;
-      plugins = with pkgs.vimPlugins; [
-        neo-tree-nvim
-	codeium-nvim
-        nvim-lspconfig
-        cmp-nvim-lsp
-	nvim-cmp
-        nvim-treesitter.withAllGrammars
-        telescope-nvim
-        oil-nvim
-        none-ls-nvim
-        dashboard-nvim
-      ];
-      extraConfig = ''
-        set number relativenumber
-        set mouse=a
-      '';
+      colorschemes.catppuccin.enable = true;
+      options = {
+        relativenumber = true;
+        incsearch = true;
+      };
+      maps.normal = {
+        "<C-s>" = ":w<CR>";
+        "<esc>" = { action = ":noh<CR>"; silent = true; };
+      };
+      plugins = {
+        lualine.enable = true;
+        neo-tree-nvim.enable = true;
+        nvim-lspconfig.enable = true;
+        cmp-nvim-lsp.enable = true;
+        # nvim.treesitter.withAllGrammars
+        telescope.enable = true;
+        oil.enable = true;
+        none-ls.enable = true;
+        dashboard.enable = true;
+      };
     };
+    #neovim = {
+    #  enable = true;
+    #  #defaultEditor = true;
+    #  #viAlias = true;
+    #  #vimAlias = true;
+    #  #vimdiffAlias = true;
+    #  plugins = with pkgs.vimPlugins; [
+    #    neo-tree-nvim
+#	      nvim-lspconfig
+#	      cmp-nvim-lsp
+#        nvim-treesitter.withAllGrammars
+#	      telescope-nvim
+#	      oil-nvim
+#	      none-ls-nvim
+#	      dashboard-nvim
+#      ];
+#      extraConfig = ''
+#        set number relativenumber
+#        set mouse=a
+#      '';
+#    };
     vim = {
       enable = true;
       plugins = with pkgs.vimPlugins; [

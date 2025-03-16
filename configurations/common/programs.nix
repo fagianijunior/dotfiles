@@ -61,6 +61,7 @@
       jetbrains-mono
       nerd-font-patcher
       noto-fonts-color-emoji
+      powerline-fonts
 
       # brightness control
       wlsunset        # Night gamma. https://github.com/Elvysia/wlsunset
@@ -209,6 +210,8 @@
   };
 
   programs = {
+    nix-ld.enable = true;
+    nix-ld.libraries = [];
     dconf.enable = true;
     thunar.enable = true;
     xfconf.enable = true;
