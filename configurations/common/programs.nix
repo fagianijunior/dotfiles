@@ -10,6 +10,9 @@
 
     # Common packages
     systemPackages = with pkgs; [
+      sumneko-lua-language-server
+      shell-gpt
+      python312Packages.litellm
       git
       wezterm
       vorta
