@@ -1,4 +1,4 @@
-{ pkgs, modulesPath, lib, ... }:
+{ pkgs, modulesPath, ... }:
 {
 
   imports = [
@@ -15,6 +15,8 @@
     ./common/theme.nix
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   virtualisation = {
     docker.enable = true;
   };
@@ -23,7 +25,7 @@
   services = {
     tailscale.enable = true;
     tumbler.enable = true; 
-    auto-cpufreq.enable = true;
+    auto-cpufreq.enable = false;
 
     # USB Automounting
     gvfs.enable = true;

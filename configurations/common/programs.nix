@@ -2,7 +2,7 @@
 {
   environment = {
     variables = {
-      EDITOR = "vim";
+      EDITOR = "nvim";
     };
     sessionVariables = {
       MOZ_USE_XINPUT2 = "1";
@@ -11,8 +11,7 @@
     # Common packages
     systemPackages = with pkgs; [
       sumneko-lua-language-server
-      shell-gpt
-      python312Packages.litellm
+      mldonkey
       git
       wezterm
       vorta
@@ -20,6 +19,7 @@
       zip
       gparted
 
+      biber
       wget
       curl
       tmux
@@ -35,6 +35,7 @@
 
       wofi
 
+      tree-sitter
       # file managers
       ranger
 
@@ -56,6 +57,10 @@
       # terraform
       distrobox
       qemu
+      gcc
+      ruby
+      ruby-lsp
+      rubyPackages.prism 
 
       # USB
       usbutils

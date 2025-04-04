@@ -9,9 +9,9 @@
   
   outputs = inputs@{ self, nixpkgs, systems, home-manager, ... }: {
     nix = {
-      settings.experimental-features = [ "nix-command" "flakes" ];
       settings = {
         auto-optimise-store = true;
+        experimental-features = [ "nix-command" "flakes" ];
       };
     };
     
@@ -26,7 +26,12 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.terabytes = import ./configurations/terabytes-home.nix;
-
+            nix = {
+              settings = {
+                experimental-features = [ "nix-command" "flakes" ];
+                auto-optimise-store = true;
+              };
+            };
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
           }
@@ -43,7 +48,12 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.terabytes = import ./configurations/terabytes-home.nix;
-
+            nix = {
+              settings = {
+                experimental-features = [ "nix-command" "flakes" ];
+                auto-optimise-store = true;
+              };
+            };
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
           }

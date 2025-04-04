@@ -31,6 +31,7 @@
         allow id 046d:c548 # Logitech, Inc. Logi Bolt Receiver
         allow id 046d:c542 # Logitech, Inc. M185 compact wireless mouse
         allow id 046d:c52b # Logitech, Inc. Unifying Receiver
+        allow id 0bda:1a2b # Realtek Semiconductor Corp. RTL8188GU 802.11n WLAN Adapter (Driver CDROM Mode)
         
         # Pendrive
         allow id 0781:5567 # SanDisk Corp. Cruzer Blade
