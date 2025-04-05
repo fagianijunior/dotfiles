@@ -40,15 +40,4 @@
       "a5adcb"
     ];
   };
-
-  # Enable Theme
-  environment = {
-    variables = {
-      GTK_THEME = "catppuccin-macchiato-teal-standard";
-      XCURSOR_THEME = "Catppuccin-Macchiato-Teal";
-      XCURSOR_SIZE = "24";
-      HYPRCURSOR_THEME = "Catppuccin-Macchiato-Teal";
-      HYPRCURSOR_SIZE = "24";
-    };
-  };
 }

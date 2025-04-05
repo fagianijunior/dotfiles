@@ -1,63 +1,52 @@
 {
   description = "Configuração para duas máquinas diferentes.";
-  
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
-  
-  outputs = inputs@{ self, nixpkgs, systems, home-manager, ... }: {
+
+  outputs = { nixpkgs, home-manager, ... }:
+  let
+    mkNixosConfiguration = { system, modules }:
+      nixpkgs.lib.nixosSystem {
+        inherit system modules;
+      };
+
+    commonModules = [
+      ./configurations/common.nix
+      home-manager.nixosModules.home-manager {
+        home-manager.backupFileExtension = "back.tar.gz";
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.users.terabytes = import ./configurations/terabytes-home.nix;
+        nix = {
+          settings = {
+            experimental-features = [ "nix-command" "flakes" ];
+            auto-optimise-store = true;
+          };
+        };
+      }
+    ];
+  in
+  {
     nix = {
       settings = {
         auto-optimise-store = true;
         experimental-features = [ "nix-command" "flakes" ];
       };
     };
-    
+
     nixosConfigurations = {
-      nobita = nixpkgs.lib.nixosSystem {
+      nobita = mkNixosConfiguration {
         system = "x86_64-linux";
-        modules = [
-          ./configurations/common.nix
-          ./configurations/nobita.nix
-          home-manager.nixosModules.home-manager {
-            home-manager.backupFileExtension = "back.tar.gz";
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.terabytes = import ./configurations/terabytes-home.nix;
-            nix = {
-              settings = {
-                experimental-features = [ "nix-command" "flakes" ];
-                auto-optimise-store = true;
-              };
-            };
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
-          }
-        ];
+        modules = commonModules ++ [ ./configurations/nobita.nix ];
       };
 
-      doraemon = nixpkgs.lib.nixosSystem {
+      doraemon = mkNixosConfiguration {
         system = "x86_64-linux";
-        modules = [
-          ./configurations/common.nix
-          ./configurations/doraemon.nix
-          home-manager.nixosModules.home-manager {
-            home-manager.backupFileExtension = "back.tar.gz";
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.terabytes = import ./configurations/terabytes-home.nix;
-            nix = {
-              settings = {
-                experimental-features = [ "nix-command" "flakes" ];
-                auto-optimise-store = true;
-              };
-            };
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
-          }
-        ];
+        modules = commonModules ++ [ ./configurations/doraemon.nix ];
       };
     };
   };

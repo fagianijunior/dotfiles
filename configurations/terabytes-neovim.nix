@@ -302,19 +302,42 @@
             type = "lua";
             config = ''
               require("codecompanion").setup({
-                providers = {
-                  openai = {
-                    api_key = os.getenv("GPT_API_KEY"),
-                    model = "gpt-4-turbo", -- ou outro modelo disponível
-                    base_url = "https://api.openai.com/v1"
+                strategies = {
+                  -- Change the default chat adapter
+                  chat = {
+                    adapter = 'gemini',
                   },
-                  gemini = {
-                    api_key = os.getenv("GEMINI_API_KEY"),
-                    model = "gemini-pro",
-                    base_url = "https://generativelanguage.googleapis.com/v1beta/models"
-                  }
+                  inline = {
+                    adapter = 'gemini',
+                  },
+                  code = {
+                    adapter = 'gemini'
+                  },
                 },
-                default_provider = "openai" -- ou "gemini"
+                gemini = function()
+                  return require('codecompanion.adapters').extend('gemini', {
+                    env = {
+                      api_key = os.getenv("GEMINI_API_KEY"),
+                    },
+                    schema = {
+                      model = {
+                        default = 'gemini-2.5-pro-exp-03-25'
+                      }
+                    }
+                  })
+                end,
+                opts = {
+                  log_level = 'DEBUG',
+                },
+                display = {
+                  diff = {
+                    enabled = true,
+                    close_chat_at = 240,
+                    layout = 'vertical',
+                    opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
+                    provider = 'default',
+                  },
+                },
               })
             '';
           }

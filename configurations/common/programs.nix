@@ -1,13 +1,6 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   environment = {
-    variables = {
-      EDITOR = "nvim";
-    };
-    sessionVariables = {
-      MOZ_USE_XINPUT2 = "1";
-    };
-
     # Common packages
     systemPackages = with pkgs; [
       sumneko-lua-language-server
@@ -27,6 +20,8 @@
       tree
       nil
       nixpkgs-fmt
+      
+      gnupg
 
       # sound
       pamixer
@@ -208,12 +203,6 @@
       catppuccin-gtk
       catppuccin-kvantum
       catppuccin-cursors.macchiatoTeal
-
-      # gnome.gnome-tweaks
-      # gnome.gnome-shell
-      # gnome.gnome-shell-extensions
-      # xsettingsd
-      # themechanger
     ];
   };
 

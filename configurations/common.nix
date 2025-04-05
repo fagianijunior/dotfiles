@@ -3,16 +3,21 @@
 
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    ./common/env_vars.nix
+
     ./common/system.nix
     ./common/hardware.nix
-    ./common/security.nix
     ./common/boot.nix
     ./common/networking.nix
     ./common/i18n.nix
-    ./common/audio.nix
     ./common/programs.nix
     ./common/users.nix
     ./common/theme.nix
+
+    ./common/services/audio.nix
+    ./common/services/greetd.nix
+    ./common/services/ssh.nix
+    ./common/services/security.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -21,7 +26,6 @@
     docker.enable = true;
   };
 
-  # Configure keymap in X11
   services = {
     tailscale.enable = true;
     tumbler.enable = true; 
@@ -32,29 +36,7 @@
     #udisks2.enable = true;
     #devmon.enable = true;
     
-    openssh = {
-      enable = true;
-      ports = [ 22 ];
-      settings = {
-        PasswordAuthentication = true;
-        AllowUsers = [ "terabytes" ];
-        UseDns = false;
-        X11Forwarding = false;
-        PermitRootLogin = "prohibit-password"; # "yes", "without-password", "prohibit-password", "forced-commands-only", "no"
-      };
-    };
-
-    greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --time-format '%I:%M %p | %a • %h | %F' --cmd Hyprland";
-          user = "greeter";
-          icon = "${pkgs.greetd.tuigreet}/share/icons/hyprland.png";
-        };
-      };
-    };
-
+    # Refact. Only on Nobita
     ollama = {
       enable = true;
       package = pkgs.ollama;
