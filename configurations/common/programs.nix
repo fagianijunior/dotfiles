@@ -3,39 +3,96 @@
   environment = {
     # Common packages
     systemPackages = with pkgs; [
+      # Development
       sumneko-lua-language-server
-      mldonkey
-      git
-      wezterm
-      vorta
-      unzip
-      zip
-      gparted
+      nil
+      nixpkgs-fmt
+      gcc
+      ruby
+      ruby-lsp
+      rubyPackages.prism
 
-      biber
+      # development
+      awscli2
+      ssm-session-manager-plugin
+
+      # Version Control
+      git
+      lazygit
+      delta
+      license-generator
+      git-ignore
+      gitleaks
+      git-secrets
+      pass-git-helper
+
+      # Utilities
       wget
       curl
       tmux
       htop
       tree
-      nil
-      nixpkgs-fmt
-      
+      fmt
       gnupg
-
-      # sound
-      pamixer
-      pavucontrol
-      xfce.thunar-volman
-
-      wofi
-
-      tree-sitter
+      usbutils
+      wtype
+      wlrctl
+      xdg-utils
+      trash-cli
+      zoxide
+      fzf
+      bat
+      hexyl
+      mdcat
+      pandoc
+      lsd
+      lsof
+      gping
+      viu
+      tre-command
+      just
+      xh
+      process-compose
+      zellij
+      progress
+      noti
+      topgrade
+      ripgrep
+      rewrk
+      wrk2
+      procs
+      tealdeer
+      monolith
+      aria
+      sd
+      ouch
+      duf
+      du-dust
+      fd
+      jq
+      gh
+      
       # file managers
       ranger
+      file
+      upx
+      yazi
 
+      # Multimidea
+      pamixer
+      pavucontrol
+      ffmpeg_6-full
+      wl-screenrec
+      slurp
+      imagemagick
+      swappy
+      gifsicle
+      cava
+      
       # chat
       tdesktop
+      slack
+      slack-cli
 
       # remote access
       remmina
@@ -45,33 +102,17 @@
       imv             # image viewer. https://github.com/Elvysia/imv
       zathura         # pdf viewer. https://pwmt.org/projects/zathura/
 
-      # development
-      awscli2
-      ssm-session-manager-plugin
+      # Containers
       buildpack
       # terraform
       distrobox
       qemu
-      gcc
-      ruby
-      ruby-lsp
-      rubyPackages.prism 
 
-      # USB
-      usbutils
-
-      # fonts
+      # Fonts
       jetbrains-mono
       nerd-font-patcher
       noto-fonts-color-emoji
       powerline-fonts
-
-      # brightness control
-      wlsunset        # Night gamma. https://github.com/Elvysia/wlsunset
-      brightnessctl   # Brightness control. https://github.com/Elvysia/brightnessctl
-
-      # Shell completion, neeed to be configured with your shell. https://github.com/starship/starship/
-      starship
 
       # Hyprland
       pyprland        # A tool to manage your wayland compositor. https://github.com/Elvysia/pyprland
@@ -81,20 +122,17 @@
       hypridle        # Idle manager. https://github.com/Elvysia/hypridle
       hyprpolkitagent # Polkit
       hyprls          # Language server. https://github.com/Elvysia/hyprls
+      rofi-wayland
+      dunst
 
-      waybar          # Waybar. https://github.com/Alexays/Waybar
-
-      # spell check
+      # Speel Checking
       nuspell
       hyphen
       hunspell
       hunspellDicts.pt_BR
       hunspellDicts.en_US
 
-      # boot
-      # policycoreutils
-
-      # passphrase2pgp
+      # Password
       pass-wayland
       pass2csv
       passExtensions.pass-tomb
@@ -106,7 +144,7 @@
       pwgen
       pwgen-secure
 
-      # misselaneous
+      # Miscellaneous
       at-spi2-atk
       qt6.qtwayland
       psi-notify
@@ -114,24 +152,23 @@
       playerctl
       psmisc
       grim
-      slurp
-      imagemagick
-      swappy
-      ffmpeg_6-full
-      wl-screenrec
       wl-clipboard
       wl-clip-persist
       cliphist
-      xdg-utils
-      wtype
-      wlrctl
-      rofi-wayland
-      dunst
       avizo
-      wlogout
-      gifsicle
 
-      # games
+      # Theme
+      numix-icon-theme-circle
+      # colloid-icon-theme
+      catppuccin-gtk
+      catppuccin-kvantum
+      catppuccin-cursors.macchiatoTeal
+
+      # Hyprland
+      wlsunset        # Night gamma. https://github.com/Elvysia/wlsunset
+      brightnessctl   # Brightness control. https://github.com/Elvysia/brightnessctl
+
+      # Games
       # support both 32- and 64-bit applications
       wineWowPackages.stable
       # winetricks (all versions)
@@ -140,69 +177,30 @@
       # native wayland support (unstable)
       wineWowPackages.waylandFull
 
-      # terminal utils
-      file
-      upx
-      git
-      lazygit
-      delta
-      license-generator
-      git-ignore
-      gitleaks
-      git-secrets
-      pass-git-helper
-      just
-      xh
-      process-compose
-      # mcfly # terminal history
-      zellij
-      progress
-      noti
-      topgrade
-      ripgrep
-      rewrk
-      wrk2
-      procs
-      tealdeer
-      # skim #fzf better alternative in rust
-      monolith
-      aria
-      # macchina #neofetch alternative in rust
-      sd
-      ouch
-      duf
-      du-dust
-      fd
-      jq
-      gh
-      trash-cli
-      zoxide
-      tokei
-      fzf
-      bat
-      hexyl
-      mdcat
-      pandoc
-      lsd
-      lsof
-      gping
-      viu
-      tre-command
-      yazi
-      chafa
+      # System
+      mldonkey
+      wezterm
+      vorta
+      unzip
+      zip
+      gparted
+      biber
+      xfce.thunar-volman
 
+      # Appearance
+      wofi
+      chafa
       cmatrix
       pipes-rs
       rsclock
-      cava
-      figlet
+      tree-sitter
 
-      # themes
-      numix-icon-theme-circle
-      # colloid-icon-theme
-      catppuccin-gtk
-      catppuccin-kvantum
-      catppuccin-cursors.macchiatoTeal
+      # Shell completion, neeed to be configured with your shell. https://github.com/starship/starship/
+      starship
+
+      wlogout
+      tokei
+      figlet
     ];
   };
 
