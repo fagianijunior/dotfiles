@@ -1,7 +1,4 @@
 { pkgs, ... }: {
-
-  environment.etc."secrets/gemini-api-key".source = /etc/secrets/gemini-api-key;
-  
   environment = {
     variables = {
       GTK_THEME = "catppuccin-macchiato-teal-standard";
@@ -11,7 +8,7 @@
       HYPRCURSOR_SIZE = "24";
 
       EDITOR = "nvim";
-      GEMINI_API_KEY = "${pkgs.lib.fileContents /etc/secrets/gemini-api-key}";
+      #GEMINI_API_KEY = GEMINI_API_KEY;
     };
     sessionVariables = {
       MOZ_USE_XINPUT2 = "1";

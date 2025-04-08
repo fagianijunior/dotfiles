@@ -46,9 +46,9 @@ in
     };
 
     imports = [
-      ./terabytes-services.nix
-      ./terabytes-xdg.nix
-      ./terabytes-neovim.nix
+      ./services.nix
+      ./xdg.nix
+      ./neovim.nix
     ];
 
   programs = {

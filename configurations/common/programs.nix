@@ -92,7 +92,6 @@
       # chat
       tdesktop
       slack
-      slack-cli
 
       # remote access
       remmina

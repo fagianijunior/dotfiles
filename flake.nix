@@ -20,7 +20,7 @@
         home-manager.backupFileExtension = "back.tar.gz";
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.users.terabytes = import ./configurations/terabytes-home.nix;
+        home-manager.users.terabytes = import ./configurations/users/terabytes/home.nix;
         nix = {
           settings = {
             experimental-features = [ "nix-command" "flakes" ];
