@@ -15,8 +15,8 @@
 
   qt = {
     enable = true;
-    platformTheme = "gtk2";
-    style = "gtk2";
+    platformTheme = "gnome";
+    style = "adwaita-dark";
   };
 
   console = {

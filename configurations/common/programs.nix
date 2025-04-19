@@ -1,12 +1,10 @@
 { pkgs, lib, ... }:
-{
   environment = {
     # Common packages
     systemPackages = with pkgs; [
       # Development
       sumneko-lua-language-server
       nil
-      nixpkgs-fmt
       gcc
       ruby
       ruby-lsp

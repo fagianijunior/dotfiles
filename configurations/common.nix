@@ -35,12 +35,6 @@
     gvfs.enable = true;
     #udisks2.enable = true;
     #devmon.enable = true;
-    
-    # Refact. Only on Nobita
-    ollama = {
-      enable = true;
-      package = pkgs.ollama;
-    };
   };
 
   nix = {

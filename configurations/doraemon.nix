@@ -21,17 +21,11 @@
         "luks-ce36695c-ae19-461e-8409-e64128ea7871".device = "/dev/disk/by-uuid/ce36695c-ae19-461e-8409-e64128ea7871";
       };
     };
-    kernelParams = [
-      "splash"
-      "quiet"
-      "plymouth.enable=1"
-      "boot.shell_on_fail"
-      "loglevel=3"
-      "udev.log_priority=3"
-      "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
-      "usbcore.autosuspend=-1"
-      "security=selinux"
-    ];
+    # Parâmetros em comum devem ser configurados em configurations/common/boot.nix
+    # Adicione aqui parâmtros específicos para essa máquina
+    # kernelParams = [
+    #
+    # ];
   };
 
   fileSystems = {
