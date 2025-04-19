@@ -48,7 +48,7 @@ in
     imports = [
       ./services.nix
       ./xdg.nix
-      ./neovim.nix
+      ./neovim/neovim.nix
     ];
 
   programs = {

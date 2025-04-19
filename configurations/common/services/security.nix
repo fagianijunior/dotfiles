@@ -14,7 +14,7 @@
         # Common
         allow id 1d6b:0002 # Linux Foundation 2.0 root hub
         allow id 1d6b:0003 # Linux Foundation 3.0 root hub
-        
+
         # Doraemon
         allow id 2109:0103 # VIA Labs, Inc. USB 2.0 BILLBOARD
         allow id 27c6:538d # Shenzhen Goodix Technology Co.,Ltd. FingerPrint
@@ -35,6 +35,7 @@
         
         # Pendrive
         allow id 0781:5567 # SanDisk Corp. Cruzer Blade
+        allow id 14cd:1212 # Super Top microSD card reader (SY-T18)        
       '';
     };
 

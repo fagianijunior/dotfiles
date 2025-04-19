@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   environment = {
     # Common packages
@@ -11,10 +11,17 @@
       ruby
       ruby-lsp
       rubyPackages.prism
-
-      # development
       awscli2
       ssm-session-manager-plugin
+      (python3.withPackages (python-pkgs: with python-pkgs; [
+        # select Python packages here
+        pycairo
+        pygobject3
+        psutil
+        requests
+      ]))
+      gtk3
+      gobject-introspection
 
       # Version Control
       git
@@ -91,7 +98,19 @@
       
       # chat
       tdesktop
-      slack
+      clickup
+      (slack.overrideAttrs
+        (default: {
+          installPhase = default.installPhase + ''
+rm $out/bin/slack
+
+makeWrapper $out/lib/slack/slack $out/bin/slack \
+--prefix XDG_DATA_DIRS : $GSETTINGS_SCHEMAS_PATH \
+--prefix PATH : ${lib.makeBinPath [pkgs.xdg-utils]} \
+--add-flags "--enable-features=WebRTCPipeWireCapturer"
+          '';
+        })
+      )
 
       # remote access
       remmina
@@ -185,7 +204,8 @@
       gparted
       biber
       xfce.thunar-volman
-
+      f2fs-tools
+      
       # Appearance
       wofi
       chafa
