@@ -1,4 +1,5 @@
 { pkgs, lib, ... }:
+{
   environment = {
     # Common packages
     systemPackages = with pkgs; [
@@ -11,15 +12,13 @@
       rubyPackages.prism
       awscli2
       ssm-session-manager-plugin
-      (python3.withPackages (python-pkgs: with python-pkgs; [
+      (python312.withPackages (python-pkgs: with python-pkgs; [
         # select Python packages here
-        pycairo
-        pygobject3
         psutil
-        requests
+        textual
+        pydbus
       ]))
-      gtk3
-      gobject-introspection
+      dbus
 
       # Version Control
       git

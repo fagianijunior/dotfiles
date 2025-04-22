@@ -88,11 +88,12 @@ in
      	"poweralertd"
      	"avizo-service"
      	"systemctl --user start psi-notify"
-     	"openvscode-server --host 0.0.0.0 --without-connection-token &"
      	"fish -c autostart"
      	"[workspace 1] $browser"
      	"[workspace 3] telegram-desktop"
      	"[workspace 3] firefox -P whatsapp -kiosk https://web.whatsapp.com"
+     	"[workspace 4] clickup"
+     	"[workspace 4] slack"
      	"systemctl --user start hyprpolkitagent"
       ];
 
