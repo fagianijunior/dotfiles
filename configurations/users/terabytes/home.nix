@@ -52,6 +52,118 @@ in
     ];
 
   programs = {
+    direnv.enable = true;
+    direnv.nix-direnv.enable = true;
+
+    waybar = {
+      enable = true;
+      style = builtins.readFile ./dotfiles/waybar/style.css;
+      settings = [{
+        layer = "overlay";
+        position = "right";
+        mod = "Control";
+        exclusive = false;
+        passthrough = false;
+        gtk-layer-shell = true;
+        height = 30;
+        spacing = 4;
+        margin-top = 5;
+        margin-bottom = 5;
+        modules-left = [ ];
+        modules-center = [ ];
+        modules-right = [
+          "memory"
+          "cpu"
+          "disk"
+          "disk#home"
+          "battery"
+          "tray"
+          "notifications"
+        ];
+        opacity = 0.2;
+        blur = true;
+        gtk-css = "style.css"; # Certifique-se de criar este arquivo em ~/.config/waybar/
+        settings = {
+          "gtk-layer-shell" = {
+            screen = 0;
+          };
+        };
+        memory = {
+          format = "{used:0.1f}GiB/{total:0.1f}GiB ";
+          format-alt = "{percentage}% ";
+          interval = 5;
+          tooltip = true;
+          tooltip-format = "<span size='larger'>Uso de Memória</span>\n{used:0.1f}GiB / {total:0.1f}GiB\n({percentage}%)";
+        };
+        cpu = {
+          format = "{usage}% ";
+          interval = 5;
+          tooltip = true;
+          tooltip-format = "<span size='larger'>Uso de CPU</span>\n{usage}%";
+        };
+        disk = {
+          format = "{used}/{total} ";
+          interval = 30;
+          mount-point = "/";
+          tooltip = true;
+          tooltip-format = "<span size='larger'>Uso do Disco (Root)</span>\n{used} / {total}";
+        };
+        "disk#home" = {
+          format = "{used}/{total} ";
+          interval = 30;
+          "mount-point" = "/home";
+          tooltip = true;
+          "tooltip-format" = "<span size='larger'>Uso do Disco (Home)</span>\n{used} / {total}";
+        };
+        battery = {
+          states = {
+            critical = 15;
+          };
+          format = "{capacity}% {icon} {time}";
+          format-charging = "{capacity}%  {time}";
+          format-plugged = "{capacity}%  {time}";
+          format-alt = "{time} {icon}";
+          format-icons = [ "" "" "" "" "" ];
+          tooltip = true;
+          tooltip-format = "<span size='larger'>Bateria</span>\n{capacity}% {status}\nTempo restante: {time}";
+        };
+        tray = {
+          icon-size = 20;
+          spacing = 4;
+          tooltip = true;
+        };
+        notifications = {
+          format = "{icon} {summary}";
+          format-icons = {
+            "mail-notification" = "";
+            "notification-audio-volume-low" = "";
+            "notification-audio-volume-medium" = "";
+            "notification-audio-volume-high" = "";
+            "notification-network-wireless" = "";
+            "message" = "";
+            "default" = "";
+          };
+          "max-length" = 50;
+          tooltip = true;
+          "clear-all" = " Limpar Tudo";
+          "clear-namespace" = " Limpar {namespace}";
+          "critical-background" = "#ff0000";
+          "critical-foreground" = "#ffffff";
+          timeout = 10000;
+        };
+        "custom/media" = { # Este módulo requer um script externo, veja a nota abaixo
+          format = "{artist} - {title}";
+          interval = 5;
+          exec = "~/.config/waybar/scripts/media.py";
+          "return-type" = "json";
+          "on-click" = "playerctl play-pause";
+          "on-scroll-up" = "playerctl next";
+          "on-scroll-down" = "playerctl previous";
+          tooltip = true;
+        };
+      }];
+    };
+
     helix.enable = true;
       vim = {
         enable = true;

@@ -4,11 +4,13 @@
     # Common packages
     systemPackages = with pkgs; [
       # Development
+      devenv
       sumneko-lua-language-server
       nil
       gcc
       ruby
       ruby-lsp
+      terraform-ls
       rubyPackages.prism
       awscli2
       ssm-session-manager-plugin

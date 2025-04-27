@@ -227,6 +227,12 @@
                 },
               },
               capabilities = capabilities,
+            };
+
+            -- Terraform
+            lspconfig.terraformls.setup {
+              cmd = { "${pkgs.terraform-ls}/bin/terraform-ls", "serve" },
+              capabilities = capabilities,
             }
             '';
           }
@@ -733,9 +739,6 @@ You now have access to specialized tools that empower you to assist users with s
               })
             '';
 
-          }
-          {
-            plugin = oil-nvim;
           }
           {
             plugin = none-ls-nvim;

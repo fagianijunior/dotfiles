@@ -15,7 +15,6 @@
       "udev.log_priority=3"
       "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
       "usbcore.autosuspend=-1"
-      "security=selinux"
     ];
 
     loader = {
