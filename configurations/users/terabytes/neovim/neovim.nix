@@ -746,6 +746,9 @@ You now have access to specialized tools that empower you to assist users with s
           {
             plugin = dashboard-nvim;
           }
+          {
+            plugin = yuck-vim;
+          }
         ];
       };
     };

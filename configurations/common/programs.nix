@@ -8,10 +8,9 @@
       sumneko-lua-language-server
       nil
       gcc
-      ruby
       ruby-lsp
+      typescript-language-server
       terraform-ls
-      rubyPackages.prism
       awscli2
       ssm-session-manager-plugin
       (python312.withPackages (python-pkgs: with python-pkgs; [
@@ -21,6 +20,14 @@
         pydbus
       ]))
       dbus
+      gnumake
+      libffi
+      zlib
+      openssl
+      pkg-config
+      autoconf
+      automake
+      bison
 
       # Version Control
       git
@@ -33,6 +40,7 @@
       pass-git-helper
 
       # Utilities
+      ncdu
       wget
       curl
       tmux

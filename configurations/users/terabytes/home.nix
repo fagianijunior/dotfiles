@@ -43,17 +43,36 @@ in
         "XDG_CURRENT_DESKTOP" = "Hyprland";
         "XDG_SESSION_DESKTOP" = "Hyprland";
       };
+      #      packages = [
+      # Open tmux for current project.
+      #(pkgs.writeShellApplication {
+      #  name = "pux";
+      #  runtimeInputs = [ pkgs.tmux ];
+      #  text = ''
+      #    PRJ="''$(zoxide query -i)"
+      #  echo "Launching tmux for ''$PRJ"
+      #    set -x
+      #    cd "''$PRJ" && \
+      #      exec tmux -S "''$PRJ".tmux attach
+      #  '';
+    #  })
+    #  ];
     };
 
     imports = [
       ./services.nix
       ./xdg.nix
       ./neovim/neovim.nix
+      ./tmux.nix
     ];
 
   programs = {
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
+
+    eww = {
+      enable = true;
+    };
 
     waybar = {
       enable = true;

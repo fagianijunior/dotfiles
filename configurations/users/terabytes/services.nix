@@ -189,6 +189,7 @@ in
       ];
 
       bind = [
+        "$mainMod, n, exec, eww open --toggle notif-popup"
         "$mainMod CTRL, V, exec, pypr toggle volume"
         "$mainMod, Z, exec, pypr zoom"
         "$mainMod, ESCAPE, exec, pkill -x wlogout || wlogout"
