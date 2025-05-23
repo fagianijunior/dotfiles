@@ -4,6 +4,7 @@
     # Common packages
     systemPackages = with pkgs; [
       # Development
+      bash
       devenv
       sumneko-lua-language-server
       nil
@@ -18,7 +19,10 @@
         psutil
         textual
         pydbus
+        pygobject3
+        dbus-next
       ]))
+      gobject-introspection
       dbus
       gnumake
       libffi
@@ -28,6 +32,7 @@
       autoconf
       automake
       bison
+      gkrellm
 
       # Version Control
       git

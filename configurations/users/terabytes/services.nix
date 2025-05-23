@@ -186,6 +186,11 @@ in
         "opaque, title:^(.*)(Youtube)(.*)$"
         "suppressevent maximize, class:.* # You'll probably like this."
         "pin, title:^([Pp]icture[-\s]?[Ii]n[-\s]?[Pp]icture)(.*)$ "
+
+        "opacity 1.0 1.0, class:^(ClickUp)$"
+        "opacity 1.0 1.0, class:^(Slack)$"
+        "opacity 1.0 1.0, class:^(org.telegram.desktop)$"
+        "opacity 1.0 1.0, class:^(firefox)$, title:^(WhatsApp — Mozilla Firefox)$"
       ];
 
       bind = [
@@ -279,7 +284,9 @@ in
         blur = {
           enabled = true;
           size    = 8;
-          passes  = 2;
+          passes  = 3;
+          new_optimizations = true;
+          ignore_opacity = false;
         };
 
         # Change transparency of focused and unfocused windows
