@@ -1,0 +1,427 @@
+require("codecompanion").setup({
+  strategies = {
+    chat = {
+      adapter = "ollama",
+      roles = {
+        user = "Terabytes"
+      }
+    },
+    inline = {
+      adapter = "ollama",
+    },
+      cmd = {
+        adapter = "ollama",
+      },
+  },
+})
+
+
+-- local fmt = string.format;
+-- require("codecompanion").setup({
+--   strategies = {
+--     -- CHAT STRATEGY ----------------------------------------------------------
+--     chat = {
+--       adapter = "gemini",
+--       roles = {
+--         ---The header name for the LLM's messages
+--         ---@type string|fun(adapter: CodeCompanion.Adapter): string
+--         llm = function(adapter)
+--           return "CodeCompanion (" .. adapter.formatted_name .. ")"
+--         end,
+-- 
+--         ---The header name for your messages
+--         ---@type string
+--         user = "Me",
+--       },
+--       tools = {
+--         groups = {
+--           ["full_stack_dev"] = {
+--             description = "Full Stack Developer - Can run code, edit code and modify files",
+--             system_prompt = "**DO NOT** make any assumptions about the dependencies that a user has installed. If you need to install any dependencies to fulfil the user's request, do so via the Command Runner tool. If the user doesn't specify a path, use their current working directory.",
+--             tools = {
+--               "cmd_runner",
+--               "editor",
+--               "files",
+--             },
+--           },
+--         },
+--         ["cmd_runner"] = {
+--           callback = "strategies.chat.agents.tools.cmd_runner",
+--           description = "Run shell commands initiated by the LLM",
+--           opts = {
+--             requires_approval = true,
+--           },
+--         },
+--         ["editor"] = {
+--           callback = "strategies.chat.agents.tools.editor",
+--           description = "Update a buffer with the LLM's response",
+--         },
+--         ["files"] = {
+--           callback = "strategies.chat.agents.tools.files",
+--           description = "Update the file system with the LLM's response",
+--           opts = {
+--             requires_approval = true,
+--           },
+--         },
+--         opts = {
+--           auto_submit_errors = false, -- Send any errors to the LLM automatically?
+--           auto_submit_success = false, -- Send any successful output to the LLM automatically?
+--           system_prompt = [[## Tools Access and Execution Guidelines
+-- 
+-- ### Overview
+-- You now have access to specialized tools that empower you to assist users with specific tasks. These tools are available only when explicitly requested by the user.
+-- 
+-- ### General Rules
+-- - **User-Triggered:** Only use a tool when the user explicitly indicates that a specific tool should be employed (e.g., phrases like "run command" for the cmd_runner).
+-- - **Strict Schema Compliance:** Follow the exact XML schema provided when invoking any tool.
+-- - **XML Format:** Always wrap your responses in a markdown code block designated as XML and within the `<tools></tools>` tags.
+-- - **Valid XML Required:** Ensure that the constructed XML is valid and well-formed.
+-- - **Multiple Commands:**
+--   - If issuing commands of the same type, combine them within one `<tools></tools>` XML block with separate `<action></action>` entries.
+--   - If issuing commands for different tools, ensure they're wrapped in `<tool></tool>` tags within the `<tools></tools>` block.
+-- - **No Side Effects:** Tool invocations should not alter your core tasks or the general conversation structure.]],
+--           },
+--         },
+--         variables = {
+--           --["buffer"] = {
+--           --  callback = "strategies.chat.variables.buffer",
+--           --  description = "Share the current buffer with the LLM",
+--           --  opts = {
+--           --    contains_code = true,
+--           --    has_params = true,
+--           --  },
+--           --},
+--           ["lsp"] = {
+--             callback = "strategies.chat.variables.lsp",
+--             description = "Share LSP information and code for the current buffer",
+--             opts = {
+--               contains_code = true,
+--             },
+--           },
+--           ["viewport"] = {
+--             callback = "strategies.chat.variables.viewport",
+--             description = "Share the code that you see in Neovim with the LLM",
+--             opts = {
+--               contains_code = true,
+--             },
+--           },
+--         },
+--         slash_commands = {
+--           ["buffer"] = {
+--             callback = "strategies.chat.slash_commands.buffer",
+--             description = "Insert open buffers",
+--             opts = {
+--               contains_code = true,
+--               provider = telescope, -- default|telescope|mini_pick|fzf_lua|snacks
+--             },
+--           },
+--           ["fetch"] = {
+--             callback = "strategies.chat.slash_commands.fetch",
+--             description = "Insert URL contents",
+--             opts = {
+--               adapter = "jina",
+--             },
+--           },
+--           ["file"] = {
+--             callback = "strategies.chat.slash_commands.file",
+--             description = "Insert a file",
+--             opts = {
+--               contains_code = true,
+--               max_lines = 1000,
+--               provider = telescope, -- default|telescope|mini_pick|fzf_lua|snacks
+--             },
+--           },
+--           ["help"] = {
+--             callback = "strategies.chat.slash_commands.help",
+--             description = "Insert content from help tags",
+--             opts = {
+--               contains_code = false,
+--               max_lines = 128, -- Maximum amount of lines to of the help file to send (NOTE: Each vimdoc line is typically 10 tokens)
+--               provider = telescope, -- telescope|mini_pick|fzf_lua|snacks
+--             },
+--           },
+--           ["now"] = {
+--             callback = "strategies.chat.slash_commands.now",
+--             description = "Insert the current date and time",
+--             opts = {
+--               contains_code = false,
+--             },
+--           },
+--           ["symbols"] = {
+--             callback = "strategies.chat.slash_commands.symbols",
+--             description = "Insert symbols for a selected file",
+--             opts = {
+--               contains_code = true,
+--               provider = telescope, -- default|telescope|mini_pick|fzf_lua|snacks
+--             },
+--           },
+--           ["terminal"] = {
+--             callback = "strategies.chat.slash_commands.terminal",
+--             description = "Insert terminal output",
+--             opts = {
+--               contains_code = false,
+--             },
+--           },
+--           ["workspace"] = {
+--             callback = "strategies.chat.slash_commands.workspace",
+--             description = "Load a workspace file",
+--             opts = {
+--               contains_code = true,
+--             },
+--           },
+--         },
+--         keymaps = {
+--           options = {
+--             modes = {
+--               n = "?",
+--             },
+--             callback = "keymaps.options",
+--             description = "Options",
+--             hide = true,
+--           },
+--           completion = {
+--             modes = {
+--               i = "<C-_>",
+--             },
+--             index = 1,
+--             callback = "keymaps.completion",
+--             description = "Completion Menu",
+--           },
+--           send = {
+--             modes = {
+--               n = { "<CR>", "<C-s>" },
+--               i = "<C-s>",
+--             },
+--             index = 2,
+--             callback = "keymaps.send",
+--             description = "Send",
+--           },
+--           regenerate = {
+--             modes = {
+--               n = "gr",
+--             },
+--             index = 3,
+--             callback = "keymaps.regenerate",
+--             description = "Regenerate the last response",
+--           },
+--           close = {
+--             modes = {
+--               n = "<C-c>",
+--               i = "<C-c>",
+--             },
+--             index = 4,
+--             callback = "keymaps.close",
+--             description = "Close Chat",
+--           },
+--           stop = {
+--             modes = {
+--               n = "q",
+--             },
+--             index = 5,
+--             callback = "keymaps.stop",
+--             description = "Stop Request",
+--           },
+--           clear = {
+--             modes = {
+--               n = "gx",
+--             },
+--             index = 6,
+--             callback = "keymaps.clear",
+--             description = "Clear Chat",
+--           },
+--           codeblock = {
+--             modes = {
+--               n = "gc",
+--             },
+--             index = 7,
+--             callback = "keymaps.codeblock",
+--             description = "Insert Codeblock",
+--           },
+--           yank_code = {
+--             modes = {
+--               n = "gy",
+--             },
+--             index = 8,
+--             callback = "keymaps.yank_code",
+--             description = "Yank Code",
+--           },
+--           pin = {
+--             modes = {
+--               n = "gp",
+--             },
+--             index = 9,
+--             callback = "keymaps.pin_reference",
+--             description = "Pin Reference",
+--           },
+--           watch = {
+--             modes = {
+--               n = "gw",
+--             },
+--             index = 10,
+--             callback = "keymaps.toggle_watch",
+--             description = "Watch Buffer",
+--           },
+--           next_chat = {
+--             modes = {
+--               n = "}",
+--             },
+--             index = 11,
+--             callback = "keymaps.next_chat",
+--             description = "Next Chat",
+--           },
+--           previous_chat = {
+--             modes = {
+--               n = "{",
+--             },
+--             index = 12,
+--             callback = "keymaps.previous_chat",
+--             description = "Previous Chat",
+--           },
+--           next_header = {
+--             modes = {
+--               n = "]]",
+--             },
+--             index = 13,
+--             callback = "keymaps.next_header",
+--             description = "Next Header",
+--           },
+--           previous_header = {
+--             modes = {
+--               n = "[[",
+--             },
+--             index = 14,
+--             callback = "keymaps.previous_header",
+--             description = "Previous Header",
+--           },
+--           change_adapter = {
+--             modes = {
+--               n = "ga",
+--             },
+--             index = 15,
+--             callback = "keymaps.change_adapter",
+--             description = "Change adapter",
+--           },
+--           fold_code = {
+--             modes = {
+--               n = "gf",
+--             },
+--             index = 15,
+--             callback = "keymaps.fold_code",
+--             description = "Fold code",
+--           },
+--           debug = {
+--             modes = {
+--               n = "gd",
+--             },
+--             index = 16,
+--             callback = "keymaps.debug",
+--             description = "View debug info",
+--           },
+--           system_prompt = {
+--             modes = {
+--               n = "gs",
+--             },
+--             index = 17,
+--             callback = "keymaps.toggle_system_prompt",
+--             description = "Toggle the system prompt",
+--           },
+--           auto_tool_mode = {
+--             modes = {
+--               n = "gta",
+--             },
+--             index = 18,
+--             callback = "keymaps.auto_tool_mode",
+--             description = "Toggle automatic tool mode",
+--           },
+--         },
+--         opts = {
+--           register = "+", -- The register to use for yanking code
+--           yank_jump_delay_ms = 400, -- Delay in milliseconds before jumping back from the yanked code
+--         },
+--       },
+--       -- INLINE STRATEGY --------------------------------------------------------
+--       inline = {
+--         adapter = "gemini",
+--         keymaps = {
+--           accept_change = {
+--             modes = {
+--               n = "ga",
+--             },
+--             index = 1,
+--             callback = "keymaps.accept_change",
+--             description = "Accept change",
+--           },
+--           reject_change = {
+--             modes = {
+--               n = "gr",
+--             },
+--             index = 2,
+--             callback = "keymaps.reject_change",
+--             description = "Reject change",
+--           },
+--         },
+--         variables = {
+--           ["buffer"] = {
+--             callback = "strategies.inline.variables.buffer",
+--             description = "Share the current buffer with the LLM",
+--             opts = {
+--               contains_code = true,
+--             },
+--           },
+--           ["chat"] = {
+--             callback = "strategies.inline.variables.chat",
+--             description = "Share the currently open chat buffer with the LLM",
+--             opts = {
+--               contains_code = true,
+--             },
+--           },
+--           ["clipboard"] = {
+--             callback = "strategies.inline.variables.clipboard",
+--             description = "Share the contents of the clipboard with the LLM",
+--             opts = {
+--               contains_code = true,
+--             },
+--           },
+--         },
+--       },
+--       -- CMD STRATEGY -----------------------------------------------------------
+--       cmd = {
+--         adapter = "gemini",
+--         opts = {
+--           system_prompt = [[You are currently plugged in to the Neovim text editor on a user's machine. Your core task is to generate an command-line inputs that the user can run within Neovim. Below are some rules to adhere to:
+-- 
+-- - Return plain text only
+-- - Do not wrap your response in a markdown block or backticks
+-- - Do not use any line breaks or newlines in you response
+-- - Do not provide any explanations
+-- - Generate an command that is valid and can be run in Neovim
+-- - Ensure the command is relevant to the user's request]],
+--         },
+--       },
+--     },
+--     gemini = function()
+--       return require('codecompanion.adapters').extend('gemini', {
+--         env = {
+--           api_key = os.getenv("GEMINI_API_KEY"),
+--         },
+--         schema = {
+--           model = {
+--             default = 'gemini-2.5-pro-exp-03-25'
+--           }
+--         }
+--       })
+--     end,
+--     opts = {
+--       log_level = 'DEBUG',
+--     },
+--     display = {
+--       diff = {
+--         enabled = true,
+--         close_chat_at = 240,
+--         layout = 'vertical',
+--         opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
+--         provider = 'default',
+--       },
+--     },
+--   })
+-- 
