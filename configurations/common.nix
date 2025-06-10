@@ -22,14 +22,10 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  virtualisation = {
-    docker.enable = true;
-  };
-
   services = {
     tailscale.enable = true;
     tumbler.enable = true; 
-    auto-cpufreq.enable = false;
+    auto-cpufreq.enable = true;
 
     # USB Automounting
     gvfs.enable = true;
@@ -62,5 +58,4 @@
       wlr.enable = true;
     };
   };
-  zramSwap.enable = true;
 }

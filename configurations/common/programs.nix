@@ -32,7 +32,6 @@
       autoconf
       automake
       bison
-      gkrellm
 
       # Version Control
       git
@@ -241,11 +240,6 @@ makeWrapper $out/lib/slack/slack $out/bin/slack \
     dconf.enable = true;
     thunar.enable = true;
     xfconf.enable = true;
-
-    steam = {
-      enable = true;
-      gamescopeSession.enable = true;
-    };
 
     light.enable = true;
     hyprland = {

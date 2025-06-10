@@ -8,17 +8,10 @@
   networking.hostName = "nobita";
   powerManagement.cpuFreqGovernor = "performance";
   
-  environment.systemPackages = with pkgs; [
-    openrgb-with-all-plugins
-  ];
-
   boot = {
     initrd = {
-      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
+      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
       kernelModules = [ "amdgpu" ];
-      luks.devices = {
-        "luks-0e088135-c164-4ff4-84af-62f887cb390c".device = "/dev/disk/by-uuid/0e088135-c164-4ff4-84af-62f887cb390c";
-      };
     };
     # Parâmetros em comum devem ser configurados em configurations/common/boot.nix
     # Adicione aqui parâmtros específicos para essa máquina
@@ -33,19 +26,37 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/7f5bc3ff-1da0-43e6-aa55-d5eeee7b140a";
+      device = "/dev/disk/by-uuid/8f4d7ea0-475b-4c46-b01a-a2e98fca897d";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/355E-2E1A";
+      device = "/dev/disk/by-uuid/9F4B-576C";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
   };
 
   swapDevices = [{
-    device = "/dev/disk/by-uuid/a1414c71-dd07-4b41-9af4-85f20d456637";
+    device = "/dev/disk/by-uuid/336bdc5c-2367-4569-a0c3-965923750214";
   }];
+
+  environment = {
+    systemPackages = with pkgs; [
+      openrgb-with-all-plugins
+      playonlinux
+    ];
+  };
+
+  programs = {
+    steam = {
+      enable = true;
+      gamescopeSession.enable = true;
+    };
+  };
+
+  virtualisation = {
+    docker.enable = true;
+  };
 
   services = {
     hardware.openrgb.enable = true;

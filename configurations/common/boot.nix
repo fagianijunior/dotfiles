@@ -1,17 +1,12 @@
 { pkgs, ... }:
 {
-
-  # "plymouth.enable=0"
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+    kernelPackages = pkgs.linuxPackages_latest;
     consoleLogLevel = 3; # 0 = panic; 1 = dmesg; 2 = kmsg; 3 = info; 4 = debug; 5 = trace
 
     kernelParams = [
-      "splash"
-      "quiet"
-      "plymouth.enable=1"
       "boot.shell_on_fail"
-      "loglevel=3"
+      "rd.debug"
       "udev.log_priority=3"
       "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
       "usbcore.autosuspend=-1"
@@ -28,15 +23,8 @@
     };
     initrd = {
       enable = true;
-      verbose = false;
+      verbose = true;
       systemd.enable = true;
-    };
-
-    plymouth = {
-      enable = true;
-      font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
-      themePackages = [ pkgs.catppuccin-plymouth ];
-      theme = "catppuccin-macchiato";
     };
   };
 
