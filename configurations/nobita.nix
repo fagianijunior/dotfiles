@@ -1,5 +1,8 @@
 { lib, config, pkgs, ... }:
 {
+  import = [
+    ./common/battery_monitor.nix
+  ];
   # Configurações específicas para nobita
   hardware = {
     cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

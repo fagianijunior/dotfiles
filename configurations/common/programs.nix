@@ -44,6 +44,7 @@
       pass-git-helper
 
       # Utilities
+      acpi
       ncdu
       wget
       curl

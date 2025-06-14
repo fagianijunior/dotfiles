@@ -9,6 +9,13 @@
     ];
   };
 
+  programs.obs-studio = {
+    enable = true;
+    plugins = [
+      pkgs.obs-studio-plugins.droidcam-obs
+    ];
+  };
+
   networking.hostName = "doraemon";
   powerManagement.cpuFreqGovernor = "ondemand";
 
