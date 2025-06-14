@@ -27,6 +27,7 @@
     #
     # ];
   };
+  zramSwap.enable = true;
 
   fileSystems = {
     "/" = {

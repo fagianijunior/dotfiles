@@ -36,6 +36,8 @@
         # Pendrive
         allow id 0781:5567 # SanDisk Corp. Cruzer Blade
         allow id 14cd:1212 # Super Top microSD card reader (SY-T18)        
+        # MX-8T Mesa de som
+        allow id 8888:5678 MV-SILICON mvsilicon B1 usb audio
       '';
     };
 
