@@ -27,11 +27,11 @@
   };
 
   security = {
-    tpm2 = {
-      enable = true;
-      pkcs11.enable = true;
-      tctiEnvironment.enable = true;
-    };
+    #tpm2 = {
+    #  enable = true;
+    #  pkcs11.enable = true;
+    #  tctiEnvironment.enable = true;
+    #};
     apparmor = {
       enable = true;
       packages = with pkgs; [

@@ -16,7 +16,7 @@
           AutoConnect = true; 
         }; 
         Scan = {
-          DisablePeriodicScan = false;
+          DisablePeriodicScan = true;
         };
       };
     };

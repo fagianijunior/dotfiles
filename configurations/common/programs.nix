@@ -14,13 +14,14 @@
       terraform-ls
       awscli2
       ssm-session-manager-plugin
-      (python312.withPackages (python-pkgs: with python-pkgs; [
+      (python3.withPackages (python-pkgs: with python-pkgs; [
         # select Python packages here
         psutil
         textual
         pydbus
         pygobject3
         dbus-next
+        requests
       ]))
       gobject-introspection
       dbus
@@ -111,18 +112,7 @@
       # chat
       tdesktop
       clickup
-      (slack.overrideAttrs
-        (default: {
-          installPhase = default.installPhase + ''
-rm $out/bin/slack
-
-makeWrapper $out/lib/slack/slack $out/bin/slack \
---prefix XDG_DATA_DIRS : $GSETTINGS_SCHEMAS_PATH \
---prefix PATH : ${lib.makeBinPath [pkgs.xdg-utils]} \
---add-flags "--enable-features=WebRTCPipeWireCapturer"
-          '';
-        })
-      )
+      slack
 
       # remote access
       remmina
