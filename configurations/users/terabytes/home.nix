@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs,... }:
 let
   lock-false = {
     Value = false;
@@ -17,6 +17,8 @@ let
   surface0 = "rgb(363a4f)";
 in
   {
+    fonts.fontconfig.enable = true;
+
     home = {
       username      = "terabytes";
       homeDirectory = "/home/terabytes";
@@ -34,6 +36,7 @@ in
         "ngc7"     = "sudo nix-collect-garbage --delete-older-than 7d";
         "ngc14"    = "sudo nix-collect-garbage --delete-older-than 14d";
       };
+
       sessionVariables = {
         "HYPRCURSOR_THEME"    = "Catppuccin-Macchiato-Teal";
         "HYPRCURSOR_SIZE"     = "24";
@@ -69,10 +72,6 @@ in
   programs = {
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
-
-    eww = {
-      enable = true;
-    };
 
     helix.enable = true;
       vim = {

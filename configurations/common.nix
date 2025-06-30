@@ -1,4 +1,4 @@
-{ pkgs, modulesPath, ... }:
+{ pkgs, modulesPath, config, ... }:
 {
 
   imports = [
@@ -21,7 +21,6 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
-
   services = {
     tailscale.enable = true;
     tumbler.enable = true; 

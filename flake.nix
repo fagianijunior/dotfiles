@@ -42,12 +42,16 @@
     nixosConfigurations = {
       nobita = mkNixosConfiguration {
         system = "x86_64-linux";
-        modules = commonModules ++ [ ./configurations/nobita.nix ];
+        modules = commonModules ++ [
+          ./configurations/nobita.nix
+        ];
       };
 
       doraemon = mkNixosConfiguration {
         system = "x86_64-linux";
-        modules = commonModules ++ [ ./configurations/doraemon.nix ];
+        modules = commonModules ++ [
+          ./configurations/doraemon.nix
+        ];
       };
     };
   };

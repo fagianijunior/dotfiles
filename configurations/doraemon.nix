@@ -1,6 +1,10 @@
 # Configurações específicas para doraemon
 { lib, config, pkgs, ... }:
 {
+  imports = [
+    ./common/battery_monitor.nix
+  ];
+
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     graphics.extraPackages = with pkgs; [
@@ -9,11 +13,13 @@
     ];
   };
 
-  programs.obs-studio = {
-    enable = true;
-    plugins = [
-      pkgs.obs-studio-plugins.droidcam-obs
-    ];
+  programs = {
+    obs-studio = {
+      enable = true;
+      plugins = [
+        pkgs.obs-studio-plugins.droidcam-obs
+      ];
+    };
   };
 
   networking.hostName = "doraemon";

@@ -137,15 +137,9 @@ in
             type = "lua";
             config = builtins.readFile ./plugins/telescope-nvim_config.lua;
           }
-          {
-            plugin = none-ls-nvim;
-          }
-          {
-            plugin = dashboard-nvim;
-          }
-          {
-            plugin = yuck-vim;
-          }
+          { plugin = none-ls-nvim; }
+          { plugin = dashboard-nvim; }
+          { plugin = yuck-vim; }
         ];
       };
     };

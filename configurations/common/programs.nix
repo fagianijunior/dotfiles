@@ -1,8 +1,10 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 {
   environment = {
     # Common packages
     systemPackages = with pkgs; [
+
+      icu
       # Development
       bash
       devenv
@@ -54,7 +56,7 @@
       tree
       fmt
       gnupg
-      usbutils
+usbutils
       wtype
       wlrctl
       xdg-utils
@@ -127,10 +129,9 @@
       # terraform
       distrobox
       qemu
-
+      
       # Fonts
       jetbrains-mono
-      nerd-font-patcher
       noto-fonts-color-emoji
       powerline-fonts
 

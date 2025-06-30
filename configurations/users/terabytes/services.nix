@@ -95,7 +95,6 @@ in
      	"[workspace 4] clickup"
      	"[workspace 4] slack"
      	"systemctl --user start hyprpolkitagent"
-        "waybar"
       ];
 
       monitor =  [

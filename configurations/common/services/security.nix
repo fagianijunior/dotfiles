@@ -25,6 +25,7 @@
         allow id 1c4f:0202 # SiGma Micro Usb KeyBoard
         allow id 1908:2310 # GEMBIRD USB2.0 PC CAMERA
         allow id 189a:2019 # USB Microphone
+        allow id 13d3:3570 # IMC Networks Bluetooth Radio
 
         # Dongle
         allow id 0a12:0001 # Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)

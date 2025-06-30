@@ -1,8 +1,5 @@
 { lib, config, pkgs, ... }:
 {
-  import = [
-    ./common/battery_monitor.nix
-  ];
   # Configurações específicas para nobita
   hardware = {
     cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -14,17 +11,15 @@
   boot = {
     initrd = {
       availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-      kernelModules = [ "amdgpu" ];
+      kernelModules = [ "radeon" ];
     };
     # Parâmetros em comum devem ser configurados em configurations/common/boot.nix
     # Adicione aqui parâmtros específicos para essa máquina
     kernelParams = [
       "radeon.cik_support=0"
-      "amdgpu.cik_support=1"
       "radeon.si_support=0"
-      "amdgpu.si_support=1"
     ];
-    blacklistedKernelModules = [ "radeon" ];
+    # blacklistedKernelModules = [ "radeon" ];
   };
 
   fileSystems = {
@@ -47,6 +42,10 @@
     systemPackages = with pkgs; [
       openrgb-with-all-plugins
       playonlinux
+
+      # Drivers gráficos AMD (geralmente já inclusos, mas explicitando)
+      mesa # Drivers abertos para AMD
+      libva-vdpau-driver # Para aceleração de vídeo, se precisar
     ];
   };
 
@@ -64,8 +63,10 @@
   services = {
     hardware.openrgb.enable = true;
     
-    xserver.videoDrivers = [ "amdgpu" ];
-
+    xserver = {
+      enable = true;
+      videoDrivers = [ "radeon" ];
+    };
     ollama = {
       enable = true;
       package = pkgs.ollama;

@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, pkgs, ... }:
 {
   nixpkgs.config.packageOverrides = pkgs: {
     colloid-icon-theme = pkgs.colloid-icon-theme.override { colorVariants = ["teal"]; };
