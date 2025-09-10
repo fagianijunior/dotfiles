@@ -1,5 +1,7 @@
 { pkgs, lib, ... }:
-{
+let
+  updateNotifyCmd = "'Clamav Update' 'Database updated to version %v'";
+in {
   services = {
     fail2ban.enable = true;
     fwupd.enable = true;
@@ -39,6 +41,7 @@
         allow id 14cd:1212 # Super Top microSD card reader (SY-T18)        
         # MX-8T Mesa de som
         allow id 8888:5678 # MV-SILICON mvsilicon B1 usb audio
+        allow id 048d:04d2 # Integrated Technology Express, Inc. UDisk
       '';
     };
 
@@ -51,8 +54,34 @@
     };
 
     clamav = {
-      daemon.enable = true;
-      fangfrisch ={
+      daemon = {
+        enable = true;
+        settings = {
+          # Logging
+          LogFile = "/var/lib/clamav/daemon.log";
+          LogTime = "yes";
+          LogVerbose = "no";
+
+          # Main settings
+          #ExcludePath REGEX !(/path/to/exclude/files|directory)
+          MaxFileSize = "100M";
+          MaxRecursion = "15";
+
+          # Archive scanning
+          ScanArchive = "yes";
+          MaxFiles = "1000";
+
+          # Phishing and PUA detection
+          DetectPUA = "no";
+          PhishingSignatures = "yes";
+          PhishingScanURLs = "yes";
+
+          # Bytecode settings
+          Bytecode = "yes";
+          BytecodeSecurity = "TrustSigned";
+        };
+      };
+      fangfrisch = {
         enable = true;
         interval = "daily";
       };
@@ -60,10 +89,21 @@
         enable = true;
         interval = "daily"; #man systemd.time
         frequency = 12;
+        settings = {
+          # Defaults
+          Checks = 12; # Number of database checks per day
+          UpdateLogFile = "/var/lib/clamav/updater.log";
+          LogFileMaxSize = "10M"; # Limit the size of the log file
+          LogVerbose = false; # Enable verbose logging
+          #DNSDatabaseInfo = "enabled, pointing to current.cvd.clamav.net"; # This directive enables database and software version checks through DNS TXT records
+          OnUpdateExecute = "${pkgs.libnotify}/bin/notify-send '${updateNotifyCmd}'";
+          OnOutdatedExecute = "${pkgs.libnotify}/bin/notify-send '${updateNotifyCmd} New version: %v'";
+          OnErrorExecute = "${pkgs.libnotify}/bin/notify-send '\'Clamav Update Error\' \'Database update failed. Please check the log for more information.\''";
+        };
       };
       scanner = {
         enable = true;
-        interval = "Seg *-*-* 12:00:00";
+        interval = "0-0-0 * * 1 00:00:00";
       };
     };
   };

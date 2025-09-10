@@ -140,6 +140,11 @@ in
           { plugin = none-ls-nvim; }
           { plugin = dashboard-nvim; }
           { plugin = yuck-vim; }
+          {
+            plugin = image-nvim;
+            type = "lua";
+            config = builtins.readFile ./plugins/image_nvim_config.lua;
+          }
         ];
       };
     };

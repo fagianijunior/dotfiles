@@ -10,6 +10,5 @@ sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --impure --flake .#nobita
 
 
 # Upgrade
-nixos-rebuild build --flake .#nobita
-nix store --extra-experimental-features 'nix-command flakes' diff-closures /run/current-system /home/terabytes/Workspace/fagianijunior/dotfiles/result
 sudo nixos-rebuild switch --flake .#nobita
+nix store diff-closures /nix/var/nix/profiles/system-42-link /nix/var/nix/profiles/system-43-link

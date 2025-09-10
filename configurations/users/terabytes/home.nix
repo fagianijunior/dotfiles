@@ -70,6 +70,27 @@ in
     ];
 
   programs = {
+    quickshell = {
+      enable = true;
+    };
+    wezterm = {
+      enable = true;
+      # Habilita a integração com o Fish Shell
+      extraConfig = ''
+        local config = wezterm.config_builder()
+  
+        -- **Tamanho da Fonte**
+        config.font_size = 10.0
+  
+        -- **Fonte (opcional, substitua pela sua fonte preferida)**
+        -- config.font = wezterm.font("JetBrains Mono Nerd Font")
+  
+        -- **Tema: Catppuccin Macchiato**
+        config.color_scheme = "Catppuccin Macchiato"
+        config.window_background_opacity = 0.60
+        return config
+      '';
+    };
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
 
@@ -295,33 +316,23 @@ in
       # https://nix-community.github.io/home-manager/options.html#opt-programs.firefox.profiles
       profiles = {
         fagiani = {           # choose a profile name; directory is /home/<user>/.mozilla/firefox/profile_0
-        id = 0;               # 0 is the default profile; see also option "isDefault"
-        name = "Fagiani";      # name as listed in about:profiles
-        isDefault = true;     # can be omitted; true if profile ID is 0
-        settings = {          # specify profile-specific preferences here; check about:config for options
-        "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
-        "browser.newtabpage.pinned" = [{
-          title = "Suporte Veezor";
-          url = "https://suporte.veezor.com";
-        }
-        {
-          title = "Veezor ClickUp";
-          url = "https://veezor.clickup.com";
-        }];
-      };
-    };
-    veezor = {
-      id = 1;
-      name = "Veezor";
-      isDefault = false;
-      settings = {
-        "browser.newtabpage.activity-stream.feeds.section.highlights" = true;
-        "browser.startup.homepage" = "https://ecosia.org";
-            # add preferences for profile_1 here...
+          id = 0;               # 0 is the default profile; see also option "isDefault"
+          name = "Fagiani";      # name as listed in about:profiles
+          isDefault = true;     # can be omitted; true if profile ID is 0
+          settings = {          # specify profile-specific preferences here; check about:config for options
+            "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
+            "browser.newtabpage.pinned" = [{
+              title = "Suporte Veezor";
+              url = "https://suporte.veezor.com";
+            }
+            {
+              title = "Veezor ClickUp";
+              url = "https://veezor.clickup.com";
+            }];
           };
         };
         whatsapp = {
-          id = 2;
+          id = 1;
           name = "whatsapp";
           isDefault = false;
         };
@@ -355,6 +366,11 @@ in
         # "force_installed" and "normal_installed".
         ExtensionSettings = {
           "*".installation_mode = "allowed"; # blocks all addons except the ones specified below
+          # Simple Tab Group:
+          "simple-tab-groups@drive4ik" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/file/4469818/simple_tab_groups-5.3.2.xpi";
+            installation_mode = "force_installed";
+          };
           # Bitwarden:
           "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/file/4410896/bitwarden_password_manager-2024.12.4.xpi";

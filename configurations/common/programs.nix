@@ -4,6 +4,15 @@
     # Common packages
     systemPackages = with pkgs; [
 
+      bc
+      qt5.qtwayland
+      qt6.qtwayland
+      quickshell
+      lm_sensors
+      vscode
+      ueberzugpp
+      imagemagick
+      adwaita-icon-theme
       icu
       # Development
       bash
@@ -24,6 +33,7 @@
         pygobject3
         dbus-next
         requests
+        hidapi
       ]))
       gobject-introspection
       dbus
@@ -56,7 +66,7 @@
       tree
       fmt
       gnupg
-usbutils
+      usbutils
       wtype
       wlrctl
       xdg-utils
@@ -65,7 +75,7 @@ usbutils
       fzf
       bat
       hexyl
-      mdcat
+      #mdcat
       pandoc
       lsd
       lsof
@@ -125,10 +135,8 @@ usbutils
       zathura         # pdf viewer. https://pwmt.org/projects/zathura/
 
       # Containers
-      buildpack
-      # terraform
       distrobox
-      qemu
+      #qemu
       
       # Fonts
       jetbrains-mono
@@ -168,6 +176,7 @@ usbutils
       # Miscellaneous
       at-spi2-atk
       qt6.qtwayland
+      libnotify
       psi-notify
       poweralertd
       playerctl
@@ -180,7 +189,7 @@ usbutils
 
       # Theme
       numix-icon-theme-circle
-      # colloid-icon-theme
+      colloid-icon-theme
       catppuccin-gtk
       catppuccin-kvantum
       catppuccin-cursors.macchiatoTeal

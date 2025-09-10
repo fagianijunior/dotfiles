@@ -3,6 +3,7 @@
   # Configurações específicas para nobita
   hardware = {
     cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    enableRedistributableFirmware = true;
   };
 
   networking.hostName = "nobita";
@@ -11,12 +12,13 @@
   boot = {
     initrd = {
       availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-      kernelModules = [ "radeon" ];
+      #kernelModules = [ "radeon" ];
     };
     # Parâmetros em comum devem ser configurados em configurations/common/boot.nix
     # Adicione aqui parâmtros específicos para essa máquina
     kernelParams = [
-      "radeon.cik_support=0"
+      "amdgpu.si_support=1"
+    #  "radeon.cik_support=0"
       "radeon.si_support=0"
     ];
     # blacklistedKernelModules = [ "radeon" ];
@@ -32,6 +34,10 @@
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
+    "/home" = {
+      device = "/dev/disk/by-uuid/d24c93e7-4461-4fbe-878e-430a8f20ce4d";
+      fsType = "ext4";
+    };
   };
 
   swapDevices = [{
@@ -40,8 +46,10 @@
 
   environment = {
     systemPackages = with pkgs; [
+      legendary-gl
       openrgb-with-all-plugins
       playonlinux
+      heroic
 
       # Drivers gráficos AMD (geralmente já inclusos, mas explicitando)
       mesa # Drivers abertos para AMD
@@ -63,9 +71,13 @@
   services = {
     hardware.openrgb.enable = true;
     
+    udev.extraRules = ''
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="0xaa88", ATTRS{idProduct}=="0x8666", MODE="0666"
+    '';
+
     xserver = {
       enable = true;
-      videoDrivers = [ "radeon" ];
+      videoDrivers = [ "amdgpu" ];
     };
     ollama = {
       enable = true;
