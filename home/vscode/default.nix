@@ -99,7 +99,7 @@
         # Wayland / NixOS
         ########################################
         "window.titleBarStyle" = "custom";
-        "window.menuBarVisibility" = "compact";
+        "window.menuBarVisibility" = "toggle";
 
         ########################################
         # Kilo Code
@@ -123,18 +123,6 @@
         };
 
         ########################################
-        # Theme – Catppuccin
-        ########################################
-        "workbench.colorTheme" = "Catppuccin Macchiato";
-        "catppuccin.accentColor" = "mauve";
-        "catppuccin.workbenchMode" = "default";
-
-        ########################################
-        # Icons
-        ########################################
-        "workbench.iconTheme" = "catppuccin-macchiato";
-
-        ########################################
         # UI polish (Wayland friendly)
         ########################################
         "editor.fontLigatures" = true;
@@ -142,12 +130,11 @@
         "editor.cursorSmoothCaretAnimation" = "on";
         "editor.cursorBlinking" = "smooth";
 
-        "workbench.activityBar.location" = "left";
         "workbench.sideBar.location" = "left";
         "workbench.editor.labelFormat" = "short";
         "workbench.editor.enablePreview" = false;
 
-        "window.commandCenter" = false;
+        "window.commandCenter" = true;
       };
       extensions = with pkgs.vscode-extensions; [
         hashicorp.terraform
@@ -162,11 +149,9 @@
         ms-vscode-remote.remote-ssh-edit
         ms-vscode.remote-explorer
         amazonwebservices.amazon-q-vscode
-        catppuccin.catppuccin-vsc
-        catppuccin.catppuccin-vsc-icons
+        eamodio.gitlens
+        kilocode.kilo-code
       ];
     };
-    # code --install-extension kilocode.kilo-code
-    # code --install-extension GitHub.copilot
   };
 }

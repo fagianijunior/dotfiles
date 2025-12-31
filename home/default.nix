@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -35,7 +35,9 @@
   # Shell
   ############################
 
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+  };
 
   programs.starship.enable = true;
 
@@ -86,7 +88,7 @@
         blur_passes = 0;
         color = "rgb(1e1e2e)"; # base
       };
-      label = [];
+      label = [ ];
       image = {
         monitor = "";
         path = "${config.home.homeDirectory}/.face";
@@ -100,7 +102,7 @@
       };
     };
   };
-  
+
   programs.wlogout = {
     enable = true;
 
@@ -151,7 +153,7 @@
   programs = {
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
-  };  
+  };
 
   ############################
   # Neovim (config vem depois)
@@ -216,4 +218,3 @@
 
   xdg.enable = true;
 }
-
