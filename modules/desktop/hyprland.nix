@@ -13,6 +13,8 @@
 
   programs.light.enable = true;
 
+  programs.fish.enable = true;
+  
   services.greetd = {
     enable = true;
     settings.default_session = {

@@ -9,11 +9,12 @@
     ../modules/hardware/amd-common.nix
     ../modules/hardware/graphics-amd.nix
 
+    ../modules/base/users.nix
     ../modules/desktop/session.nix
     ../modules/desktop/hyprland.nix
     ../modules/desktop/pipewire.nix
 
-    ../modules/profiles/laptop.nix
+    ../modules/profiles/doraemon.nix
   ];
 
   networking.hostName = "doraemon";

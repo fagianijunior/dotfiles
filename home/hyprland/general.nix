@@ -21,11 +21,6 @@
   };
 
   input = {
-    kb_layout     = "br";
-    kb_variant    = "";
-    kb_model      = "";
-    kb_options    = "";
-    kb_rules      = "";
     left_handed   = false;
     follow_mouse  = 1;
     sensitivity   = 0;
@@ -49,4 +44,12 @@
     preserve_split  = true;
     smart_split     = true;
   };
+
+  device = [
+    {
+      name        = "keyboard-k380-keyboard";
+      kb_layout   = "us";
+      kb_variant  = "intl";
+    }
+  ];
 }

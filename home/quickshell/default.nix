@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  quickshellConfigPath = "${config.home.homeDirectory}/meunix/home/quickshell/config";
+  quickshellConfigPath = "${config.home.homeDirectory}/Workspace/fagianijunior/dotfiles/home/quickshell/config";
 in
 {
   programs.quickshell = {

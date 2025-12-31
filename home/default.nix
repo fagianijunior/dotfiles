@@ -6,6 +6,7 @@
     ./neovim
     ./firefox
     ./quickshell
+    ./vscode
     ./git.nix
   ];
 
@@ -62,6 +63,14 @@
     # Utils
     brightnessctl
     playerctl
+
+    # LSPs
+    nil
+    nixpkgs-fmt
+    terraform-ls
+    # python311Packages.python-lsp-server
+    rubyPackages.solargraph
+
   ];
 
   ############################
@@ -139,7 +148,10 @@
       }
     ];
   };
-
+  programs = {
+    direnv.enable = true;
+    direnv.nix-direnv.enable = true;
+  };  
 
   ############################
   # Neovim (config vem depois)
