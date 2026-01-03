@@ -1,8 +1,10 @@
 { pkgs, ... }:
 {
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "performance";
+  };
   services = {
-    power-profiles-daemon.enable = true;
-  
     ollama = {
       enable = true;
       package = pkgs.ollama;
@@ -24,8 +26,18 @@
 
   environment.systemPackages = with pkgs; [
     # coisas que só fazem sentido em desktop fixo
-    steam
+    legendary-gl
     heroic
     nile
   ];
+
+  programs = {
+    steam = {
+      enable = true;
+      extraPackages = with pkgs; [
+        proton-ge-bin
+      ];
+    };
+    gamescope.enable = true;
+  };
 }

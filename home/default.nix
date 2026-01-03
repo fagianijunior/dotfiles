@@ -8,6 +8,9 @@
     ./quickshell
     ./vscode
     ./git.nix
+    ./wezterm.nix
+    ./shell.nix
+
   ];
 
   ############################
@@ -49,7 +52,8 @@
 
   home.packages = with pkgs; [
     # Core
-    # neovim
+    fzf
+    eza
     ripgrep
     fd
     jq
@@ -75,30 +79,78 @@
 
   ];
 
+  gtk = {
+    enable = true;
+    font = {
+      name = "FiraCode Nerd Font Mono";
+      size = 10;
+    };
+    theme = {
+      package = pkgs.catppuccin-gtk;
+      name = "Catppuccin-Macchiato-Standard-Teal-Dark";
+    };
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "image/jpeg" = "imv.desktop";
+      "image/png" = "imv.desktop";
+      "image/gif" = "imv.desktop";
+      "image/bmp" = "imv.desktop";
+      "image/tiff" = "imv.desktop";
+      "image/webp" = "imv.desktop";
+      "image/svg+xml" = "imv.desktop";
+      # Add other image MIME types as needed
+    };
+  };
+
   ############################
   # Hyprland (user config)
   ############################
 
-  programs.hyprlock = {
-    enable = true;
-    settings = {
-      background = {
-        monitor = "";
-        path = "${config.home.homeDirectory}/.background";
-        blur_passes = 0;
-        color = "rgb(1e1e2e)"; # base
+  programs = {
+    rofi = {
+      enable = true;
+
+      extraConfig = {
+        modi = "drun";
+        show-icons = true;
+        terminal = "wezterm";
+
+        drun-display-format = "{icon} {name}";
+        display-drun = " 🚀 Apps ";
+
+        sidebar-mode = true;
+        hide-scrollbar = true;
+
+        matching = "fuzzy";
+        sorting-method = "fzf";
+
+        disable-history = true;
       };
-      label = [ ];
-      image = {
-        monitor = "";
-        path = "${config.home.homeDirectory}/.face";
-        size = 350;
-        border_color = "rgb(94e2d5)"; # teal
-        rounding = -1;
-        position = "0, 75";
-        halign = "center";
-        valign = "center";
-        shadow_passes = 2;
+    };
+    hyprlock = {
+      enable = true;
+      settings = {
+        background = {
+          monitor = "";
+          path = "${config.home.homeDirectory}/.background";
+          blur_passes = 0;
+          color = "rgb(1e1e2e)"; # base
+        };
+        label = [ ];
+        image = {
+          monitor = "";
+          path = "${config.home.homeDirectory}/.face";
+          size = 350;
+          border_color = "rgb(94e2d5)"; # teal
+          rounding = -1;
+          position = "0, 75";
+          halign = "center";
+          valign = "center";
+          shadow_passes = 2;
+        };
       };
     };
   };
@@ -168,10 +220,10 @@
   # Services (user)
   ############################
 
-  services.dunst = {
-    enable = true;
-  };
   services = {
+    dunst = {
+      enable = true;
+    };
     hyprpaper = {
       enable = true;
       settings = {

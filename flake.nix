@@ -18,56 +18,75 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, home-manager, flake-utils, catppuccin, ... }:
-  let
-    lib = nixpkgs.lib;
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      flake-utils,
+      catppuccin,
+      ...
+    }:
+    let
+      lib = nixpkgs.lib;
 
-    mkHost = { hostname, system ? "x86_64-linux" }:
-      lib.nixosSystem {
-        inherit system;
+      mkHost =
+        {
+          hostname,
+          system ? "x86_64-linux",
+        }:
+        lib.nixosSystem {
+          inherit system;
 
-        modules = [
-          ./hosts/${hostname}.nix
+          modules = [
+            ./hosts/${hostname}.nix
 
-          # Catppuccin
-          catppuccin.nixosModules.catppuccin
+            # Catppuccin
+            catppuccin.nixosModules.catppuccin
 
-          # Home Manager
-          home-manager.nixosModules.home-manager
+            # Home Manager
+            home-manager.nixosModules.home-manager
 
-          ({ pkgs, ... }: {
-            networking.hostName = hostname;
+            (
+              { pkgs, ... }:
+              {
+                networking.hostName = hostname;
 
-            nixpkgs.config.allowUnfree = true;
+                nixpkgs.config.allowUnfree = true;
 
-            nixpkgs.overlays = [
-              (import ./pkgs/overlays.nix)
-            ];
+                nixpkgs.overlays = [
+                  (import ./pkgs/overlays.nix)
+                ];
 
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
 
-            home-manager.backupFileExtension = "back.tar.gz";
+                home-manager.backupFileExtension = "back.tar.gz";
 
-            home-manager.users.terabytes = {
-              imports = [
-                catppuccin.homeModules.catppuccin
-                ./home/default.nix
-              ];
+                home-manager.users.terabytes = {
+                  imports = [
+                    catppuccin.homeModules.catppuccin
+                    ./home/default.nix
+                  ];
 
-              catppuccin = {
-                enable = true;
-                flavor = "macchiato";
-              };
-            };
-          })
-        ];
+                  catppuccin = {
+                    enable = true;
+                    flavor = "macchiato";
+
+                    rofi = {
+                      enable = true;
+                    };
+                  };
+                };
+              }
+            )
+          ];
+        };
+    in
+    {
+      nixosConfigurations = {
+        doraemon = mkHost { hostname = "doraemon"; };
+        nobita = mkHost { hostname = "nobita"; };
       };
-  in {
-    nixosConfigurations = {
-      doraemon = mkHost { hostname = "doraemon"; };
-      nobita   = mkHost { hostname = "nobita"; };
     };
-  };
 }
-

@@ -1,7 +1,7 @@
 {
   imports = [
     ./nobita-hardware.nix
-    
+
     ../modules/base
 
     ../modules/hardware/amd-common.nix
@@ -14,15 +14,15 @@
     ../modules/profiles/nobita.nix
     ../modules/profiles/workstation.nix
     ../modules/profiles/bluetooth.nix
+    ../modules/profiles/logitech.nix
   ];
 
   networking.hostName = "nobita";
-  console.keyMap = "us";
 
   services.xserver = {
     xkb = {
-      layout = "us";
-      variant = "intl";
+      layout = "us,br";
+      variant = ",abnt2";
     };
   };
 

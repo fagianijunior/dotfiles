@@ -10,16 +10,19 @@
     "mem_sleep_default=deep"
   ];
 
-  powerManagement.enable = true;
-  powerManagement.resumeCommands =
-    "${pkgs.kmod}/bin/rmmod atkbd; ${pkgs.kmod}/bin/modprobe atkbd reset=1";
+  powerManagement.cpuFreqGovernor = "schedutil";
 
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend-then-hibernate";
     HandleLidSwitchExternalPower = "suspend-then-hibernate";
   };
 
-  services.power-profiles-daemon.enable = true;
+  programs.obs-studio = {
+    enable = true;
+    plugins = [
+      pkgs.obs-studio-plugins.droidcam-obs
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     acpi
