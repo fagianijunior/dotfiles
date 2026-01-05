@@ -10,13 +10,12 @@
         };
       };
     };
-    resolvconf.enable = true;
   };
 
   services = {
     resolved = {
       enable = true;
-      dnssec = "false";
+      dnssec = "allow-downgrade";
       dnsovertls = "opportunistic";
     };
   };

@@ -63,8 +63,8 @@
         # Doraemon
         allow id 2109:0103 # VIA Labs, Inc. USB 2.0 BILLBOARD
         allow id 27c6:538d # Shenzhen Goodix Technology Co.,Ltd. FingerPrint
-        allow id 0bda:565a # Realtek Semiconductor Corp. Integrated_Webcam_HD
-        allow id 8087:0aaa # Intel Corp. Bluetooth 9460/9560 Jefferson Peak (JfP)
+        allow id 13d3:54bf # IMC Networks Integrated Camera
+        allow id 0bda:4853 # Realtek Semiconductor Corp. Bluetooth Radio
 
         # Nobita
         allow id 1c4f:0202 # SiGma Micro Usb KeyBoard
