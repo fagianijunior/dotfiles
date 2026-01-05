@@ -28,6 +28,4 @@
     acpi
     powertop
   ];
-
-  system.stateVersion = "25.11";
 }

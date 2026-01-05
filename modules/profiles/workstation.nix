@@ -106,11 +106,6 @@
       };
     };
     fstrim.enable = true;
-    resolved = {
-      enable = true;
-      dnssec = "true";
-      dnsovertls = "opportunistic";
-    };
 
     tailscale = {
       enable = true;
