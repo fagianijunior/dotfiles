@@ -15,22 +15,14 @@
 
     ../modules/profiles/doraemon.nix
     ../modules/profiles/workstation.nix
+    ../modules/profiles/development.nix
+    ../modules/profiles/multimedia.nix
+    ../modules/profiles/utilities.nix
     ../modules/profiles/bluetooth.nix
     ../modules/profiles/logitech.nix
-
-    ../modules/base/users.nix
-
-    ../modules/profiles/doraemon.nix
   ];
 
   networking.hostName = "doraemon";
-
-  services.xserver = {
-    xkb = {
-      layout = "br";
-      variant = "abnt2";
-    };
-  };
 
   system.stateVersion = "25.11";
 }

@@ -1,1 +1,24 @@
 home/quickshell/credentials.json
+
+# Build artifacts
+result
+result-*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Scripts logs
+scripts/*.log
+
+# Editor files
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db

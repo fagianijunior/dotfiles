@@ -1,6 +1,6 @@
 { pkgs, ... }:
-
 {
+  # Laptop-specific kernel parameters for better hardware support
   boot.kernelParams = [
     "i8042.reset"
     "i8042.nomux"
@@ -10,13 +10,16 @@
     "mem_sleep_default=deep"
   ];
 
+  # Power management optimized for laptop
   powerManagement.cpuFreqGovernor = "schedutil";
 
+  # Lid switch behavior
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend-then-hibernate";
     HandleLidSwitchExternalPower = "suspend-then-hibernate";
   };
 
+  # OBS Studio for content creation
   programs.obs-studio = {
     enable = true;
     plugins = [
@@ -24,6 +27,7 @@
     ];
   };
 
+  # Laptop-specific utilities
   environment.systemPackages = with pkgs; [
     acpi
     powertop
