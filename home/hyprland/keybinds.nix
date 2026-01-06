@@ -42,15 +42,20 @@
     "$mainMod, mouse_down, workspace, e+1"
     "$mainMod, mouse_up, workspace, e-1"
     "$mainMod CTRL, V, exec, pypr toggle volume"
-  ] ++ (
-    builtins.concatLists (builtins.genList (i:
-      let ws = i + 1;
-      in [
+    "$mainMod, M, exec, fish -c logitech-change-host"
+  ]
+  ++ (builtins.concatLists (
+    builtins.genList (
+      i:
+      let
+        ws = i + 1;
+      in
+      [
         "$mainMod, code:1${toString i}, workspace, ${toString ws}"
         "$mainMod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
       ]
-    )9)
-  );
+    ) 9
+  ));
 
   bindm = [
     "$mainMod, mouse:272, movewindow"

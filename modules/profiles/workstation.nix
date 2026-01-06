@@ -5,8 +5,22 @@
     enable = true;
     earlySetup = true;
     colors = [
-      "24273a" "ed8796" "a6da95" "eed49f" "8aadf4" "f5bde6" "8bd5ca" "cad3f5"
-      "5b6078" "ed8796" "a6da95" "eed49f" "8aadf4" "f5bde6" "8bd5ca" "a5adcb"
+      "24273a"
+      "ed8796"
+      "a6da95"
+      "eed49f"
+      "8aadf4"
+      "f5bde6"
+      "8bd5ca"
+      "cad3f5"
+      "5b6078"
+      "ed8796"
+      "a6da95"
+      "eed49f"
+      "8aadf4"
+      "f5bde6"
+      "8bd5ca"
+      "a5adcb"
     ];
     font = "${pkgs.terminus_font}/share/consolefonts/ter-118b.psf.gz";
     packages = with pkgs; [ terminus_font ];
@@ -117,11 +131,11 @@
     hyprpicker
     hyprcursor
     hyprpolkitagent
-    
+
     # Terminal and shell
     wezterm
     vim
-    
+
     # Wayland tools
     rofi
     wofi
@@ -138,7 +152,7 @@
     wl-clip-persist
     qt6.qtwayland
     qt5.qtwayland
-    
+
     # Theme packages
     catppuccin-gtk
     colloid-icon-theme
@@ -146,7 +160,7 @@
     numix-icon-theme-circle
     catppuccin-cursors.macchiatoTeal
     adwaita-icon-theme
-    
+
     # Essential tools
     kiro
     quickshell

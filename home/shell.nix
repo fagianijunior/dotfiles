@@ -51,6 +51,23 @@
           body = "sudo nix-collect-garbage --delete-older-than 14d";
         };
 
+        logitech-change-host = {
+          description = "Troca o host dos dispositivos logitech entre nobita e doraemon";
+          body = ''
+            set normalized_hostname (echo $hostname | string lower)
+            switch $normalized_hostname
+              case "nobita"
+                solaar config "LIFT" change-host "1"  # doraemon
+                solaar config "Keyboard K380" change-host "1" # doraemon
+              case "doraemon"
+                solaar config "LIFT" change-host "3" # nobita
+                solaar config "Keyboard K380" change-host "3" # nobita
+              case "*"
+                echo "Host desconhecido. Nenhuma alteração feita."
+            end
+          '';
+        };
+
         aws-mfa = {
           description = "Gera credenciais temporárias AWS via MFA";
           body = ''

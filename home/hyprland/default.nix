@@ -1,7 +1,10 @@
-{ config, pkgs, lib, catppucin-flavor, ... }:
+{
+  lib,
+  ...
+}:
 
 {
-  imports  = [
+  imports = [
     ./pyprland.nix
   ];
 
