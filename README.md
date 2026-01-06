@@ -65,13 +65,49 @@ Configuração NixOS para dois dispositivos AMD com Wayland/Hyprland.
 
 ## Uso
 
-### Build do sistema
+### Makefile - Automação de Tarefas
+
+O Makefile fornece uma interface simplificada para gerenciar a configuração NixOS, automatizando comandos comuns e detectando automaticamente o hostname atual.
+
+#### Comandos Principais
+
+```bash
+make help           # Mostra todos os comandos disponíveis
+make build          # Build para o hostname atual
+make check          # Verifica configuração sem aplicar
+make update         # Atualiza flake e faz build
+make boot           # Aplica na próxima inicialização
+make rollback       # Volta para geração anterior
+```
+
+#### Comandos Específicos por Host
+
+```bash
+make build-nobita     # Build para desktop
+make build-doraemon   # Build para notebook
+make check-nobita     # Verifica desktop
+make check-doraemon   # Verifica notebook
+```
+
+#### Utilitários
+
+```bash
+make diff           # Compara configurações entre hosts
+make diff-modules   # Compara apenas módulos
+make diff-packages  # Mostra pacotes únicos por host
+make clean          # Remove arquivos temporários
+make gc             # Garbage collection do Nix
+make optimize       # Otimiza Nix store
+make status         # Mostra informações do sistema
+```
+
+### Build Manual do Sistema
 ```bash
 sudo nixos-rebuild switch --flake .#nobita    # Desktop
 sudo nixos-rebuild switch --flake .#doraemon  # Notebook
 ```
 
-### Atualização
+### Atualização Manual
 ```bash
 nix flake update
 sudo nixos-rebuild switch --flake .#<hostname>

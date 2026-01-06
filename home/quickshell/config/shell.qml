@@ -518,36 +518,48 @@ PanelWindow {
         }
 
 
-        // GRÁFICOS DE DISCO
+        // GRÁFICOS DE DISCO (DINÂMICOS)
         RowLayout {
+            id: diskChartsLayout
             Layout.fillWidth: true
-
-            PieChart {
-                id: diskRootChart
-                label: "/"
-                color: "#cba6f7" // Mauve
+            
+            Repeater {
+                id: diskRepeater
+                model: ListModel {
+                    id: diskModel
+                }
+                
+                PieChart {
+                    label: model.mountPoint
+                    color: model.color
+                    value: model.usage / 100.0
+                    Layout.fillWidth: true
+                }
             }
-            PieChart {
-                id: diskHomeChart
-                label: "/home"
-                color: "#fab387" // Peach
-            }
-            PieChart {
-                id: diskBootChart
-                label: "/boot"
-                color: "#89b4fa" // Blue
+            
+            // Executa imediatamente na inicialização
+            Component.onCompleted: {
+                diskMonitorProcess.running = true
             }
         }
+        
         Process {
             id: diskMonitorProcess
-            command: ["bash", "-c", "df / /home /boot | tail -n +2 | awk '{print $6 \":\" $5}' | sed 's/%//'; sleep 60"]
+            command: ["bash", "-c", `
+                # Descobre os pontos de montagem principais dinamicamente
+                df -h | grep -E '^/dev/' | awk '{print $6 ":" $5}' | sed 's/%//' | sort
+            `]
             running: true
            
             stdout: StdioCollector {
                 onStreamFinished: {
                     let lines = this.text.trim().split('\n')
+                    let colors = ["#cba6f7", "#fab387", "#89b4fa", "#a6e3a1", "#f38ba8"] // Mauve, Peach, Blue, Green, Red
                     
-                    for (let i = 0; i < lines.length; i++) {
+                    // Limpa o modelo atual
+                    diskModel.clear()
+                    
+                    for (let i = 0; i < lines.length && i < colors.length; i++) {
                         let line = lines[i].trim()
                         if (line === "") continue
                         
@@ -557,34 +569,45 @@ PanelWindow {
                         let mountPoint = parts[0]
                         let usage = parseInt(parts[1])
                         
-                        // Atualiza o valor correspondente baseado no ponto de montagem
-                        switch(mountPoint) {
-                            case '/':
-                                diskRootChart.value = usage / 100.0
-                                break
-                            case '/home':
-                                diskHomeChart.value = usage / 100.0
-                                break
-                            case '/boot':
-                                diskBootChart.value = usage / 100.0
-                                break
+                        // Adiciona todos os pontos de montagem principais (não apenas os específicos)
+                        // Filtra apenas pontos que começam com / e não são temporários
+                        if (mountPoint.startsWith("/") && !mountPoint.includes("snap") && 
+                            !mountPoint.includes("loop") && mountPoint.length < 20) {
+                            diskModel.append({
+                                mountPoint: mountPoint,
+                                usage: usage,
+                                color: colors[i % colors.length]
+                            })
                         }
                     }
                     
-                    // Reinicia o processo após processar todos os dados
-                    diskMonitorProcess.running = true
+                    // Agenda próxima execução
+                    diskTimer.start()
                 }
             }
             
             stderr: StdioCollector {
                 onStreamFinished: {
                     if (this.text.trim() !== "") {
-                        // Em caso de erro, marca todos os charts com erro
-                        diskRootChart.label = "/ (Erro)"
-                        diskHomeChart.label = "/home (Erro)" 
-                        diskBootChart.label = "/boot (Erro)"
+                        // Em caso de erro, adiciona um item de erro
+                        diskModel.clear()
+                        diskModel.append({
+                            mountPoint: "Erro",
+                            usage: 0,
+                            color: "#f38ba8"
+                        })
                     }
+                    // Agenda próxima execução mesmo com erro
+                    diskTimer.start()
                 }
+            }
+        }
+        
+        Timer {
+            id: diskTimer
+            interval: 60000 // 60 segundos
+            onTriggered: {
+                diskMonitorProcess.running = true
             }
         }
         // REDE (DOWNLOAD)
@@ -724,12 +747,12 @@ PanelWindow {
                 
                 delegate: Rectangle {
                     width: notificationList.width
-                    height: notificationContent.height + 20
+                    height: Math.max(80, notificationContent.implicitHeight + 20)
                     color: Qt.rgba(0.2, 0.2, 0.2, 0.7)
-
                     border.color: "#555555"
                     border.width: 1
                     radius: 8
+                    clip: true // Importante: evita que o conteúdo ultrapasse os limites
 
                     Button {
                         id: closeButton
@@ -763,26 +786,31 @@ PanelWindow {
                     ColumnLayout {
                         id: notificationContent
                         anchors.left: parent.left
-                        anchors.right: parent.right
+                        anchors.right: closeButton.left
                         anchors.top: parent.top
+                        anchors.bottom: parent.bottom
                         anchors.margins: 10
                         spacing: 5
+                        clip: true // Garante que o conteúdo não ultrapasse
                         
                         // CABEÇALHO (App + Tempo)
                         RowLayout {
-                            Layout.fillWidth: false
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: parent.width
+                            spacing: 5
                             
                             // TÍTULO DA NOTIFICAÇÃO
                             Text {
                                 id: summaryText
                                 text: model.summary || "Sem título"
-                                font.pixelSize: Math.max(12, Math.min(14, rootPanel.width * 0.052))
+                                font.pixelSize: Math.max(11, Math.min(13, rootPanel.width * 0.048))
                                 font.bold: true
                                 color: getUrgencyColor(model.urgency)
                                 wrapMode: Text.WordWrap
                                 elide: Text.ElideRight
-                                maximumLineCount: 1
+                                maximumLineCount: 2
                                 Layout.fillWidth: true
+                                Layout.maximumWidth: parent.width * 0.6
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -796,32 +824,43 @@ PanelWindow {
                                 }
                             }
 
-                            Text {
-                                 text: formatTimestamp(model.timestamp)
-                                 font.pixelSize: Math.max(6, Math.min(8, rootPanel.width * 0.037))
-                                 color: "#a6adc8" // Catppuccin Macchiato Subtext0
-                                 elide: Text.ElideRight
-                             }
+                            Column {
+                                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                                Layout.maximumWidth: parent.width * 0.35
+                                spacing: 2
+                                
+                                Text {
+                                    text: formatTimestamp(model.timestamp)
+                                    font.pixelSize: Math.max(7, Math.min(9, rootPanel.width * 0.033))
+                                    color: "#a6adc8" // Catppuccin Macchiato Subtext0
+                                    elide: Text.ElideRight
+                                    width: parent.width
+                                    horizontalAlignment: Text.AlignRight
+                                }
 
-                             Text {
-                                 text: model.appname || "App"
-                                 font.pixelSize: Math.max(6, Math.min(8, rootPanel.width * 0.045))
-                                 font.bold: true
-                                 color: "#b8c0e0" // Catppuccin Macchiato Subtext1
-                                 elide: Text.ElideRight
-                                 Layout.fillWidth: true
-                             }
-			} 
+                                Text {
+                                    text: model.appname || "App"
+                                    font.pixelSize: Math.max(7, Math.min(9, rootPanel.width * 0.033))
+                                    font.bold: true
+                                    color: "#b8c0e0" // Catppuccin Macchiato Subtext1
+                                    elide: Text.ElideRight
+                                    width: parent.width
+                                    horizontalAlignment: Text.AlignRight
+                                }
+                            }
+                        } 
+                        
                         // CORPO DA NOTIFICAÇÃO
                         Text {
                             id: bodyText
                             text: model.body || ""
-                            font.pixelSize: Math.max(10, Math.min(12, rootPanel.width * 0.045))
+                            font.pixelSize: Math.max(9, Math.min(11, rootPanel.width * 0.041))
                             color: "#cad3f5" // Catppuccin Macchiato Text
                             wrapMode: Text.WordWrap
                             elide: Text.ElideRight
-                            maximumLineCount: 3
+                            maximumLineCount: 4
                             Layout.fillWidth: true
+                            Layout.maximumWidth: parent.width
                             visible: text !== ""
 
                             MouseArea {

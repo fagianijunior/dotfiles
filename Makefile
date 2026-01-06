@@ -73,5 +73,5 @@ optimize: ## Otimiza store do Nix
 status: ## Mostra status do sistema
 	@echo "Sistema: $(CURRENT_HOST)"
 	@echo "Geração atual: $$(sudo nix-env --list-generations --profile /nix/var/nix/profiles/system | tail -1)"
-	@echo "Uptime: $$(uptime -p)"
+	@echo "Uptime: $$(uptime)"
 	@echo "Kernel: $$(uname -r)"

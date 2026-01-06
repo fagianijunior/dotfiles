@@ -4,7 +4,8 @@ import QtQuick.Layouts
 Item {
     id: root
     Layout.fillWidth: true
-    implicitHeight: 65
+    Layout.preferredWidth: 80
+    implicitHeight: 80
     
     property string label: ""
     property color color: "cyan"
@@ -13,7 +14,7 @@ Item {
     Canvas {
         id: canvas
         anchors.centerIn: parent
-        width: Math.min(parent.width, parent.height) * 0.8
+        width: Math.min(parent.width * 0.9, parent.height * 0.7)
         height: width
 
         onPaint: {
@@ -22,43 +23,46 @@ Item {
 
             var centerX = width / 2
             var centerY = height / 2
-            var radius = Math.min(centerX, centerY)
+            var radius = Math.min(centerX, centerY) - 5
             var startAngle = -Math.PI / 2 // Start from the top
 
             // Background circle
             ctx.beginPath()
             ctx.strokeStyle = "#444444"
-            ctx.lineWidth = 10
-            ctx.arc(centerX, centerY, radius - ctx.lineWidth / 2, 0, 2 * Math.PI)
+            ctx.lineWidth = 8
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI)
             ctx.stroke()
 
             // Foreground arc
             if (root.value > 0) {
                 ctx.beginPath()
                 ctx.strokeStyle = root.color
-                ctx.lineWidth = 10
+                ctx.lineWidth = 8
                 var endAngle = startAngle + (2 * Math.PI * root.value)
-                ctx.arc(centerX, centerY, radius - ctx.lineWidth / 2, startAngle, endAngle)
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle)
                 ctx.stroke()
             }
         }
     }
 
     Text {
-        text: (value * 100).toFixed(1) + "%"
+        text: (value * 100).toFixed(0) + "%"
         anchors.centerIn: canvas
         color: "white"
-        font.pixelSize: 8
+        font.pixelSize: Math.max(8, Math.min(10, canvas.width * 0.15))
         font.bold: true
     }
 
     Text {
         text: label
         anchors.top: canvas.bottom
-        anchors.topMargin: 0
+        anchors.topMargin: 2
         anchors.horizontalCenter: parent.horizontalCenter
         color: "white"
-        font.pixelSize: 12
+        font.pixelSize: Math.max(9, Math.min(11, root.width * 0.12))
+        elide: Text.ElideMiddle
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
     }
 
     Component.onCompleted: {
