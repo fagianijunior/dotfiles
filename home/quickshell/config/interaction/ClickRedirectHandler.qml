@@ -272,9 +272,9 @@ QtObject {
         
         console.log("Attempting to focus application:", executable)
         
-        // Use wmctrl to focus the application window
+        // Use hyprctl to focus the application window on Hyprland
         focusProcess.targetApp = executable
-        focusProcess.command = ["bash", "-c", `wmctrl -a "${executable}" || wmctrl -x -a "${executable}"`]
+        focusProcess.command = ["hyprctl", "dispatch", "focuswindow", "class:(?i)" + executable]
         focusProcess.running = true
         
         return true
@@ -295,7 +295,7 @@ QtObject {
         
         // Launch the application in the background
         launchProcess.targetApp = executable
-        launchProcess.command = ["bash", "-c", `nohup ${executable} > /dev/null 2>&1 &`]
+        launchProcess.command = ["fish", "-c", `nohup ${executable} > /dev/null 2>&1 &`]
         launchProcess.running = true
         
         return true

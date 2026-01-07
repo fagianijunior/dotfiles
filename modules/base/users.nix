@@ -13,6 +13,8 @@
       "networkmanager"
       "docker"
       "gamemod"
+      "libvirtd"
+      "render"
     ];
   };
 }

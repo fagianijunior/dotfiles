@@ -6,6 +6,7 @@
 
     ../modules/hardware/amd-common.nix
     ../modules/hardware/graphics-amd.nix
+    ../modules/hardware/rocm.nix
 
     ../modules/desktop/session.nix
     ../modules/desktop/hyprland.nix
@@ -19,6 +20,9 @@
     ../modules/profiles/bluetooth.nix
     ../modules/profiles/logitech.nix
   ];
+
+  # Enable ROCm support for RX 6600 GPU
+  hardware.rocm.enable = true;
 
   networking.hostName = "nobita";
 

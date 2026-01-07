@@ -13,12 +13,12 @@
     automake
     pkg-config
     gobject-introspection
-    
+
     # Language Servers
     ruby-lsp
     typescript-language-server
     lua-language-server
-    
+
     # Version Control
     git
     delta
@@ -28,15 +28,15 @@
     git-secrets
     pass-git-helper
     license-generator
-    
+
     # Development Environment
     devenv
     libffi
     kdePackages.qtdeclarative
-    
+
     # AWS Tools
     ssm-session-manager-plugin
-    
+
     # Python with packages
     (python3.withPackages (
       python-pkgs: with python-pkgs; [
@@ -55,9 +55,10 @@
       ]
     ))
   ];
-  
+
   # Docker for development
-  virtualisation.docker = {
-    enable = true;
+  virtualisation = {
+    libvirtd.enable = true;
+    docker.enable = true;
   };
 }

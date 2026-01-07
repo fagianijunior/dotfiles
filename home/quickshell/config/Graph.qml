@@ -3,7 +3,8 @@ import QtQuick.Layouts 1.15
 
 ColumnLayout {
     id: root
-    spacing: 4
+    spacing: 5
+    
     Layout.fillWidth: true
 
     property string label: ""
@@ -27,12 +28,22 @@ ColumnLayout {
         canvas.requestPaint()
     }
 
-    RowLayout {
+
+    Canvas {
+        id: canvas
         Layout.fillWidth: true
+        height: 30
+
+    RowLayout {
+
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+
         Text { 
             text: label
             color: "white"
             font.pixelSize: 12
+            padding: 5
             Layout.alignment: Qt.AlignLeft
         }
         Text { 
@@ -40,14 +51,9 @@ ColumnLayout {
             color: "white"
             font.pixelSize: 12
             Layout.alignment: Qt.AlignRight
+            padding: 5
         }
     }
-
-    Canvas {
-        id: canvas
-        Layout.fillWidth: true
-        height: 30
-
         onPaint: {
             var ctx = getContext("2d")
             ctx.clearRect(0, 0, width, height)

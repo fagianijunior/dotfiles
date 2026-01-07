@@ -19,7 +19,7 @@ PanelWindow {
     }
 
     property int minWidth: 200
-    property int preferredWidth: 270
+    property int preferredWidth: 200
     property bool sensitiveData: false
 
     implicitWidth: 200
@@ -143,7 +143,7 @@ PanelWindow {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 10
+        anchors.margins: 5
 
         // HOSTNAME
         Text {
@@ -248,7 +248,7 @@ PanelWindow {
                         anchors.left: parent.left
                         anchors.right: parent.right
                         anchors.top: parent.top
-                        anchors.margins: 10
+                        anchors.margins: 5
                         spacing: 5
 
                         Text {
@@ -358,7 +358,7 @@ PanelWindow {
             valueSuffix: "%"
 	        maxValue: 100
 	        Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(60, rootPanel.width * 0.3)
+            Layout.preferredHeight: Math.max(20, rootPanel.width * 0.2)
         }
         Process {
             id: cpuProcess
@@ -398,7 +398,7 @@ PanelWindow {
             valueSuffix: "%"
             maxValue: 100
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(60, rootPanel.width * 0.3)
+            Layout.preferredHeight: Math.max(20, rootPanel.width * 0.2)
         }
 
     	// MEMÓRIA
@@ -409,7 +409,7 @@ PanelWindow {
             valueSuffix: "%"
             maxValue: 100
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(60, rootPanel.width * 0.3)
+            Layout.preferredHeight: Math.max(20, rootPanel.width * 0.2)
         }
         
         // SWAP
@@ -420,7 +420,7 @@ PanelWindow {
             valueSuffix: "%"
             maxValue: 100
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(60, rootPanel.width * 0.3)
+            Layout.preferredHeight: Math.max(20, rootPanel.width * 0.2)
         }
         
         // PROCESSO UNIFICADO
@@ -480,7 +480,7 @@ PanelWindow {
             valueSuffix: "°C"
 	        maxValue: 100
 	        Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(60, rootPanel.width * 0.3)
+            Layout.preferredHeight: Math.max(20, rootPanel.width * 0.2)
         }
         Process {
             id: tempProcess
@@ -510,7 +510,7 @@ PanelWindow {
             valueSuffix: "°C"
             maxValue: 100
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(60, rootPanel.width * 0.3)
+            Layout.preferredHeight: Math.max(20, rootPanel.width * 0.2)
         }
 
         Process {
@@ -716,7 +716,7 @@ PanelWindow {
             valueSuffix: " KB/s"
             maxValue: 60000 // escala para até 60 MB/s
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(60, rootPanel.width * 0.3)
+            Layout.preferredHeight: Math.max(20, rootPanel.width * 0.2)
         }
         
         // REDE (UPLOAD)
@@ -727,7 +727,7 @@ PanelWindow {
             valueSuffix: " KB/s"
             maxValue: 30000 // escala para até 30 MB/s
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(60, rootPanel.width * 0.3)
+            Layout.preferredHeight: Math.max(20, rootPanel.width * 0.2)
         }
         
         // PROCESSO UNIFICADO DE REDE
@@ -909,14 +909,13 @@ PanelWindow {
                         anchors.right: closeButton.left
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
-                        anchors.margins: 10
+                        anchors.margins: 5
                         spacing: 5
                         clip: true // Garante que o conteúdo não ultrapasse
                         
                         // CABEÇALHO (App + Tempo)
                         RowLayout {
                             Layout.fillWidth: true
-                            Layout.maximumWidth: parent.width
                             spacing: 5
                             
                             // TÍTULO DA NOTIFICAÇÃO
@@ -930,7 +929,6 @@ PanelWindow {
                                 elide: Text.ElideRight
                                 maximumLineCount: 2
                                 Layout.fillWidth: true
-                                Layout.maximumWidth: parent.width * 0.6
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -946,7 +944,7 @@ PanelWindow {
 
                             Column {
                                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
-                                Layout.maximumWidth: parent.width * 0.35
+                                Layout.preferredWidth: 60
                                 spacing: 2
                                 
                                 Text {
