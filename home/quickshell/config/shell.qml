@@ -4,6 +4,11 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "." // para carregar Graph.qml e PieChart.qml
+import "./cache" // para carregar DiskCacheManager.qml
+import "./filters" // para carregar NotificationFilter.qml
+import "./colors" // para carregar BorderColorManager.qml
+import "./interaction" // para carregar ClickRedirectHandler.qml
+import "./battery" // para carregar BatteryGraph.qml
 
 PanelWindow {
 	id:rootPanel
@@ -20,8 +25,70 @@ PanelWindow {
     implicitWidth: 200
     color: Qt.rgba(36/255, 39/255, 58/255, 0.7) // Catppuccin Macchiato Base color with transparency
 
+    // Disk cache manager for improved performance
+    DiskCacheManager {
+        id: diskCacheManager
+        
+        onCacheLoaded: function(diskData) {
+            console.log("Cache loaded with", diskData.length, "disks")
+            if (diskData.length > 0) {
+                populateDiskModel(diskData)
+            } else {
+                // No cache available, trigger fresh detection
+                diskMonitorProcess.running = true
+            }
+        }
+        
+        onCacheRefreshed: function(diskData) {
+            console.log("Cache refreshed with", diskData.length, "disks")
+            populateDiskModel(diskData)
+        }
+        
+        onCacheError: function(error) {
+            console.error("Disk cache error:", error)
+            // Fallback to direct detection
+            diskMonitorProcess.running = true
+        }
+    }
+
+    // Notification filter for controlling which notifications are displayed
+    NotificationFilter {
+        id: notificationFilter
+    }
+
+    // Border color manager for notification styling
+    BorderColorManager {
+        id: borderColorManager
+    }
+
+    // Click redirect handler for notification interactions
+    ClickRedirectHandler {
+        id: clickRedirectHandler
+        
+        onRedirectFailed: function(appName, error) {
+            console.error("Redirect failed for", appName, ":", error)
+            // You could show a user notification here if desired
+        }
+    }
+
     Component.onCompleted: {
         checksensitiveDataProcess.running = true
+    }
+
+    // Helper function to populate disk model from cache or fresh data
+    function populateDiskModel(diskData) {
+        diskModel.clear()
+        
+        for (let i = 0; i < diskData.length; i++) {
+            let disk = diskData[i]
+            diskModel.append({
+                mountPoint: disk.mountPoint,
+                usage: disk.usage,
+                color: disk.color
+            })
+        }
+        
+        console.log("Disk model populated with", diskData.length, "disks")
     }
 
     Component {
@@ -517,6 +584,10 @@ PanelWindow {
             }
         }
 
+        // BATTERY MONITORING (Device-specific)
+        BatteryGraph {
+            id: batteryGraph
+        }
 
         // GRÁFICOS DE DISCO (DINÂMICOS)
         RowLayout {
@@ -537,9 +608,13 @@ PanelWindow {
                 }
             }
             
-            // Executa imediatamente na inicialização
+            // Executa imediatamente na inicialização se cache não estiver disponível
             Component.onCompleted: {
-                diskMonitorProcess.running = true
+                // Check if we should use cache or trigger fresh detection
+                if (!diskCacheManager.isCacheValid()) {
+                    console.log("No valid cache, starting fresh disk detection")
+                    diskMonitorProcess.running = true
+                }
             }
         }
         
@@ -549,15 +624,13 @@ PanelWindow {
                 # Descobre os pontos de montagem principais dinamicamente
                 df -h | grep -E '^/dev/' | awk '{print $6 ":" $5}' | sed 's/%//' | sort
             `]
-            running: true
+            running: false // Changed to false, will be triggered by cache system or manually
            
             stdout: StdioCollector {
                 onStreamFinished: {
                     let lines = this.text.trim().split('\n')
                     let colors = ["#cba6f7", "#fab387", "#89b4fa", "#a6e3a1", "#f38ba8"] // Mauve, Peach, Blue, Green, Red
-                    
-                    // Limpa o modelo atual
-                    diskModel.clear()
+                    let diskData = []
                     
                     for (let i = 0; i < lines.length && i < colors.length; i++) {
                         let line = lines[i].trim()
@@ -573,12 +646,20 @@ PanelWindow {
                         // Filtra apenas pontos que começam com / e não são temporários
                         if (mountPoint.startsWith("/") && !mountPoint.includes("snap") && 
                             !mountPoint.includes("loop") && mountPoint.length < 20) {
-                            diskModel.append({
+                            diskData.push({
                                 mountPoint: mountPoint,
                                 usage: usage,
                                 color: colors[i % colors.length]
                             })
                         }
+                    }
+                    
+                    // Update the UI immediately
+                    populateDiskModel(diskData)
+                    
+                    // Save to cache for future use
+                    if (diskData.length > 0) {
+                        diskCacheManager.saveDiskCache(diskData)
                     }
                     
                     // Agenda próxima execução
@@ -589,13 +670,22 @@ PanelWindow {
             stderr: StdioCollector {
                 onStreamFinished: {
                     if (this.text.trim() !== "") {
-                        // Em caso de erro, adiciona um item de erro
-                        diskModel.clear()
-                        diskModel.append({
-                            mountPoint: "Erro",
-                            usage: 0,
-                            color: "#f38ba8"
-                        })
+                        console.error("Disk detection error:", this.text.trim())
+                        
+                        // Try to use cached data as fallback
+                        let cachedDisks = diskCacheManager.getCachedDisks()
+                        if (cachedDisks.length > 0) {
+                            console.log("Using cached data as fallback")
+                            populateDiskModel(cachedDisks)
+                        } else {
+                            // Em caso de erro sem cache, adiciona um item de erro
+                            diskModel.clear()
+                            diskModel.append({
+                                mountPoint: "Erro",
+                                usage: 0,
+                                color: "#f38ba8"
+                            })
+                        }
                     }
                     // Agenda próxima execução mesmo com erro
                     diskTimer.start()
@@ -607,7 +697,15 @@ PanelWindow {
             id: diskTimer
             interval: 60000 // 60 segundos
             onTriggered: {
-                diskMonitorProcess.running = true
+                // Check if cache is still valid before triggering fresh detection
+                if (!diskCacheManager.isCacheValid()) {
+                    console.log("Cache expired, triggering fresh disk detection")
+                    diskMonitorProcess.running = true
+                } else {
+                    console.log("Cache still valid, skipping disk detection")
+                    // Just restart the timer for next check
+                    diskTimer.start()
+                }
             }
         }
         // REDE (DOWNLOAD)
@@ -749,10 +847,32 @@ PanelWindow {
                     width: notificationList.width
                     height: Math.max(80, notificationContent.implicitHeight + 20)
                     color: Qt.rgba(0.2, 0.2, 0.2, 0.7)
-                    border.color: "#555555"
-                    border.width: 1
+                    border.color: borderColorManager.getColorForApp(model.appname)
+                    border.width: 2
                     radius: 8
                     clip: true // Importante: evita que o conteúdo ultrapasse os limites
+
+                    // Click handler for notification redirection
+                    MouseArea {
+                        id: notificationClickArea
+                        anchors.fill: parent
+                        anchors.rightMargin: closeButton.width + 10 // Don't overlap with close button
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        
+                        onClicked: {
+                            console.log("Notification clicked for app:", model.appname)
+                            clickRedirectHandler.handleNotificationClick(model.appname, model.id)
+                        }
+                        
+                        onEntered: {
+                            parent.color = Qt.rgba(0.25, 0.25, 0.35, 0.8) // Slightly lighter on hover
+                        }
+                        
+                        onExited: {
+                            parent.color = Qt.rgba(0.2, 0.2, 0.2, 0.7) // Back to original
+                        }
+                    }
 
                     Button {
                         id: closeButton
@@ -928,15 +1048,21 @@ PanelWindow {
                         for (let i = 0; i < notifications.length; i++) {
                             let notification = notifications[i];
                             let notificationId = notification.id?.data || 0;
+                            let appName = notification.appname?.data || "";
 
-                            notificationModel.append({
-                                summary: notification.summary?.data || "",
-                                body: notification.body?.data || "",
-                                appname: notification.appname?.data || "",
-                                urgency: notification.urgency?.data || "",
-                                timestamp: notification.timestamp?.data || 0,
-                                id: notificationId
-                            })
+                            // Apply notification filter
+                            if (notificationFilter.shouldDisplayNotification(appName)) {
+                                notificationModel.append({
+                                    summary: notification.summary?.data || "",
+                                    body: notification.body?.data || "",
+                                    appname: appName,
+                                    urgency: notification.urgency?.data || "",
+                                    timestamp: notification.timestamp?.data || 0,
+                                    id: notificationId
+                                })
+                            } else {
+                                console.log("Notification from", appName, "filtered out")
+                            }
                         }
                         statusText.text = `${notificationModel.count} notificações recentes`
                     } else {
