@@ -4,7 +4,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "." // para carregar Graph.qml e PieChart.qml
-import "./cache" // para carregar DiskCacheManager.qml
 import "./filters" // para carregar NotificationFilter.qml
 import "./colors" // para carregar BorderColorManager.qml
 import "./interaction" // para carregar ClickRedirectHandler.qml
@@ -24,32 +23,6 @@ PanelWindow {
 
     implicitWidth: 200
     color: Qt.rgba(36/255, 39/255, 58/255, 0.7) // Catppuccin Macchiato Base color with transparency
-
-    // Disk cache manager for improved performance
-    DiskCacheManager {
-        id: diskCacheManager
-        
-        onCacheLoaded: function(diskData) {
-            console.log("Cache loaded with", diskData.length, "disks")
-            if (diskData.length > 0) {
-                populateDiskModel(diskData)
-            } else {
-                // No cache available, trigger fresh detection
-                diskMonitorProcess.running = true
-            }
-        }
-        
-        onCacheRefreshed: function(diskData) {
-            console.log("Cache refreshed with", diskData.length, "disks")
-            populateDiskModel(diskData)
-        }
-        
-        onCacheError: function(error) {
-            console.error("Disk cache error:", error)
-            // Fallback to direct detection
-            diskMonitorProcess.running = true
-        }
-    }
 
     // Notification filter for controlling which notifications are displayed
     NotificationFilter {
@@ -73,22 +46,6 @@ PanelWindow {
 
     Component.onCompleted: {
         checksensitiveDataProcess.running = true
-    }
-
-    // Helper function to populate disk model from cache or fresh data
-    function populateDiskModel(diskData) {
-        diskModel.clear()
-        
-        for (let i = 0; i < diskData.length; i++) {
-            let disk = diskData[i]
-            diskModel.append({
-                mountPoint: disk.mountPoint,
-                usage: disk.usage,
-                color: disk.color
-            })
-        }
-        
-        console.log("Disk model populated with", diskData.length, "disks")
     }
 
     Component {
@@ -317,7 +274,7 @@ PanelWindow {
  
         Process {
             id: calendarProcess
-            command: ["bash", "-c", "python3 $HOME/.config/quickshell/get_events.py"]
+            command: ["fish", "-c", "python3 $HOME/.config/quickshell/get_events.py"]
             running: true
  
             stdout: StdioCollector {
@@ -362,7 +319,7 @@ PanelWindow {
         }
         Process {
             id: cpuProcess
-            command: ["bash", "-c", "grep 'cpu ' /proc/stat; sleep 3; grep 'cpu ' /proc/stat"]
+            command: ["fish", "-c", "grep 'cpu ' /proc/stat; sleep 3; grep 'cpu ' /proc/stat"]
             running: true
             stdout: StdioCollector {
                 onStreamFinished: {
@@ -426,7 +383,7 @@ PanelWindow {
         // PROCESSO UNIFICADO
         Process {
             id: memoryMonitorProcess
-            command: ["bash", "-c", "free | grep -E '(Mem.|Swap)'; sleep 3"]
+            command: ["fish", "-c", "free | grep -E '(Mem.|Swap)'; sleep 3"]
             running: true
             
             stdout: StdioCollector {
@@ -484,7 +441,7 @@ PanelWindow {
         }
         Process {
             id: tempProcess
-            command: ["bash", "-c", "sensors | grep -E 'Tctl|Package id 0' | awk '{print $2}' | sed 's/+//;s/°C//' | cut -d'.' -f1 | head -n1; sleep 3"]
+            command: ["fish", "-c", "sensors | grep -E 'Tctl|Package id 0' | awk '{print $2}' | sed 's/+//;s/°C//' | cut -d'.' -f1 | head -n1; sleep 3"]
             running: true
             stdout: StdioCollector {
                 onStreamFinished: {
@@ -515,7 +472,7 @@ PanelWindow {
 
         Process {
             id: gpuUsageProcess
-            command: ["bash", "-c", `
+            command: ["fish", "-c", `
                 GPU_DEVICE_PATH="/sys/class/drm/card1/device"
                 if [ -f "$GPU_DEVICE_PATH/mem_info_vram_total" ] && [ -f "$GPU_DEVICE_PATH/mem_info_vram_used" ]; then
                     VRAM_TOTAL=$(cat "$GPU_DEVICE_PATH/mem_info_vram_total")
@@ -553,7 +510,7 @@ PanelWindow {
 
         Process {
             id: gpuTempProcess
-            command: ["bash", "-c", `
+            command: ["fish", "-c", `
                 HWMON_PATH="/sys/class/drm/card1/device/hwmon/hwmon4"
                 if [ -f "$HWMON_PATH/temp1_input" ]; then
                     TEMP=$(cat "$HWMON_PATH/temp1_input")
@@ -608,23 +565,15 @@ PanelWindow {
                 }
             }
             
-            // Executa imediatamente na inicialização se cache não estiver disponível
             Component.onCompleted: {
-                // Check if we should use cache or trigger fresh detection
-                if (!diskCacheManager.isCacheValid()) {
-                    console.log("No valid cache, starting fresh disk detection")
-                    diskMonitorProcess.running = true
-                }
+                diskMonitorProcess.running = true
             }
         }
         
         Process {
             id: diskMonitorProcess
-            command: ["bash", "-c", `
-                # Descobre os pontos de montagem principais dinamicamente
-                df -h | grep -E '^/dev/' | awk '{print $6 ":" $5}' | sed 's/%//' | sort
-            `]
-            running: false // Changed to false, will be triggered by cache system or manually
+            command: ["fish", "-c", `echo "oi" | df -h | grep -E '^/dev/' | awk '{print $6 ":" $5}' | sed 's/%//' | sort`]
+            running: true
            
             stdout: StdioCollector {
                 onStreamFinished: {
@@ -655,57 +604,36 @@ PanelWindow {
                     }
                     
                     // Update the UI immediately
-                    populateDiskModel(diskData)
+                    diskModel.clear()
                     
-                    // Save to cache for future use
-                    if (diskData.length > 0) {
-                        diskCacheManager.saveDiskCache(diskData)
+                    for (let i = 0; i < diskData.length; i++) {
+                        let disk = diskData[i]
+                        diskModel.append({
+                            mountPoint: disk.mountPoint,
+                            usage: disk.usage,
+                            color: disk.color
+                        })
                     }
-                    
+                    console.log("Disk model populated with", diskData.length, "disks")
+                                        
                     // Agenda próxima execução
                     diskTimer.start()
                 }
-            }
-            
-            stderr: StdioCollector {
+            }    stderr: StdioCollector {
                 onStreamFinished: {
                     if (this.text.trim() !== "") {
-                        console.error("Disk detection error:", this.text.trim())
-                        
-                        // Try to use cached data as fallback
-                        let cachedDisks = diskCacheManager.getCachedDisks()
-                        if (cachedDisks.length > 0) {
-                            console.log("Using cached data as fallback")
-                            populateDiskModel(cachedDisks)
-                        } else {
-                            // Em caso de erro sem cache, adiciona um item de erro
-                            diskModel.clear()
-                            diskModel.append({
-                                mountPoint: "Erro",
-                                usage: 0,
-                                color: "#f38ba8"
-                            })
-                        }
+                        diskChartsLayout.children[0].label = "Disco (Erro)"
                     }
-                    // Agenda próxima execução mesmo com erro
-                    diskTimer.start()
                 }
             }
         }
         
         Timer {
             id: diskTimer
-            interval: 60000 // 60 segundos
+            interval: 600000 // 10 minutos
+            running: true
             onTriggered: {
-                // Check if cache is still valid before triggering fresh detection
-                if (!diskCacheManager.isCacheValid()) {
-                    console.log("Cache expired, triggering fresh disk detection")
-                    diskMonitorProcess.running = true
-                } else {
-                    console.log("Cache still valid, skipping disk detection")
-                    // Just restart the timer for next check
-                    diskTimer.start()
-                }
+                diskMonitorProcess.running = true
             }
         }
         // REDE (DOWNLOAD)
@@ -733,7 +661,8 @@ PanelWindow {
         // PROCESSO UNIFICADO DE REDE
         Process {
             id: networkMonitorProcess
-            command: ["bash", "-c", `
+            running: true
+            command: ["fish", "-c", `
                 IFACE=$(ip route | grep '^default' | awk '{print $5; exit}')
                 RX1=$(cat /sys/class/net/$IFACE/statistics/rx_bytes)
                 TX1=$(cat /sys/class/net/$IFACE/statistics/tx_bytes)
@@ -743,7 +672,6 @@ PanelWindow {
                 echo "DOWN:$(( (RX2 - RX1) / 3 / 1024 ))"
                 echo "UP:$(( (TX2 - TX1) / 3 / 1024 ))"
             `]
-            running: true
             
             stdout: StdioCollector {
                 onStreamFinished: {
