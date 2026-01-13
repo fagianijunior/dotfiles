@@ -127,7 +127,7 @@
         matching = "fuzzy";
         sorting-method = "fzf";
 
-        disable-history = true;
+        disable-history = false;
       };
     };
     hyprlock = {

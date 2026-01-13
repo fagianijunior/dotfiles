@@ -18,10 +18,6 @@
     "opaque, title:^(Netflix)(.*)$"
     "opaque, title:^(.*)(Youtube)(.*)$"
     "suppressevent maximize, class:.*"
-    "pin, title:^([Pp]icture[-\s]?[Ii]n[-\s]?[Pp]icture)(.*)$ "
-    "opacity 1.0 1.0, class:^(ClickUp)$"
-    "opacity 1.0 1.0, class:^(Slack)$"
-    "opacity 1.0 1.0, class:^(org.telegram.desktop)$"
-    "opacity 1.0 1.0, class:^(firefox)$, title:^(WhatsApp — Mozilla Firefox)$"
+    "pin, title:^([Pp]icture[-\s]?[Ii]n[-\s]?[Pp]icture)(.*)$"
   ];
 }

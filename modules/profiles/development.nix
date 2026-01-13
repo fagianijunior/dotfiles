@@ -52,6 +52,12 @@
         google-auth-oauthlib
         google-auth
         gssapi
+        requests
+        ollama
+        colorama
+        pandas
+        prompt-toolkit
+        tiktoken
       ]
     ))
   ];

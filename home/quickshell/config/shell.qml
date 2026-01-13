@@ -472,21 +472,24 @@ PanelWindow {
 
         Process {
             id: gpuUsageProcess
-            command: ["fish", "-c", `
-                GPU_DEVICE_PATH="/sys/class/drm/card1/device"
-                if [ -f "$GPU_DEVICE_PATH/mem_info_vram_total" ] && [ -f "$GPU_DEVICE_PATH/mem_info_vram_used" ]; then
-                    VRAM_TOTAL=$(cat "$GPU_DEVICE_PATH/mem_info_vram_total")
-                    VRAM_USED=$(cat "$GPU_DEVICE_PATH/mem_info_vram_used")
-                    if [ "$VRAM_TOTAL" -gt 0 ]; then
-                        echo "scale=0; ($VRAM_USED * 100) / $VRAM_TOTAL" | bc
+            command: ["fish", "-c", "
+                set GPU_DEVICE_PATH /sys/class/drm/card1/device
+
+                if test -f \"$GPU_DEVICE_PATH/mem_info_vram_total\" -a -f \"$GPU_DEVICE_PATH/mem_info_vram_used\"
+                    set VRAM_TOTAL (cat \"$GPU_DEVICE_PATH/mem_info_vram_total\")
+                    set VRAM_USED  (cat \"$GPU_DEVICE_PATH/mem_info_vram_used\")
+
+                    if test $VRAM_TOTAL -gt 0
+                        math \"($VRAM_USED * 100) / $VRAM_TOTAL\"
                     else
-                        echo "0"
-                    fi
+                        echo 0
+                    end
                 else
-                    echo "-1" # Indica erro
-                fi
+                    echo -1
+                end
+
                 sleep 3
-            `]
+            "]
             running: true
             stdout: StdioCollector {
                 onStreamFinished: {
@@ -510,16 +513,18 @@ PanelWindow {
 
         Process {
             id: gpuTempProcess
-            command: ["fish", "-c", `
-                HWMON_PATH="/sys/class/drm/card1/device/hwmon/hwmon4"
-                if [ -f "$HWMON_PATH/temp1_input" ]; then
-                    TEMP=$(cat "$HWMON_PATH/temp1_input")
-                    echo $((TEMP / 1000))
+            command: ["fish", "-c", "
+                set HWMON_PATH /sys/class/drm/card1/device/hwmon/hwmon4
+
+                if test -f \"$HWMON_PATH/temp1_input\"
+                    set TEMP (cat \"$HWMON_PATH/temp1_input\")
+                    math \"$TEMP / 1000\"
                 else
-                    echo "-1" # Indica erro
-                fi
+                    echo -1
+                end
+
                 sleep 3
-            `]
+            "]
             running: true
             stdout: StdioCollector {
                 onStreamFinished: {
@@ -662,16 +667,18 @@ PanelWindow {
         Process {
             id: networkMonitorProcess
             running: true
-            command: ["fish", "-c", `
-                IFACE=$(ip route | grep '^default' | awk '{print $5; exit}')
-                RX1=$(cat /sys/class/net/$IFACE/statistics/rx_bytes)
-                TX1=$(cat /sys/class/net/$IFACE/statistics/tx_bytes)
+            command: ["fish", "-c", "
+                set IFACE (ip route | grep '^default' | awk '{print $5; exit}')
+                set RX1 (cat /sys/class/net/$IFACE/statistics/rx_bytes)
+                set TX1 (cat /sys/class/net/$IFACE/statistics/tx_bytes)
                 sleep 3
-                RX2=$(cat /sys/class/net/$IFACE/statistics/rx_bytes)
-                TX2=$(cat /sys/class/net/$IFACE/statistics/tx_bytes)
-                echo "DOWN:$(( (RX2 - RX1) / 3 / 1024 ))"
-                echo "UP:$(( (TX2 - TX1) / 3 / 1024 ))"
-            `]
+                set RX2 (cat /sys/class/net/$IFACE/statistics/rx_bytes)
+                set TX2 (cat /sys/class/net/$IFACE/statistics/tx_bytes)
+                set DOWN (math \"($RX2 - $RX1) / 3 / 1024\")
+                set UP   (math \"($TX2 - $TX1) / 3 / 1024\")
+                echo \"DOWN:$DOWN\"
+                echo \"UP:$UP\"
+            "]
             
             stdout: StdioCollector {
                 onStreamFinished: {

@@ -24,7 +24,6 @@ in
       type = types.attrsOf types.str;
       default = {
         HSA_OVERRIDE_GFX_VERSION = "10.3.0";
-        ROC_ENABLE_PRE_VEGA = "1";
       };
       description = "ROCm environment variables for compatibility";
     };

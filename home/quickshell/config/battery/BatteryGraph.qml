@@ -43,46 +43,60 @@ Graph {
     // Battery monitoring process
     Process {
         id: batteryMonitorProcess
-        command: ["bash", "-c", `
-            # Check if battery exists
-            if [ ! -d "/sys/class/power_supply/BAT0" ] && [ ! -d "/sys/class/power_supply/BAT1" ]; then
-                echo "ERROR:No battery found"
-                exit 1
-            fi
-            
-            # Find the first available battery
-            BATTERY_PATH=""
-            for bat in /sys/class/power_supply/BAT*; do
-                if [ -d "$bat" ]; then
-                    BATTERY_PATH="$bat"
+    // command: ["fish", "-c", "
+    //     set LEVEL -1
+    //     set STATUS Unknown
+
+    //     for ps in /sys/class/power_supply/*
+    //         if test -f \"$ps/type\"; and test (cat \"$ps/type\") = Battery
+    //             if test -f \"$ps/capacity\"
+    //                 set LEVEL (cat \"$ps/capacity\")
+    //             end
+    // 
+    //             if test -f \"$ps/status\"
+    //                 set STATUS (cat \"$ps/status\")
+    //             end
+    //             break
+    //         end
+    //     end
+    // 
+    //     echo \"LEVEL=$LEVEL STATUS=$STATUS\"
+    //     sleep 30
+    // "]
+
+
+        command: ["fish", "-c", "
+            set BATTERY_PATH \"\"
+
+            for ps in /sys/class/power_supply/*
+                if test -f \"$ps/type\"; and test (cat \"$ps/type\") = Battery
+                    set BATTERY_PATH $ps
                     break
-                fi
-            done
-            
-            if [ -z "$BATTERY_PATH" ]; then
-                echo "ERROR:No battery path found"
+                end
+            end
+
+            if test -z \"$BATTERY_PATH\"
+                echo \"ERROR:No battery found\"
                 exit 1
-            fi
-            
-            # Read battery information
-            if [ -f "$BATTERY_PATH/capacity" ]; then
-                CAPACITY=$(cat "$BATTERY_PATH/capacity")
-            else
-                echo "ERROR:Cannot read battery capacity"
+            end
+
+            if not test -f \"$BATTERY_PATH/capacity\"
+                echo \"ERROR:Cannot read battery capacity\"
                 exit 1
-            fi
-            
-            # Check charging status
-            STATUS="Unknown"
-            if [ -f "$BATTERY_PATH/status" ]; then
-                STATUS=$(cat "$BATTERY_PATH/status")
-            fi
-            
-            echo "LEVEL:$CAPACITY"
-            echo "STATUS:$STATUS"
-            
+            end
+
+            set CAPACITY (cat \"$BATTERY_PATH/capacity\")
+
+            set STATUS Unknown
+            if test -f \"$BATTERY_PATH/status\"
+                set STATUS (cat \"$BATTERY_PATH/status\")
+            end
+
+            echo \"LEVEL:$CAPACITY\"
+            echo \"STATUS:$STATUS\"
+
             sleep 30
-        `]
+        "]
         running: false // Will be started by device detector
         
         stdout: StdioCollector {

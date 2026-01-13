@@ -3,19 +3,19 @@
     rounding = 10;
     blur = {
       enabled = true;
-      size    = 8;
-      passes  = 3;
+      size = 8;
+      passes = 3;
       new_optimizations = true;
       ignore_opacity = false;
     };
-    active_opacity      = 0.9;
-    inactive_opacity    = 0.9;
-    fullscreen_opacity  = 0.9;
+    active_opacity = 0.9;
+    inactive_opacity = 0.7;
+    fullscreen_opacity = 1.0;
   };
 
   animations = {
     enabled = true;
-    bezier  = "myBezier, 0.05, 0.9, 0.1, 1.05";
+    bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
     animation = [
       "windows, 1, 7, myBezier"
       "windowsOut, 1, 7, default, popin 80%"
