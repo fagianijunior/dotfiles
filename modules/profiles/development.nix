@@ -36,6 +36,7 @@
 
     # AWS Tools
     ssm-session-manager-plugin
+    awscli
 
     # Python with packages
     (python3.withPackages (

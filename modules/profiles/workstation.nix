@@ -106,6 +106,7 @@
         allow id 8888:5678 # MV-SILICON mvsilicon B1 usb audio
         allow id 048d:04d2 # Integrated Technology Express, Inc. UDisk
         allow id 21c4:0cd1 # Lexar USB Flash Drive
+        allow id 048d:1234 # Integrated Technology Express, Inc. Chipsbank CBM2199 Flash Drive
       '';
     };
   };
