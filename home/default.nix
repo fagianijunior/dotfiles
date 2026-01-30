@@ -6,6 +6,7 @@
     ./neovim
     ./firefox
     ./quickshell
+    ./wofi
     ./vscode
     ./git.nix
     ./wezterm.nix
@@ -60,7 +61,6 @@
     tree
 
     # Wayland / Hyprland
-    wofi
     swaynotificationcenter
     grim
     slurp
@@ -110,26 +110,6 @@
   ############################
 
   programs = {
-    rofi = {
-      enable = true;
-
-      extraConfig = {
-        modi = "drun";
-        show-icons = true;
-        terminal = "wezterm";
-
-        drun-display-format = "{icon} {name}";
-        display-drun = " 🚀 Apps ";
-
-        sidebar-mode = true;
-        hide-scrollbar = true;
-
-        matching = "fuzzy";
-        sorting-method = "fzf";
-
-        disable-history = false;
-      };
-    };
     hyprlock = {
       enable = true;
       settings = {

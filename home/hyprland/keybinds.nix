@@ -8,8 +8,7 @@
     "$mainMod CTRL, P, exec, fish -c screenshot_edit"
     "$mainMod SHIFT, R, exec, fish -c record_screen_gif"
     "$mainMod CTRL, R, exec, fish -c record_screen_mp4"
-    "$mainMod, V, exec, fish -c clipboard_to_type"
-    "$mainMod SHIFT, V, exec, fish -c clipboard_to_wlcopy"
+    "$mainMod, V, exec, cliphist list | wofi --dmenu --pre-display-cmd \"echo '%s' | cut -f 2\" | cliphist decode | wl-copy"
     "$mainMod, X, exec, fish -c clipboard_delete_item"
     "$mainMod SHIFT, X, exec, fish -c clipboard_clear"
     "$mainMod, U, exec, fish -c bookmark_to_type"
@@ -41,7 +40,6 @@
     "$mainMod SHIFT, G, movetoworkspace, speci"
     "$mainMod, mouse_down, workspace, e+1"
     "$mainMod, mouse_up, workspace, e-1"
-    "$mainMod CTRL, V, exec, pypr toggle volume"
     "$mainMod, M, exec, fish -c logitech-change-host"
   ]
   ++ (builtins.concatLists (

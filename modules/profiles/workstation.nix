@@ -37,7 +37,7 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-wlr
+      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };
@@ -132,13 +132,14 @@
     hyprpicker
     hyprcursor
     hyprpolkitagent
+    hyprland-qt-support
+    hyprland-qtutils
 
     # Terminal and shell
     wezterm
     vim
 
     # Wayland tools
-    rofi
     wofi
     brightnessctl
     avizo

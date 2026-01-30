@@ -135,6 +135,8 @@
         "workbench.editor.enablePreview" = false;
 
         "window.commandCenter" = true;
+
+        "gitlens.ai.model" = "vscode";
       };
       extensions = with pkgs.vscode-extensions; [
         hashicorp.terraform
