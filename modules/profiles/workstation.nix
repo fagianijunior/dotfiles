@@ -171,5 +171,9 @@
     vorta
     mldonkey
     biber
+    
+    # Task management
+    taskwarrior3
+    taskwarrior-tui
   ];
 }

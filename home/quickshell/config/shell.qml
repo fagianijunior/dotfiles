@@ -8,6 +8,7 @@ import "./filters" // para carregar NotificationFilter.qml
 import "./colors" // para carregar BorderColorManager.qml
 import "./interaction" // para carregar ClickRedirectHandler.qml
 import "./battery" // para carregar BatteryGraph.qml
+import "./taskwarrior" // para carregar TaskwarriorWidget.qml
 
 PanelWindow {
 	id:rootPanel
@@ -270,6 +271,12 @@ PanelWindow {
             color: "#f38ba8"
             visible: false
             Layout.alignment: Qt.AlignHCenter
+        }
+        
+        // TASKWARRIOR
+        TaskwarriorWidget {
+            Layout.fillWidth: true
+            visible: !rootPanel.sensitiveData
         }
  
         Process {

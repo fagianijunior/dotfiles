@@ -7,6 +7,8 @@
     ./firefox
     ./quickshell
     ./wofi
+    ./taskwarrior
+    ./taskwarrior-tui
     ./vscode
     ./git.nix
     ./wezterm.nix

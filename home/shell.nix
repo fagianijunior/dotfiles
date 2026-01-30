@@ -6,6 +6,16 @@
     cat = "bat --style=numbers,changes --color=always";
     lgit = "lazygit";
     ldocker = "lazydocker";
+    
+    # Taskwarrior aliases
+    t = "task";
+    ta = "task add";
+    tl = "task list";
+    tn = "task next";
+    tc = "task completed";
+    tw = "task waiting";
+    ti = "task inbox";
+    tt = "taskwarrior-tui";
   };
 
   programs = {
