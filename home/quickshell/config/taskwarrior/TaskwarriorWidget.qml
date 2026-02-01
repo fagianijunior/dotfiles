@@ -29,7 +29,7 @@ ColumnLayout {
     // Process to get tasks (with StdioCollector)
     Process {
         id: taskProcess
-        command: ["bash", "-c", "task export status:pending limit:5 2>&1"]
+        command: ["bash", "-c", "task status.not:deleted status.not:completed export 2>&1"]
         
         stdout: StdioCollector {
             onStreamFinished: {
@@ -233,6 +233,14 @@ ColumnLayout {
                 }
             }
         }
+    }
+    
+    // Spacer
+    Rectangle {
+        Layout.fillWidth: true
+        height: 15
+        color: "transparent"
+        visible: tasks.length > 0
     }
     
     // Empty state

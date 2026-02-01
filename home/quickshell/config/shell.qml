@@ -281,7 +281,7 @@ PanelWindow {
  
         Process {
             id: calendarProcess
-            command: ["fish", "-c", "python3 $HOME/.config/quickshell/get_events.py"]
+            command: ["fish", "-c", "$HOME/.local/bin/python3-google $HOME/.config/quickshell/get_events.py"]
             running: true
  
             stdout: StdioCollector {

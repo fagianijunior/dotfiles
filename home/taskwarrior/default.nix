@@ -1,30 +1,51 @@
 { config, pkgs, ... }:
 
+let
+  # Python with AI dependencies for taskwarrior
+  pythonWithAI = pkgs.python3.withPackages (
+    ps: with ps; [
+      requests
+    ]
+  );
+in
 {
+  imports = [
+    ./systemd-services.nix
+  ];
+
+  # Dependências para IA
+  home.packages = with pkgs; [
+    python3
+    python3Packages.requests
+  ];
+
+  # Create a symlink to python with AI packages for development
+  home.file.".local/bin/python3-ai".source = "${pythonWithAI}/bin/python3";
+
   # Taskwarrior configuration
   xdg.configFile."task/taskrc".text = ''
     # Taskwarrior 3 Configuration
-    
+
     # Data location
     data.location=~/.local/share/task
-    
+
     # Default command
     default.command=next
-    
+
     # Date format
     dateformat=Y-M-D H:N:S
     dateformat.report=Y-M-D
     dateformat.holiday=YMD
     dateformat.annotation=Y-M-D
-    
+
     # Week starts on Monday
     weekstart=monday
-    
+
     # Display settings
     displayweeknumber=yes
     list.all.projects=yes
     list.all.tags=yes
-    
+
     # Colors (Catppuccin Macchiato theme)
     color.active=rgb013
     color.alternate=on_rgb233
@@ -74,7 +95,7 @@
     color.undo.before=red
     color.until=
     color.warning=bold red
-    
+
     # Urgency coefficients
     urgency.user.project.Inbox.coefficient=15.0
     urgency.user.project.Work.coefficient=10.0
@@ -89,45 +110,65 @@
     urgency.annotations.coefficient=1.0
     urgency.tags.coefficient=1.0
     urgency.project.coefficient=1.0
-    
+
     # Reports
     report.next.columns=id,start.age,entry.age,depends,priority,project,tag,recur,scheduled.countdown,due.relative,until.remaining,description,urgency
     report.next.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,S,Due,Until,Description,Urg
     report.next.sort=urgency-
-    report.next.filter=status:pending limit:page
-    
+    report.next.filter=status.not:completed and status.not:deleted
+
     # Custom reports
     report.inbox.description=Inbox tasks
     report.inbox.columns=id,description
     report.inbox.sort=entry+
     report.inbox.filter=status:pending project:Inbox
-    
+
     report.waiting.description=Waiting tasks
     report.waiting.columns=id,description,project,tag
     report.waiting.sort=entry+
     report.waiting.filter=status:waiting
-    
+
     # Aliases
     alias.burndown=burndown.weekly
     alias.ghistory=ghistory.monthly
     alias.history=history.monthly
     alias.rm=delete
-    
+
     # Context definitions
     context.work=project:Work or +work
     context.personal=project:Personal or +personal
-    
+
     # Sync settings (uncomment and configure if using sync)
     # taskd.certificate=~/.task/private.certificate.pem
     # taskd.key=~/.task/private.key.pem
     # taskd.ca=~/.task/ca.cert.pem
     # taskd.server=host.domain:53589
     # taskd.credentials=Org/First Last/cf31f287-ee9e-43a8-843e-e8bbd5de4294
-    
+
     # Include system taskrc if it exists
     include /etc/taskrc
   '';
-  
+
   # Create data directory
   home.file.".local/share/task/.keep".text = "";
+
+  # Scripts de IA
+  home.file.".config/task/ai-assistant.py".source = ./ai-assistant.py;
+  home.file.".config/task/daily-ai-report.sh".source = ./daily-ai-report.sh;
+
+  # Aliases para facilitar o uso
+  home.file.".config/fish/conf.d/taskwarrior-ai.fish".text = ''
+    # Aliases para Taskwarrior com IA
+    alias tai="~/.local/bin/python3-ai ~/.config/task/ai-assistant.py"
+    alias task-analyze="tai analyze"
+    alias task-plan="tai plan"
+    alias task-improve="tai improve"
+    alias task-report="~/.config/task/daily-ai-report.sh"
+
+    # Função para análise rápida
+    function task-ai-quick
+        echo "🤖 Análise rápida das tarefas:"
+        tai analyze | head -20
+    end
+  '';
 }
