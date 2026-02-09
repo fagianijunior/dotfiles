@@ -27,6 +27,7 @@ QtObject {
                                "blockList:", notificationFilter.blockList.length,
                                "allowList:", notificationFilter.allowList.length,
                                "default:", notificationFilter.defaultBehavior)
+                    console.log("config details:", config)
                 } else {
                     console.log("No valid filter config found, using defaults")
                     notificationFilter.configLoaded = true

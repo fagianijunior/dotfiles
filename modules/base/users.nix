@@ -15,6 +15,7 @@
       "gamemod"
       "libvirtd"
       "render"
+      "waydroid"
     ];
   };
 }

@@ -5,6 +5,7 @@
     legendary-gl
     heroic
     nile
+    lutris
   ];
 
   programs = {

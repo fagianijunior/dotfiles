@@ -272,12 +272,6 @@ PanelWindow {
             visible: false
             Layout.alignment: Qt.AlignHCenter
         }
-        
-        // TASKWARRIOR
-        TaskwarriorWidget {
-            Layout.fillWidth: true
-            visible: !rootPanel.sensitiveData
-        }
  
         Process {
             id: calendarProcess
@@ -313,7 +307,13 @@ PanelWindow {
                 }
             }
         }
- 
+
+        // TASKWARRIOR
+        TaskwarriorWidget {
+            Layout.fillWidth: true
+            visible: !rootPanel.sensitiveData
+        }
+         
         // CPU
         Graph {
             id: cpuGraph

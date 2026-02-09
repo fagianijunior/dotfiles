@@ -13,22 +13,26 @@ in
 {
   programs.firefox = {
     enable = true;
-    package = (pkgs.wrapFirefox (pkgs.firefox-unwrapped.override { pipewireSupport = true;}) {});
+    package = (pkgs.wrapFirefox (pkgs.firefox-unwrapped.override { pipewireSupport = true; }) { });
 
-    /* ---- PROFILES ---- */
+    # ---- PROFILES ----
     # Switch profiles via about:profiles page.
     # For options that are available in Home-Manager see
     # https://nix-community.github.io/home-manager/options.html#opt-programs.firefox.profiles
     profiles = {
-      fagiani = {           # choose a profile name; directory is /home/<user>/.mozilla/firefox/profile_0
+      fagiani = {
+        # choose a profile name; directory is /home/<user>/.mozilla/firefox/profile_0
         extensions.force = true;
-        id = 0;               # 0 is the default profile; see also option "isDefault"
-        name = "Fagiani";      # name as listed in about:profiles
-        isDefault = true;     # can be omitted; true if profile ID is 0
+        id = 0; # 0 is the default profile; see also option "isDefault"
+        name = "Fagiani"; # name as listed in about:profiles
+        isDefault = true; # can be omitted; true if profile ID is 0
       };
     };
-    languagePacks = [ "pt-BR" "en-US" ];
-    /* ---- POLICIES ---- */
+    languagePacks = [
+      "pt-BR"
+      "en-US"
+    ];
+    # ---- POLICIES ----
     # Check about:policies#documentation for options.
     policies = {
       DisableTelemetry = true;
@@ -48,7 +52,7 @@ in
       DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
       SearchBar = "unified"; # alternative: "separate"
 
-      /* ---- EXTENSIONS ---- */
+      # ---- EXTENSIONS ----
       # Check about:support for extension/add-on ID strings.
       # Valid strings for installation_mode are "allowed", "blocked",
       # "force_installed" and "normal_installed".
@@ -69,6 +73,10 @@ in
           install_url = "https://addons.mozilla.org/firefox/downloads/file/3958203/latest.xpi";
           installation_mode = "force_installed";
         };
+        "FirefoxColor@mozilla.com" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/3643624/latest.xpi";
+          installation_mode = "force_installed";
+        };
         # Corretor Português:
         "pt-BR@dictionaries.addons.mozilla.org" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/file/4223181/latest.xpi";
@@ -76,18 +84,24 @@ in
         };
       };
 
-      /* ---- PREFERENCES ---- */
+      # ---- PREFERENCES ----
       # Check about:config for options.
-      Preferences = { 
+      Preferences = {
         "extensions.pocket.enabled" = lock-false;
         "extensions.update.enabled" = lock-true;
-        "extensions.autoDisableScopes" = { Value = 15; Status = "locked"; };
+        "extensions.autoDisableScopes" = {
+          Value = 15;
+          Status = "locked";
+        };
         # "extensions.screenshots.disabled" = lock-true;
         "browser.topsites.contile.enabled" = lock-false;
         "browser.formfill.enable" = lock-false;
         "browser.search.suggest.enabled" = lock-true;
         "browser.search.suggest.enabled.private" = lock-true;
-        "browser.startup.page" = { Value = 3; Status = "locked"; };
+        "browser.startup.page" = {
+          Value = 3;
+          Status = "locked";
+        };
 
         "browser.sessionstore.resume_session_once" = lock-true;
         "browser.urlbar.suggest.searches" = lock-false;
