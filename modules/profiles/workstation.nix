@@ -164,7 +164,7 @@
     adwaita-icon-theme
 
     # Essential tools
-    kiro
+    kiro-fhs
     quickshell
     ueberzugpp
     qtcreator
