@@ -28,6 +28,7 @@
     git-secrets
     pass-git-helper
     license-generator
+    git-remote-codecommit
 
     # Development Environment
     devenv
