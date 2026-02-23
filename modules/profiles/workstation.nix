@@ -80,6 +80,7 @@
         # Common
         allow id 1d6b:0002 # Linux Foundation 2.0 root hub
         allow id 1d6b:0003 # Linux Foundation 3.0 root hub
+        allow id 10c4:ea60 # USB to serial
 
         # Doraemon
         allow id 2109:0103 # VIA Labs, Inc. USB 2.0 BILLBOARD
@@ -171,7 +172,7 @@
     vorta
     mldonkey
     biber
-    
+
     # Task management
     taskwarrior3
     taskwarrior-tui
