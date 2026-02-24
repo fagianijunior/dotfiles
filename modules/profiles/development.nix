@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     # Development Tools
+    qemu
     gcc
     bash
     dbus
@@ -68,9 +69,5 @@
   virtualisation = {
     libvirtd.enable = true;
     docker.enable = true;
-    waydroid = {
-      enable = true;
-      package = pkgs.waydroid-nftables;
-    };
   };
 }

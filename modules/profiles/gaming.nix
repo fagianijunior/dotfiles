@@ -6,6 +6,7 @@
     heroic
     nile
     lutris
+    vinegar
   ];
 
   programs = {

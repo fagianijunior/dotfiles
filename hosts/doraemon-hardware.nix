@@ -11,6 +11,8 @@
 
   boot.resumeDevice = "/dev/mapper/cryptswap";
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   fileSystems = {
     "/" = {
       device = "/dev/mapper/cryptroot";
@@ -19,7 +21,10 @@
     "/boot" = {
       device = "/dev/disk/by-uuid/E503-847E";
       fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
     };
   };
 

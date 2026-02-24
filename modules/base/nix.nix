@@ -8,6 +8,10 @@
     };
 
     settings = {
+      # Enable experimental features and set trusted users for Nix.
+      # Used to build OrangePiZero2 and other ARM64 devices.
+      extra-platforms = [ "aarch64-linux" ];
+
       experimental-features = [
         "nix-command"
         "flakes"
