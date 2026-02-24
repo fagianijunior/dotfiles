@@ -82,11 +82,43 @@
             )
           ];
         };
+
+      # Configuração simplificada para servidor (sem home-manager)
+      mkServer =
+        {
+          hostname,
+          system ? "aarch64-linux",
+          configPath,
+        }:
+        lib.nixosSystem {
+          inherit system;
+
+          modules = [
+            configPath
+
+            (
+              { pkgs, ... }:
+              {
+                networking.hostName = hostname;
+                nixpkgs.config.allowUnfree = true;
+
+                nixpkgs.overlays = [
+                  (import ./pkgs/overlays.nix)
+                ];
+              }
+            )
+          ];
+        };
     in
     {
       nixosConfigurations = {
         doraemon = mkHost { hostname = "doraemon"; };
         nobita = mkHost { hostname = "nobita"; };
+        orangepizero2 = mkServer {
+          hostname = "orangepizero2";
+          system = "aarch64-linux";
+          configPath = ./nixos-orangepizero2/orangepizero2.nix;
+        };
       };
     };
 }
