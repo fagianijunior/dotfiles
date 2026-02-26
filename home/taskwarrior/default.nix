@@ -11,6 +11,7 @@ in
 {
   imports = [
     ./systemd-services.nix
+    ./sync-config.nix
   ];
 
   # Dependências para IA

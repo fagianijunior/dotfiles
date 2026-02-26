@@ -62,6 +62,11 @@
                 home-manager.useUserPackages = true;
 
                 home-manager.backupFileExtension = "back.tar.gz";
+                
+                # Passar hostname para home-manager
+                home-manager.extraSpecialArgs = {
+                  hostName = hostname;
+                };
 
                 home-manager.users.terabytes = {
                   imports = [
