@@ -84,6 +84,21 @@ Rectangle {
         return false
     }
     
+    // Helper function to check if any task is active
+    function hasActiveTask() {
+        if (!taskArray || taskArray.length === 0) {
+            return false
+        }
+        
+        for (var i = 0; i < taskArray.length; i++) {
+            if (taskArray[i].start !== undefined && taskArray[i].start !== "") {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     // Content layout
     ColumnLayout {
         anchors.fill: parent
@@ -163,6 +178,14 @@ Rectangle {
                             mouse.accepted = false
                         }
                     }
+                }
+                
+                // Active task indicator
+                Text {
+                    visible: taskCard.hasActiveTask()
+                    text: "▶"
+                    color: "#89b4fa"
+                    font.pixelSize: 8
                 }
                 
                 // Task count badge

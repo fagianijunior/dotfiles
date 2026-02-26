@@ -138,7 +138,7 @@
 
     # Terminal and shell
     wezterm
-    vim
+    # vim removed - using neovim with vim alias instead
 
     # Wayland tools
     wofi

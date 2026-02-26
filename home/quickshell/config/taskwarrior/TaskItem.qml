@@ -6,6 +6,7 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 
 Rectangle {
     id: taskItem
@@ -304,46 +305,76 @@ Rectangle {
                 
                 // MouseArea for terminal launch and tooltip
                 MouseArea {
+                    id: descriptionMouseArea
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     
-                    property var tooltip: null
-                    
-                    Component.onCompleted: {
-                        if (taskItem.task && taskItem.task.description && descriptionText.truncated) {
-                            tooltip = Qt.createQmlObject(`
-                                import QtQuick
-                                import QtQuick.Controls
-                                ToolTip {
-                                    background: Rectangle {
-                                        color: "#24273a"
-                                        border.color: "#89b4fa"
-                                        border.width: 1
-                                        radius: 4
-                                    }
-                                    contentItem: Text {
-                                        text: "${(taskItem.task.description || "Task").replace(/"/g, '\\"').replace(/\n/g, ' ')}"
-                                        color: "#cad3f5"
-                                        font.pixelSize: 11
-                                        padding: 8
-                                        wrapMode: Text.WordWrap
-                                    }
-                                }
-                            `, parent)
+                    onEntered: {
+                        if (taskItem.task && taskItem.task.description) {
+                            tooltipTimer.start()
                         }
                     }
                     
-                    onEntered: {
-                        if (tooltip && descriptionText.truncated) tooltip.visible = true
-                    }
                     onExited: {
-                        if (tooltip) tooltip.visible = false
+                        tooltipTimer.stop()
+                        if (tooltipPopup.visible) {
+                            tooltipPopup.close()
+                        }
                     }
+                    
                     onClicked: {
                         if (taskItem.task && taskItem.task.uuid) {
                             taskItem.openTaskInTerminal(taskItem.task.uuid)
                         }
+                    }
+                    
+                    Timer {
+                        id: tooltipTimer
+                        interval: 500
+                        onTriggered: {
+                            if (descriptionMouseArea.containsMouse && taskItem.task && taskItem.task.description) {
+                                tooltipPopup.open()
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Tooltip popup
+            Popup {
+                id: tooltipPopup
+                x: descriptionText.x
+                y: descriptionText.y + descriptionText.height + 4
+                width: Math.min(400, taskItem.width * 0.8)
+                padding: 8
+                closePolicy: Popup.NoAutoClose
+                
+                background: Rectangle {
+                    color: "#24273a"
+                    border.color: "#89b4fa"
+                    border.width: 1
+                    radius: 4
+                }
+                
+                contentItem: Column {
+                    spacing: 4
+                    width: parent.width
+                    
+                    Text {
+                        text: "ID: " + (taskItem.task && taskItem.task.id ? taskItem.task.id : "N/A")
+                        color: "#89b4fa"
+                        font.pixelSize: 10
+                        font.bold: true
+                        width: parent.width
+                    }
+                    
+                    Text {
+                        text: taskItem.task ? (taskItem.task.description || "") : ""
+                        color: "#cad3f5"
+                        font.pixelSize: 11
+                        wrapMode: Text.WordWrap
+                        width: parent.width
                     }
                 }
             }
@@ -353,31 +384,13 @@ Rectangle {
                 Layout.fillWidth: true
                 spacing: 6  // Reduced from 8
                 
-                // Active indicator (for tasks being worked on)
-                Rectangle {
-                    visible: taskItem.isTaskActive(taskItem.task)
-                    Layout.preferredWidth: 6
-                    Layout.preferredHeight: 6
-                    radius: 3
-                    color: "#89b4fa"  // Blue for active
-                }
-                
                 Text {
                     visible: taskItem.isTaskActive(taskItem.task)
                     text: "▶"
                     color: "#89b4fa"
                     font.pixelSize: 8
                 }
-                
-                // Priority indicator (colored dot)
-                Rectangle {
-                    visible: taskItem.task && taskItem.task.priority !== undefined && taskItem.task.priority !== ""
-                    Layout.preferredWidth: 6  // Reduced from 8
-                    Layout.preferredHeight: 6  // Reduced from 8
-                    radius: 3  // Reduced from 4
-                    color: taskItem.task ? taskItem.getPriorityColor(taskItem.task.priority) : "#6c7086"
-                }
-                
+                                
                 // Tags display
                 Repeater {
                     model: taskItem.task && taskItem.task.tags ? taskItem.task.tags : []

@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     # Development Tools
     qemu
+    lua
     gcc
     bash
     dbus

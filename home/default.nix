@@ -9,6 +9,7 @@
     ./taskwarrior
     ./taskwarrior-tui
     ./vscode
+    ./neovim
     ./git.nix
     ./wezterm.nix
     ./shell.nix
@@ -186,15 +187,6 @@
   programs = {
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
-  };
-
-  ############################
-  # Neovim
-  ############################
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
   };
 
   ############################
