@@ -3,7 +3,6 @@
 {
   imports = [
     ./hyprland
-    ./neovim
     ./firefox
     ./quickshell
     ./wofi
@@ -190,7 +189,7 @@
   };
 
   ############################
-  # Neovim (config vem depois)
+  # Neovim
   ############################
 
   programs.neovim = {
