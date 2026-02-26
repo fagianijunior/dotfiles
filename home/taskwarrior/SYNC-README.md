@@ -1,224 +1,135 @@
-# Configuração de Sincronização do Taskwarrior
+# Taskwarrior Sync - Configuração Compartilhada
 
-Este diretório contém a configuração para sincronizar o Taskwarrior com o servidor taskchampion-sync-server rodando no Orange Pi Zero 2.
+## 📋 Visão Geral
 
-## Arquivos
+A sincronização do Taskwarrior usa variáveis de ambiente para compartilhar credenciais entre todos os dispositivos do usuário `terabytes`.
 
-- `sync-config.nix` - Configuração básica de sincronização
-- `sync-services.nix` - Serviços systemd para sincronização automática (opcional)
-- `SYNC-README.md` - Este arquivo
+## 🔑 Variáveis de Ambiente
 
-## Setup Rápido
+Definidas em `home/default.nix`:
 
-### 1. Gerar UUID único
+- `TASKCHAMPION_CLIENT_ID`: ID único compartilhado entre todos os dispositivos
+- `TASKCHAMPION_ENCRYPTION_SECRET`: Chave de criptografia compartilhada
+- `TASKCHAMPION_SERVER_URL`: URL do servidor (orangepizero2:8080)
 
-Cada dispositivo precisa de um UUID único:
+## 📁 Estrutura de Arquivos
+
+```
+home/taskwarrior/
+├── default.nix              # Configuração principal
+├── sync-config.nix          # Configuração de sincronização
+├── systemd-services.nix     # Serviços systemd
+├── migrate-to-shared-sync.sh # Script de migração
+└── SYNC-README.md           # Este arquivo
+```
+
+## 🚀 Setup Inicial
+
+### 1. Aplicar Configuração
 
 ```bash
-uuidgen
-```
-
-Exemplo: `a1b2c3d4-e5f6-7890-abcd-ef1234567890`
-
-### 2. Configurar o sync-config.nix
-
-Edite `home/taskwarrior/sync-config.nix` e substitua:
-
-```nix
-clientId = "SUBSTITUA-PELO-SEU-UUID-UNICO";
-```
-
-Por:
-
-```nix
-clientId = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
-```
-
-### 3. Importar no default.nix
-
-Edite `home/taskwarrior/default.nix` e adicione aos imports:
-
-```nix
-{
-  imports = [
-    ./systemd-services.nix
-    ./sync-config.nix  # <-- Adicione esta linha
-    # ./sync-services.nix  # <-- Opcional: para sincronização automática
-  ];
-  
-  # ... resto da configuração
-}
-```
-
-### 4. Aplicar configuração
-
-```bash
-# Se usar home-manager standalone
 home-manager switch
-
-# Se usar home-manager como módulo do NixOS
-sudo nixos-rebuild switch
 ```
 
-### 5. Inicializar sincronização
+### 2. Verificar Variáveis de Ambiente
 
 ```bash
-# Primeira vez (envia tarefas locais para o servidor)
-task-sync-init
+echo $TASKCHAMPION_CLIENT_ID
+echo $TASKCHAMPION_SERVER_URL
+```
 
-# Verificar status
-task-sync-status
+Se não aparecerem, faça logout/login ou:
 
-# Sincronizações subsequentes
+```bash
+source ~/.profile
+```
+
+### 3. Migrar Dados Existentes
+
+```bash
+cd ~/dotfiles/home/taskwarrior
+./migrate-to-shared-sync.sh
+```
+
+Este script vai:
+- ✅ Fazer backup das tarefas atuais
+- ✅ Limpar dados locais
+- ✅ Reinicializar com client_id compartilhado
+- ✅ Baixar tarefas do servidor
+
+## 🔄 Uso Diário
+
+### Sincronizar
+
+```bash
 task sync
 ```
 
-## Scripts Disponíveis
-
-Após aplicar a configuração, você terá acesso a:
-
-- `task-sync-init` - Inicializa a sincronização pela primeira vez
-- `task-sync-status` - Verifica status da conexão e última sincronização
-- `task sync` - Sincroniza tarefas (comando nativo do Taskwarrior)
-
-## Sincronização Automática
-
-Para habilitar sincronização automática a cada 15 minutos, descomente as seções do systemd timer no `sync-config.nix`:
-
-```nix
-systemd.user.services.taskwarrior-sync = {
-  # ... (descomente)
-};
-
-systemd.user.timers.taskwarrior-sync = {
-  # ... (descomente)
-};
-```
-
-Depois aplique a configuração e verifique:
+### Verificar Status
 
 ```bash
-systemctl --user status taskwarrior-sync.timer
+task-sync-status
 ```
 
-### Alternativa: sync-services.nix (Avançado)
+### Sincronização Automática
 
-Para recursos avançados (backup automático, verificação de conectividade, notificações), use o `sync-services.nix`:
+Para habilitar sync automático a cada 15 minutos, edite `sync-config.nix` e descomente a seção do systemd timer.
 
-1. Edite `sync-services.nix` e mude:
-```nix
-syncEnabled = true;  # Habilitar sincronização
-useSshTunnel = false; # true se usar túnel SSH
-```
+## 🖥️ Adicionar Novo Dispositivo
 
-2. Importe no `default.nix`:
-```nix
-imports = [
-  ./systemd-services.nix
-  ./sync-config.nix
-  ./sync-services.nix  # <-- Adicione
-];
-```
+1. Clone o dotfiles no novo dispositivo
+2. Aplique a configuração: `home-manager switch`
+3. Inicialize: `task sync init`
+4. Sincronize: `task sync`
 
-3. Aplique e verifique:
-```bash
-home-manager switch
-task-sync-services  # Ver status dos serviços
-```
+Todas as tarefas serão compartilhadas automaticamente!
 
-Scripts disponíveis com sync-services.nix:
-- `task-sync-now` - Sincronizar manualmente com feedback
-- `task-sync-services` - Ver status de todos os serviços
-- `task-sync-toggle` - Habilitar/desabilitar sincronização automática
+## 🔧 Troubleshooting
 
-## Múltiplos Dispositivos
-
-Se você tem múltiplos dispositivos (desktop, laptop, etc):
-
-1. Cada um deve ter seu próprio UUID único
-2. Todos devem apontar para o mesmo servidor
-3. No primeiro dispositivo, use `task-sync-init`
-4. Nos demais, use apenas `task sync` (sem init)
-
-### Exemplo
-
-Desktop (`clientId`):
-```
-11111111-1111-1111-1111-111111111111
-```
-
-Laptop (`clientId`):
-```
-22222222-2222-2222-2222-222222222222
-```
-
-## Troubleshooting
-
-### Servidor não acessível
+### Variáveis não estão definidas
 
 ```bash
-# Verificar se o Orange Pi está acessível
-ping orangepizero2
+# Recarregar perfil
+source ~/.profile
 
-# Verificar se a porta está aberta
-nmap -p 8080 orangepizero2
-
-# Verificar status do serviço no Orange Pi
-ssh orangepizero2 'sudo systemctl status taskchampion-sync-server'
+# Ou fazer logout/login
 ```
 
-### Conflitos de sincronização
-
-Raramente ocorrem, mas se acontecer:
+### Tarefas não sincronizam
 
 ```bash
-# Backup primeiro
-task export > backup-$(date +%Y%m%d).json
+# Verificar configuração
+task show | grep sync
 
-# Forçar sincronização
-task sync init
-```
-
-### Ver logs detalhados
-
-```bash
-# Cliente
+# Sincronizar com verbose
 task sync rc.verbose=on
 
-# Servidor (no Orange Pi)
+# Ver logs do servidor
 ssh orangepizero2 'sudo journalctl -u taskchampion-sync-server -f'
 ```
 
-## Configuração Avançada
-
-### Usar IP ao invés de hostname
-
-Se preferir usar o IP direto, edite `sync-config.nix`:
-
-```nix
-serverOrigin = "http://192.168.1.100:8080";
-```
-
-### Sincronização automática após cada comando
-
-Adicione ao `taskrc` (já incluído no sync-config.nix, basta descomentar):
+### Resetar sincronização
 
 ```bash
-sync.auto=on
+# Backup primeiro!
+task export > backup.json
+
+# Limpar e reinicializar
+rm -rf ~/.local/share/task/*
+task sync init
+task sync
 ```
 
-Isso sincroniza automaticamente após cada comando `task`.
+## 🔒 Segurança
 
-### HTTPS com certificado
+As credenciais estão em `env.nix` que é commitado no git. Para produção, considere:
 
-Se configurar HTTPS no servidor (via Caddy/nginx):
+1. Usar `sops-nix` ou `agenix` para criptografar secrets
+2. Usar variáveis de ambiente do sistema
+3. Configurar HTTPS no servidor
 
-```nix
-serverOrigin = "https://sync.seudominio.com";
-```
+## 📚 Referências
 
-## Referências
-
-- [Documentação completa](../nixos-orangepizero2/docs/taskwarrior-sync-setup.md)
-- [Taskwarrior Sync Docs](https://taskwarrior.org/docs/sync/)
-- [Taskchampion GitHub](https://github.com/GothenburgBitFactory/taskchampion-sync-server)
+- [TASKWARRIOR-SETUP.md](../../nixos-orangepizero2/TASKWARRIOR-SETUP.md)
+- [VALIDAR-SYNC.md](../../nixos-orangepizero2/VALIDAR-SYNC.md)
+- [Taskwarrior Docs](https://taskwarrior.org/docs/)

@@ -157,4 +157,35 @@ As configurações do usuário são gerenciadas automaticamente via Home Manager
 - **Desenvolvimento**: Docker, linguagens e LSPs
 - **Modularidade**: Fácil adição/remoção de funcionalidades
 - **Taskwarrior Sync**: Servidor de sincronização no Orange Pi Zero 2
+- **Tailscale VPN**: Acesso remoto seguro em todos os dispositivos
 - **Multi-arquitetura**: Suporte para x86_64 e ARM64
+
+## Taskwarrior Sync
+
+Todos os hosts (Nobita, Doraemon e Orange Pi Zero 2) estão configurados para sincronização do Taskwarrior:
+
+- **Servidor**: Orange Pi Zero 2 (porta 8080)
+- **Clientes**: Nobita (desktop) e Doraemon (notebook)
+- **Acesso**: Via Tailscale VPN (MagicDNS)
+- **UUIDs únicos**: Configurados automaticamente por dispositivo
+
+### Primeiros Passos
+
+```bash
+# 1. Rebuild do sistema
+sudo nixos-rebuild switch
+
+# 2. Conectar ao Tailscale
+sudo tailscale up
+
+# 3. Verificar configuração
+task-sync-info
+
+# 4. Inicializar sincronização (primeira vez)
+task-sync-init
+
+# 5. Sincronizar
+task sync
+```
+
+Consulte [docs/TASKWARRIOR-CLIENT-SETUP.md](./docs/TASKWARRIOR-CLIENT-SETUP.md) para detalhes completos.

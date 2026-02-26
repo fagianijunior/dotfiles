@@ -35,6 +35,11 @@
 
     XDG_SESSION_TYPE = "wayland";
     NIXOS_OZONE_WL = "1";
+
+    # Taskwarrior sync
+    TASKCHAMPION_CLIENT_ID = "9dc04b7e-40dc-49f7-8a57-49fc7b9f6ea9";
+    TASKCHAMPION_ENCRYPTION_SECRET = "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2";
+    TASKCHAMPION_SERVER_URL = "http://orangepizero2:8080";
   };
 
   ############################
