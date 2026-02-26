@@ -52,24 +52,20 @@ Histórico de mudanças na configuração do Orange Pi Zero 2.
 
 ## [2026-02-26] - Taskchampion Sync Server
 
+### Importante
+- Usando módulo oficial do NixOS (não módulo customizado)
+- Módulo oficial está em: `/nix/store/.../nixos/modules/services/misc/taskchampion-sync-server.nix`
+
 ### Adicionado
 
-#### Módulo do Servidor
-- Criado módulo NixOS para taskchampion-sync-server (`modules/taskchampion-sync-server.nix`)
-- Configuração declarativa com opções:
-  - `enable`: Habilitar/desabilitar serviço
-  - `port`: Porta do servidor (padrão: 8080)
-  - `address`: Endereço de bind (padrão: 0.0.0.0)
-  - `dataDir`: Diretório de dados (padrão: /var/lib/taskchampion-sync-server)
-  - `openFirewall`: Abrir porta no firewall automaticamente
-- Usuário e grupo dedicados (`taskchampion:taskchampion`)
+#### Configuração do Servidor
+- Habilitado serviço taskchampion-sync-server (módulo oficial do NixOS)
+- Configuração na porta 8080 (padrão do módulo é 10222)
+- Host: 0.0.0.0 (escuta em todas as interfaces)
+- Firewall aberto automaticamente
+- Snapshots configurados (100 versões ou 14 dias)
+- Usuário e grupo dedicados (taskchampion:taskchampion)
 - Serviço systemd com restart automático
-- Permissões e segurança configuradas (NoNewPrivileges, ProtectSystem, etc)
-
-#### Configuração do Orange Pi
-- Habilitado taskchampion-sync-server em `orangepizero2.nix`
-- Porta 8080 aberta no firewall
-- Servidor escutando em todas as interfaces (0.0.0.0)
 
 #### Scripts e Ferramentas
 - `scripts/test-taskchampion.sh`: Script completo de teste e diagnóstico

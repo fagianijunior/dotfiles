@@ -7,6 +7,7 @@
     ../modules/hardware/amd-common.nix
     ../modules/hardware/graphics-amd.nix
     ../modules/hardware/rocm.nix
+    ../modules/hardware/power-management.nix
 
     ../modules/desktop/session.nix
     ../modules/desktop/hyprland.nix

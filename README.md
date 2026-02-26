@@ -6,6 +6,7 @@ Configuração NixOS para dois dispositivos AMD com Wayland/Hyprland.
 
 - **Nobita** (Desktop): Configuração para desktop com foco em performance e gaming
 - **Doraemon** (Notebook): Configuração otimizada para laptop com gerenciamento de energia
+- **Orange Pi Zero 2** (Servidor): Servidor ARM headless com Docker e Taskchampion Sync Server
 
 ## Estrutura
 
@@ -15,12 +16,18 @@ Configuração NixOS para dois dispositivos AMD com Wayland/Hyprland.
 │   ├── nobita.nix           # Desktop
 │   ├── doraemon.nix         # Notebook
 │   └── quirks/              # Correções específicas de hardware
+├── nixos-orangepizero2/     # Configuração do Orange Pi Zero 2
+│   ├── orangepizero2.nix    # Configuração principal
+│   ├── modules/             # Módulos específicos (taskchampion, etc)
+│   ├── docs/                # Documentação detalhada
+│   └── scripts/             # Scripts de teste e manutenção
 ├── modules/
 │   ├── base/                # Configurações base do sistema
 │   ├── desktop/             # Ambiente desktop (Hyprland, Pipewire)
 │   ├── hardware/            # Drivers e configurações de hardware
 │   └── profiles/            # Perfis modulares de software
 ├── home/                    # Configurações do Home Manager
+│   └── taskwarrior/         # Configuração do Taskwarrior com sync
 └── pkgs/                    # Pacotes customizados
 ```
 
@@ -63,6 +70,14 @@ Configuração NixOS para dois dispositivos AMD com Wayland/Hyprland.
 - OBS Studio para criação de conteúdo
 - Parâmetros de kernel específicos para laptop
 
+### Orange Pi Zero 2 (Servidor)
+- Arquitetura: ARM64 (aarch64-linux)
+- Headless (sem interface gráfica)
+- Docker + Docker Compose
+- Taskchampion Sync Server (porta 8080)
+- SSH habilitado
+- Swap de 2GB configurado
+
 ## Uso
 
 ### Makefile - Automação de Tarefas
@@ -103,8 +118,9 @@ make status         # Mostra informações do sistema
 
 ### Build Manual do Sistema
 ```bash
-sudo nixos-rebuild switch --flake .#nobita    # Desktop
-sudo nixos-rebuild switch --flake .#doraemon  # Notebook
+sudo nixos-rebuild switch --flake .#nobita       # Desktop
+sudo nixos-rebuild switch --flake .#doraemon     # Notebook
+sudo nixos-rebuild switch --flake .#orangepizero2 # Orange Pi
 ```
 
 ### Atualização Manual
@@ -112,6 +128,22 @@ sudo nixos-rebuild switch --flake .#doraemon  # Notebook
 nix flake update
 sudo nixos-rebuild switch --flake .#<hostname>
 ```
+
+### Orange Pi Zero 2
+
+Para configuração e uso do servidor:
+
+```bash
+# Build e deploy
+sudo nixos-rebuild switch --flake .#orangepizero2
+
+# Testar instalação
+./nixos-orangepizero2/scripts/test-taskchampion.sh
+```
+
+Documentação completa:
+- [📖 Setup do Taskwarrior Sync](./nixos-orangepizero2/TASKWARRIOR-SETUP.md)
+- [📚 README do Orange Pi](./nixos-orangepizero2/README.md)
 
 ### Home Manager
 As configurações do usuário são gerenciadas automaticamente via Home Manager integrado ao flake.
@@ -124,3 +156,5 @@ As configurações do usuário são gerenciadas automaticamente via Home Manager
 - **Segurança**: USBGuard, Fail2ban, SSH configurado
 - **Desenvolvimento**: Docker, linguagens e LSPs
 - **Modularidade**: Fácil adição/remoção de funcionalidades
+- **Taskwarrior Sync**: Servidor de sincronização no Orange Pi Zero 2
+- **Multi-arquitetura**: Suporte para x86_64 e ARM64

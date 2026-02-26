@@ -5,7 +5,6 @@
     ./hardware-configuration.nix
     ./modules/base-server.nix
     ./modules/server-profile.nix
-    ./modules/taskchampion-sync-server.nix
   ];
 
   networking.hostName = "orangepizero2";
@@ -37,9 +36,14 @@
   # Taskchampion Sync Server para Taskwarrior 3
   services.taskchampion-sync-server = {
     enable = true;
+    host = "0.0.0.0";  # Escutar em todas as interfaces
     port = 8080;
-    address = "0.0.0.0";
     openFirewall = true;
+    dataDir = "/var/lib/taskchampion-sync-server";
+    snapshot = {
+      versions = 100;  # Snapshot a cada 100 versões
+      days = 14;       # Snapshot a cada 14 dias
+    };
   };
 
   # Tailscale VPN

@@ -2,25 +2,27 @@
 
 ## ✅ O que foi implementado
 
-Configuração completa do taskchampion-sync-server para sincronização do Taskwarrior 3 no Orange Pi Zero 2, com Tailscale VPN para acesso remoto seguro.
+Configuração completa do taskchampion-sync-server (usando módulo oficial do NixOS) para sincronização do Taskwarrior 3 no Orange Pi Zero 2, com Tailscale VPN para acesso remoto seguro.
 
 ## 📦 Arquivos Criados
 
-### Servidor (14 arquivos)
-1. **`modules/taskchampion-sync-server.nix`** - Módulo NixOS completo
-2. **`orangepizero2.nix`** - Configuração atualizada com o serviço
-3. **`scripts/test-taskchampion.sh`** - Script de teste e diagnóstico
-4. **`Makefile`** - Automação de tarefas comuns
-5. **`TASKWARRIOR-SETUP.md`** - Guia principal de instalação
-6. **`ARCHITECTURE.md`** - Documentação visual da arquitetura
-7. **`CHANGELOG.md`** - Histórico de mudanças
-8. **`FILES.md`** - Índice de arquivos
-9. **`docs/taskwarrior-sync-setup.md`** - Setup detalhado
-10. **`docs/taskwarrior-security.md`** - Guia de segurança
-11. **`docs/taskwarrior-troubleshooting.md`** - Resolução de problemas
-12. **`docs/taskwarrior-quick-reference.md`** - Referência rápida
-13. **`docs/taskwarrior-migration.md`** - Migração do taskd
-14. **`docs/tailscale-setup.md`** - Guia completo do Tailscale
+### Servidor (16 arquivos)
+1. **`orangepizero2.nix`** - Configuração atualizada (usa módulo oficial do NixOS)
+2. **`scripts/test-taskchampion.sh`** - Script de teste e diagnóstico
+3. **`Makefile`** - Automação de tarefas comuns
+4. **`TASKWARRIOR-SETUP.md`** - Guia principal de instalação
+5. **`QUICKSTART.md`** - Guia rápido de primeiros passos
+6. **`DEPLOY-NOTES.md`** - Notas sobre o deploy e mudanças
+7. **`ARCHITECTURE.md`** - Documentação visual da arquitetura
+8. **`CHANGELOG.md`** - Histórico de mudanças
+9. **`FILES.md`** - Índice de arquivos
+10. **`docs/taskwarrior-sync-setup.md`** - Setup detalhado
+11. **`docs/taskwarrior-security.md`** - Guia de segurança
+12. **`docs/taskwarrior-troubleshooting.md`** - Resolução de problemas
+13. **`docs/taskwarrior-quick-reference.md`** - Referência rápida
+14. **`docs/taskwarrior-migration.md`** - Migração do taskd
+15. **`docs/tailscale-setup.md`** - Guia completo do Tailscale
+16. **`SUMMARY.md`** - Este arquivo
 
 ### Cliente (3 arquivos)
 1. **`home/taskwarrior/sync-config.nix`** - Configuração básica
