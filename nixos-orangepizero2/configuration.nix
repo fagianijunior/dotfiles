@@ -21,7 +21,7 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "America/Fortaleza";
+  # time.timeZone = "America/Fortaleza";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";

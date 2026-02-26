@@ -24,7 +24,13 @@
     options = [ "nofail" "noauto" ];
   };
 
-  swapDevices = [ ];
+  # Swap file - 2GB no SD card (pode ser movido para SSD externo depois)
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 2048; # 2GB
+    }
+  ];
 
   # Configuração específica para ARM64
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";

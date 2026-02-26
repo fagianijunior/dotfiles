@@ -29,6 +29,9 @@ in
     # Data location
     data.location=~/.local/share/task
 
+    # News version (to avoid write errors)
+    news.version=3.4.2
+
     # Default command
     default.command=next
 
@@ -47,54 +50,59 @@ in
     list.all.tags=yes
 
     # Colors (Catppuccin Macchiato theme)
-    color.active=rgb013
-    color.alternate=on_rgb233
-    color.blocked=white on_red
-    color.blocking=black on_bright_white
-    color.burndown.done=on_green
-    color.burndown.pending=on_red
-    color.burndown.started=on_yellow
-    color.calendar.due=color0 on_rgb013
-    color.calendar.due.today=color15 on_rgb013
-    color.calendar.holiday=color0 on_bright_blue
-    color.calendar.overdue=color0 on_bright_red
-    color.calendar.today=color15 on_bright_blue
-    color.calendar.weekend=on_bright_black
-    color.calendar.weeknumber=bright_blue
+    color.active=color13
+    color.alternate=on color233
+    color.blocked=white on red
+    color.blocking=black on bright white
+    color.burndown.done=on green
+    color.burndown.pending=on red
+    color.burndown.started=on yellow
+    color.calendar.due=color0 on color13
+    color.calendar.due.today=color15 on color13
+    color.calendar.holiday=color0 on bright blue
+    color.calendar.overdue=color0 on bright red
+    color.calendar.today=color15 on bright blue
+    color.calendar.weekend=on bright black
+    color.calendar.weeknumber=bright blue
     color.completed=green
     color.debug=yellow
-    color.deleted=rgb013
-    color.due=rgb013
-    color.due.today=rgb013
-    color.error=white on_red
+    color.deleted=color13
+    color.due=color13
+    color.due.today=color13
+    color.error=white on red
     color.footnote=yellow
-    color.header=rgb013
-    color.history.add=color0 on_rgb013
-    color.history.delete=color0 on_rgb013
-    color.history.done=color0 on_green
-    color.keyword=rgb013 on_yellow
+    color.header=color13
+    color.history.add=color0 on color13
+    color.history.delete=color0 on color13
+    color.history.done=color0 on green
+    color.keyword=color13 on yellow
     color.label=
     color.label.sort=
-    color.overdue=color255 on_red
+    color.overdue=color255 on red
     color.pri.H=color255
     color.pri.L=color245
     color.pri.M=color250
     color.pri.none=
     color.project.none=
-    color.recurring=rgb013
-    color.scheduled=on_rgb013
-    color.summary.background=white on_black
-    color.summary.bar=black on_rgb013
+    color.recurring=color13
+    color.scheduled=on color13
+    color.summary.background=white on black
+    color.summary.bar=black on color13
     color.sync.added=green
     color.sync.changed=yellow
     color.sync.rejected=red
-    color.tag.next=rgb013
+    color.tag.next=color13
     color.tag.none=
-    color.tagged=rgb010
+    color.tagged=color10
     color.undo.after=green
     color.undo.before=red
     color.until=
     color.warning=bold red
+
+    # User Defined Attributes (UDA)
+    uda.client.type=string
+    uda.client.label=Client
+    uda.client.values=
 
     # Urgency coefficients
     urgency.user.project.Inbox.coefficient=15.0
@@ -112,19 +120,24 @@ in
     urgency.project.coefficient=1.0
 
     # Reports
-    report.next.columns=id,start.age,entry.age,depends,priority,project,tag,recur,scheduled.countdown,due.relative,until.remaining,description,urgency
-    report.next.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,S,Due,Until,Description,Urg
+    report.next.columns=id,start.age,entry.age,depends.indicator,priority,project,tags.count,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count,client,urgency
+    report.next.labels=ID,Active,Age,D,P,Project,Tags,R,S,Due,Until,Description,Client,Urg
     report.next.sort=urgency-
-    report.next.filter=status.not:completed and status.not:deleted
+    report.next.filter=status:pending
+    
+    report.all.columns=id,status.short,uuid.short,start.age,entry.age,end.age,depends.indicator,priority,project,tags.count,recur.indicator,due,description.count,client
+    report.all.labels=ID,St,UUID,A,Age,Done,D,P,Project,Tags,R,Due,Description,Client
+    report.all.description=All tasks
+    report.all.sort=entry-
 
     # Custom reports
     report.inbox.description=Inbox tasks
-    report.inbox.columns=id,description
+    report.inbox.columns=id,description.count,client
     report.inbox.sort=entry+
     report.inbox.filter=status:pending project:Inbox
 
     report.waiting.description=Waiting tasks
-    report.waiting.columns=id,description,project,tag
+    report.waiting.columns=id,description.count,project,tags.count,client
     report.waiting.sort=entry+
     report.waiting.filter=status:waiting
 
@@ -144,9 +157,6 @@ in
     # taskd.ca=~/.task/ca.cert.pem
     # taskd.server=host.domain:53589
     # taskd.credentials=Org/First Last/cf31f287-ee9e-43a8-843e-e8bbd5de4294
-
-    # Include system taskrc if it exists
-    include /etc/taskrc
   '';
 
   # Create data directory

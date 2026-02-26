@@ -8,6 +8,18 @@
     ../../modules/base/keyboard.nix
   ];
 
+  # Usar cache binário para evitar compilações
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
+
   # Boot configuration para ARM (Orange Pi Zero 2)
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
@@ -26,6 +38,12 @@
     SystemMaxUse=100M
     MaxRetentionSec=7day
   '';
+
+  # Otimizações para build em hardware limitado
+  nix.settings = {
+    max-jobs = 2;
+    cores = 2;
+  };
 
   # Timezone e configurações básicas
   time.timeZone = "America/Fortaleza";

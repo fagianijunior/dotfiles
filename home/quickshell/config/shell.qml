@@ -8,7 +8,7 @@ import "./filters" // para carregar NotificationFilter.qml
 import "./colors" // para carregar BorderColorManager.qml
 import "./interaction" // para carregar ClickRedirectHandler.qml
 import "./battery" // para carregar BatteryGraph.qml
-import "./taskwarrior" // para carregar TaskwarriorWidget.qml
+import "./taskwarrior" // para carregar TaskPanel.qml
 
 PanelWindow {
 	id:rootPanel
@@ -86,15 +86,23 @@ PanelWindow {
     }
 
     Button {
-        anchors.right: parent.right
         id: pauseButton
-        text: rootPanel.sensitiveData ? "👁️" : "👻"
+        text: rootPanel.sensitiveData ? "⊙" : "⊘"
+        anchors.right: parent.right
         onClicked: {
             dunstPauseToggleProcess.running = true
         }
+        contentItem: Text {
+            text: pauseButton.text
+            color: "#cad3f5"
+            font.pixelSize: 16
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
         background: Rectangle {
-            color: parent.pressed ? "#585b70" : "#313244" // Surface1 : Surface0
-            border.color: "#6c7086" // Surface2
+            color: parent.pressed ? "#585b70" : "#313244"
+            border.color: "#6c7086"
+            border.width: 1
             radius: 5
         }
     }
@@ -170,9 +178,16 @@ PanelWindow {
 
                 Button {
                     id: refreshEventsButton
-                    text: "🔄"
+                    text: "↻"
                     onClicked: {
                         calendarProcess.running = true
+                    }
+                    contentItem: Text {
+                        text: refreshEventsButton.text
+                        color: "#cad3f5"
+                        font.pixelSize: 16
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                     }
                     background: Rectangle {
                         color: parent.pressed ? "#585b70" : "#313244"
@@ -186,7 +201,7 @@ PanelWindow {
             ListView {
                 id: eventList
                 Layout.fillWidth: true
-                Layout.preferredHeight: Math.max(100, rootPanel.width * 0.6)
+                Layout.preferredHeight: 150
                 clip: true
     
                 model: ListModel {
@@ -306,12 +321,6 @@ PanelWindow {
                     }
                 }
             }
-        }
-
-        // TASKWARRIOR
-        TaskwarriorWidget {
-            Layout.fillWidth: true
-            visible: !rootPanel.sensitiveData
         }
          
         // CPU
@@ -558,6 +567,14 @@ PanelWindow {
             id: batteryGraph
         }
 
+        // TASKWARRIOR PANEL
+        TaskPanel {
+            id: taskPanel
+            Layout.fillWidth: true
+            Layout.preferredHeight: 300  // Reduced from 300 for more compact display
+            visible: !rootPanel.sensitiveData  // Respect privacy mode
+        }
+
         // GRÁFICOS DE DISCO (DINÂMICOS)
         RowLayout {
             id: diskChartsLayout
@@ -744,7 +761,7 @@ PanelWindow {
             // BOTÕES DE CONTROLE DE NOTIFICAÇÃO
             Button {
                 id: refreshButton
-                text: "🔄"
+                text: "↻"
                 onClicked: {
                     notificationProcess.running = true
                 }
@@ -752,6 +769,13 @@ PanelWindow {
                     color: parent.pressed ? "#585b70" : "#313244" // Surface1 : Surface0
                     border.color: "#6c7086" // Surface2
                     radius: 5
+                }
+                contentItem: Text {
+                    text: refreshEventsButton.text
+                    color: "#cad3f5"
+                    font.pixelSize: 16
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
         }

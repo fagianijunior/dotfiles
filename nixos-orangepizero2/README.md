@@ -28,7 +28,27 @@ nixos-rebuild build --flake .#orangepizero2
 
 ## Deploy
 
-Para aplicar a configuração no Orange Pi Zero 2:
+### Build local no Orange Pi (recomendado)
+
+**IMPORTANTE:** Antes de fazer o primeiro rebuild, crie um swap temporário para evitar travamentos:
+
+```bash
+# 1. Criar swap temporário manualmente (2GB)
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# 2. Fazer o build (com recursos limitados para não travar)
+cd /root/dotfiles
+sudo nixos-rebuild switch --flake .#orangepizero2 --option max-jobs 1 --option cores 2
+```
+
+Após o primeiro build bem-sucedido, o NixOS irá gerenciar o swapfile automaticamente (configurado em `hardware-configuration.nix`). O swap temporário criado manualmente será substituído pelo gerenciado pelo NixOS no próximo boot.
+
+### Deploy remoto
+
+Para aplicar a configuração remotamente do seu desktop:
 
 ```bash
 nixos-rebuild switch --flake .#orangepizero2 --target-host terabytes@orangepizero2
@@ -73,3 +93,25 @@ O usuário `terabytes` já está no grupo `docker`.
 - IPv6 desabilitado
 - Firewall habilitado com Docker trusted
 - Logs do journald limitados a 100MB e 7 dias
+- Swap de 2GB configurado (pode ser movido para SSD externo)
+
+## Movendo Swap para SSD Externo
+
+Quando plugar um SSD externo, edite `hardware-configuration.nix`:
+
+```nix
+swapDevices = [
+  {
+    device = "/mnt/ssd/swapfile";  # Ajuste o caminho
+    size = 4096;  # Pode aumentar para 4GB no SSD
+  }
+];
+```
+
+Ou use uma partição swap dedicada:
+
+```nix
+swapDevices = [
+  { device = "/dev/sda2"; }  # Partição swap no SSD
+];
+```
