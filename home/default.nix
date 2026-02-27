@@ -10,6 +10,7 @@
     ./taskwarrior-tui
     ./vscode
     ./neovim
+    ./kew
     ./git.nix
     ./wezterm.nix
     ./shell.nix
