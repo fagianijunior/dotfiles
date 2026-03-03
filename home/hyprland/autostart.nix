@@ -12,6 +12,7 @@
     "[workspace 1] $browser"
     "[workspace 3] clickup"
     "[workspace 3] slack"
+    "[workspace 3] Telegram"
     "systemctl --user start hyprpolkitagent"
   ];
 }
