@@ -130,6 +130,6 @@ As credenciais estão em `env.nix` que é commitado no git. Para produção, con
 
 ## 📚 Referências
 
-- [TASKWARRIOR-SETUP.md](../../nixos-orangepizero2/TASKWARRIOR-SETUP.md)
-- [VALIDAR-SYNC.md](../../nixos-orangepizero2/VALIDAR-SYNC.md)
+- [TASKWARRIOR-SETUP.md](../../orangepizero2/TASKWARRIOR-SETUP.md)
+- [VALIDAR-SYNC.md](../../orangepizero2/VALIDAR-SYNC.md)
 - [Taskwarrior Docs](https://taskwarrior.org/docs/)

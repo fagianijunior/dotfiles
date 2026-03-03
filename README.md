@@ -16,7 +16,7 @@ Configuração NixOS para dois dispositivos AMD com Wayland/Hyprland.
 │   ├── nobita.nix           # Desktop
 │   ├── doraemon.nix         # Notebook
 │   └── quirks/              # Correções específicas de hardware
-├── nixos-orangepizero2/     # Configuração do Orange Pi Zero 2
+├── orangepizero2/     # Configuração do Orange Pi Zero 2
 │   ├── orangepizero2.nix    # Configuração principal
 │   ├── modules/             # Módulos específicos (taskchampion, etc)
 │   ├── docs/                # Documentação detalhada
@@ -138,12 +138,12 @@ Para configuração e uso do servidor:
 sudo nixos-rebuild switch --flake .#orangepizero2
 
 # Testar instalação
-./nixos-orangepizero2/scripts/test-taskchampion.sh
+./orangepizero2/scripts/test-taskchampion.sh
 ```
 
 Documentação completa:
-- [📖 Setup do Taskwarrior Sync](./nixos-orangepizero2/TASKWARRIOR-SETUP.md)
-- [📚 README do Orange Pi](./nixos-orangepizero2/README.md)
+- [📖 Setup do Taskwarrior Sync](./orangepizero2/TASKWARRIOR-SETUP.md)
+- [📚 README do Orange Pi](./orangepizero2/README.md)
 
 ### Home Manager
 As configurações do usuário são gerenciadas automaticamente via Home Manager integrado ao flake.

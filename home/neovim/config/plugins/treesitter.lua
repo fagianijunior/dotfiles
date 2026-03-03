@@ -98,3 +98,13 @@ treesitter.setup({
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false  -- Don't fold by default
+
+-- Associate .tfvars files with terraform filetype
+vim.filetype.add({
+  extension = {
+    tfvars = "terraform",
+  },
+  pattern = {
+    [".*%.tfvars"] = "terraform",
+  },
+})

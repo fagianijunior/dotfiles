@@ -142,13 +142,13 @@ Os dados de sincronização ficam em `/var/lib/taskchampion-sync-server/`
 Execute o script de teste para verificar se tudo está funcionando:
 
 ```bash
-./nixos-orangepizero2/scripts/test-taskchampion.sh
+./orangepizero2/scripts/test-taskchampion.sh
 ```
 
 Ou remotamente:
 
 ```bash
-ssh orangepizero2 'bash -s' < nixos-orangepizero2/scripts/test-taskchampion.sh
+ssh orangepizero2 'bash -s' < orangepizero2/scripts/test-taskchampion.sh
 ```
 
 ### Documentação Completa

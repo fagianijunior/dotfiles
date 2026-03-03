@@ -31,7 +31,7 @@ Configuração completa do taskchampion-sync-server (usando módulo oficial do N
 
 ### Atualizações
 - **`README.md`** (raiz) - Atualizado com Orange Pi Zero 2
-- **`nixos-orangepizero2/README.md`** - Seção do Taskchampion
+- **`orangepizero2/README.md`** - Seção do Taskchampion
 
 ## 🚀 Como Usar
 
@@ -42,7 +42,7 @@ Configuração completa do taskchampion-sync-server (usando módulo oficial do N
 sudo nixos-rebuild switch --flake .#orangepizero2
 
 # Testar
-./nixos-orangepizero2/scripts/test-taskchampion.sh
+./orangepizero2/scripts/test-taskchampion.sh
 ```
 
 ### 2. Configurar Cliente
@@ -131,7 +131,7 @@ Consulte `docs/taskwarrior-security.md` para detalhes.
 ## 🛠️ Comandos Úteis
 
 ```bash
-# Makefile (no diretório nixos-orangepizero2/)
+# Makefile (no diretório orangepizero2/)
 make help              # Ver todos os comandos
 make deploy            # Deploy remoto
 make test              # Testar servidor

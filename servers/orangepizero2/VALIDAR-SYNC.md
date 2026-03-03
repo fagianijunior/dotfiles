@@ -5,7 +5,7 @@
 Execute o script de validação:
 
 ```bash
-./nixos-orangepizero2/scripts/validate-taskwarrior-sync.sh
+./orangepizero2/scripts/validate-taskwarrior-sync.sh
 ```
 
 Este script verifica automaticamente:
@@ -240,7 +240,7 @@ Use este checklist para garantir que tudo está funcionando:
 
 4. **Use o script de validação regularmente:**
    ```bash
-   ./nixos-orangepizero2/scripts/validate-taskwarrior-sync.sh
+   ./orangepizero2/scripts/validate-taskwarrior-sync.sh
    ```
 
 ## 📚 Referências

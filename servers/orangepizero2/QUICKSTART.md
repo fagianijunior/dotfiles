@@ -21,7 +21,7 @@ sudo nixos-rebuild switch --flake .#orangepizero2
 
 ```bash
 # Testar tudo de uma vez
-ssh orangepizero2 'bash -s' < nixos-orangepizero2/scripts/test-taskchampion.sh
+ssh orangepizero2 'bash -s' < orangepizero2/scripts/test-taskchampion.sh
 
 # Ou verificar individualmente
 ssh orangepizero2 'sudo systemctl status taskchampion-sync-server'
@@ -238,7 +238,7 @@ task sync
 ### Makefile (Recomendado)
 
 ```bash
-cd nixos-orangepizero2/
+cd orangepizero2/
 
 make help              # Ver todos os comandos
 make test              # Testar servidor

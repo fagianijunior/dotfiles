@@ -38,8 +38,8 @@ O taskchampion-sync-server é o servidor de sincronização oficial para Taskwar
 ### 1. Configuração já está pronta!
 
 O módulo já foi criado e configurado em:
-- `nixos-orangepizero2/modules/taskchampion-sync-server.nix`
-- `nixos-orangepizero2/orangepizero2.nix`
+- `orangepizero2/modules/taskchampion-sync-server.nix`
+- `orangepizero2/orangepizero2.nix`
 
 ### 2. Build e Deploy
 
@@ -67,14 +67,14 @@ nixos-rebuild switch --flake .#orangepizero2 --target-host root@orangepizero2
 
 ```bash
 # Copiar e executar script de teste
-scp nixos-orangepizero2/scripts/test-taskchampion.sh orangepizero2:/tmp/
+scp orangepizero2/scripts/test-taskchampion.sh orangepizero2:/tmp/
 ssh orangepizero2 'bash /tmp/test-taskchampion.sh'
 ```
 
 Ou localmente no Orange Pi:
 
 ```bash
-./nixos-orangepizero2/scripts/test-taskchampion.sh
+./orangepizero2/scripts/test-taskchampion.sh
 ```
 
 ### 4. Verificar serviço

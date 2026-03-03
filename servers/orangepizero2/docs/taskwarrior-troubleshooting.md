@@ -289,7 +289,7 @@ ssh orangepizero2 'sudo systemctl restart taskchampion-sync-server'
 
 ```bash
 # Script de diagnóstico completo
-./nixos-orangepizero2/scripts/test-taskchampion.sh
+./orangepizero2/scripts/test-taskchampion.sh
 ```
 
 ### Logs

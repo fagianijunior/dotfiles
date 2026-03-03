@@ -59,7 +59,7 @@ sudo nixos-rebuild switch --flake .#orangepizero2
 ### Opção 3: Usando o Makefile
 
 ```bash
-# Do diretório nixos-orangepizero2/
+# Do diretório orangepizero2/
 make deploy
 ```
 

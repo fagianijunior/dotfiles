@@ -163,10 +163,10 @@
 sudo nixos-rebuild switch --flake .#orangepizero2
 
 # 2. Testar
-./nixos-orangepizero2/scripts/test-taskchampion.sh
+./orangepizero2/scripts/test-taskchampion.sh
 
 # 3. Ler guia
-cat nixos-orangepizero2/TASKWARRIOR-SETUP.md
+cat orangepizero2/TASKWARRIOR-SETUP.md
 ```
 
 ### Para Configurar Cliente
@@ -187,16 +187,16 @@ task-sync-init
 ### Para Consultar Documentação
 ```bash
 # Setup completo
-less nixos-orangepizero2/TASKWARRIOR-SETUP.md
+less orangepizero2/TASKWARRIOR-SETUP.md
 
 # Segurança
-less nixos-orangepizero2/docs/taskwarrior-security.md
+less orangepizero2/docs/taskwarrior-security.md
 
 # Troubleshooting
-less nixos-orangepizero2/docs/taskwarrior-troubleshooting.md
+less orangepizero2/docs/taskwarrior-troubleshooting.md
 
 # Referência rápida
-less nixos-orangepizero2/docs/taskwarrior-quick-reference.md
+less orangepizero2/docs/taskwarrior-quick-reference.md
 ```
 
 ## 📚 Fluxo de Leitura Recomendado

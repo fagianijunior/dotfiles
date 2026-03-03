@@ -52,6 +52,8 @@
         p.css
         p.vim
         p.vimdoc
+        p.terraform
+        p.hcl
       ]))
       nvim-treesitter-textobjects  # Text objects based on treesitter
       

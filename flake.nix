@@ -122,7 +122,7 @@
         orangepizero2 = mkServer {
           hostname = "orangepizero2";
           system = "aarch64-linux";
-          configPath = ./nixos-orangepizero2/orangepizero2.nix;
+          configPath = ./servers/orangepizero2/orangepizero2.nix;
         };
       };
     };

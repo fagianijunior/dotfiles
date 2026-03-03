@@ -73,7 +73,7 @@ sync.server.client_id=seu-uuid-aqui
 sync.auto=on
 ```
 
-### Arquivo: nixos-orangepizero2/orangepizero2.nix
+### Arquivo: orangepizero2/orangepizero2.nix
 
 ```nix
 services.taskchampion-sync-server = {
@@ -145,7 +145,7 @@ scp orangepizero2:/tmp/backup.tar.gz ./
 
 ```bash
 # Testar servidor
-./nixos-orangepizero2/scripts/test-taskchampion.sh
+./orangepizero2/scripts/test-taskchampion.sh
 
 # Sincronizar com verbose
 task sync rc.verbose=on
