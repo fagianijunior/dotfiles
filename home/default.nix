@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, hostName ? "", ... }:
 
 {
   imports = [
@@ -11,6 +11,7 @@
     ./vscode
     ./neovim
     ./kew
+    ./archisteamfarm
     ./git.nix
     ./wezterm.nix
     ./shell.nix

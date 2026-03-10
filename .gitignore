@@ -1,5 +1,9 @@
 home/quickshell/credentials.json
 
+# ArchiSteamFarm - Configurações sensíveis
+home/archisteamfarm/config/*.json
+!home/archisteamfarm/bot-template.json
+
 # Build artifacts
 result
 result-*
