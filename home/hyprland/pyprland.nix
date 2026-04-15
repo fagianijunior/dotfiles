@@ -4,8 +4,8 @@ let
   toml = pkgs.formats.toml {};
 in
 {
-  xdg.configFile."hypr/pyprland.toml".source =
-    toml.generate "pyprland.toml" {
+  xdg.configFile."pypr/config.toml".source =
+    toml.generate "config.toml" {
 
       pyprland.plugins = [
         "scratchpads"

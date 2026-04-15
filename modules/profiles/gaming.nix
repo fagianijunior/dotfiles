@@ -7,9 +7,6 @@
     nile
     lutris
     vinegar
-    
-    # Steam farming
-    ArchiSteamFarm
   ];
 
   programs = {

@@ -9,7 +9,7 @@
 - [x] 2. Set up base Nix configuration
   - Create `home/neovim/default.nix` with basic structure
   - Configure `programs.neovim.enable` and basic options
-  - Set up `extraLuaConfig` to load from config files
+  - Set up `initLua` to load from config files
   - Add neovim module import to `home/default.nix`
   - _Requirements: 1.1, 1.4, 1.5_
 

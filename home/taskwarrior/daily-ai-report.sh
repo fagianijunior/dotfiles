@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /run/current-system/sw/bin/bash
 
 # Script para gerar relatório diário de tarefas com IA
 # Pode ser executado manualmente ou via cron/systemd timer

@@ -1,4 +1,9 @@
-{ config, pkgs, hostName ? "", ... }:
+{
+  config,
+  pkgs,
+  hostName ? "",
+  ...
+}:
 
 {
   imports = [
@@ -11,7 +16,6 @@
     ./vscode
     ./neovim
     ./kew
-    ./archisteamfarm
     ./git.nix
     ./wezterm.nix
     ./shell.nix
@@ -98,6 +102,7 @@
       package = pkgs.catppuccin-gtk;
       name = "Catppuccin-Macchiato-Standard-Teal-Dark";
     };
+    gtk4.theme = config.gtk.theme;
   };
 
   xdg.mimeApps = {
@@ -207,13 +212,16 @@
     hyprpaper = {
       enable = true;
       settings = {
-        general = {
-          wallpaper_mode = "fill";
-          preload = "${config.home.homeDirectory}/.background";
-          wallpaper = ",${config.home.homeDirectory}/.background";
-          ipc = "on";
-          splash = true;
-        };
+        splash = true;
+        ipc = true;
+
+        wallpaper = [
+          {
+            monitor = "";
+            path = "${config.home.homeDirectory}/.background";
+            fit_mode = "cover";
+          }
+        ];
       };
     };
     hypridle = {

@@ -63,7 +63,7 @@ home/neovim/
       # LSPs, formatters, etc.
     ];
     
-    extraLuaConfig = ''
+    initLua = ''
       ${builtins.readFile ./config/init.lua}
     '';
   };
@@ -376,7 +376,7 @@ Todos os plugins serão declarados em `programs.neovim.plugins` usando `pkgs.vim
 
 ### Lua Configuration Loading
 
-A configuração Lua será injetada via `extraLuaConfig` que lê os arquivos Lua. Estrutura modular permite:
+A configuração Lua será injetada via `initLua` que lê os arquivos Lua. Estrutura modular permite:
 - Fácil manutenção
 - Reutilização de componentes
 - Debugging simplificado

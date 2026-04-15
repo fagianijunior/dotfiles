@@ -3,18 +3,6 @@
 
 {
   systemd.user.services = {
-    taskwarrior-daily-report = {
-      Unit = {
-        Description = "Daily task report with AI";
-      };
-      Service = {
-        Type = "oneshot";
-        ExecStart = "${config.home.homeDirectory}/.config/task/daily-ai-report.sh";
-        Environment = [
-          "PATH=${pkgs.python3}/bin:${pkgs.taskwarrior3}/bin:${pkgs.curl}/bin:$PATH"
-        ];
-      };
-    };
 
     taskwarrior-ai-analyze = {
       Unit = {
@@ -38,7 +26,7 @@
         ExecStart = pkgs.writeShellScript "cleanup-task-reports" ''
           #!/bin/bash
           REPORT_DIR="$HOME/.local/share/task-reports"
-          
+
           if [[ -d "$REPORT_DIR" ]]; then
             # Remove reports older than 30 days
             find "$REPORT_DIR" -name "daily-report-*.md" -mtime +30 -delete
@@ -50,19 +38,6 @@
   };
 
   systemd.user.timers = {
-    taskwarrior-daily-report = {
-      Unit = {
-        Description = "Timer for daily task report";
-      };
-      Timer = {
-        OnCalendar = "08:00";
-        Persistent = true;
-        RandomizedDelaySec = "10m";
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
 
     taskwarrior-cleanup-reports = {
       Unit = {

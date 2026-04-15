@@ -93,6 +93,7 @@
         allow id 1908:2310 # GEMBIRD USB2.0 PC CAMERA
         allow id 189a:2019 # USB Microphone
         allow id 13d3:3570 # IMC Networks Bluetooth Radio
+        allow id 054c:0268 # Sony Corp. Batoh Device / PlayStation 3 Controller
 
         # Dongles
         allow id 0a12:0001 # Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)
@@ -176,5 +177,9 @@
     # Task management
     taskwarrior3
     taskwarrior-tui
+
+    # Gaming
+    jstest-gtk
+    game-devices-udev-rules
   ];
 }

@@ -21,11 +21,16 @@ in
     # https://nix-community.github.io/home-manager/options.html#opt-programs.firefox.profiles
     profiles = {
       fagiani = {
-        # choose a profile name; directory is /home/<user>/.mozilla/firefox/profile_0
         extensions.force = true;
-        id = 0; # 0 is the default profile; see also option "isDefault"
-        name = "Fagiani"; # name as listed in about:profiles
-        isDefault = true; # can be omitted; true if profile ID is 0
+        id = 0;
+        name = "Fagiani";
+        isDefault = true;
+      };
+      nubank = {
+        extensions.force = true;
+        id = 1;
+        name = "nubank";
+        isDefault = false;
       };
     };
     languagePacks = [
