@@ -89,6 +89,7 @@
     terraform-ls
     # python311Packages.python-lsp-server
     rubyPackages.solargraph
+    gemini-cli # Adicionado gemini-cli
 
   ];
 

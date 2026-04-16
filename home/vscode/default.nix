@@ -133,6 +133,7 @@
         "workbench.sideBar.location" = "left";
         "workbench.editor.labelFormat" = "short";
         "workbench.editor.enablePreview" = false;
+        "kilo-code.new.autocomplete.enableAutoTrigger" = true;
 
         "window.commandCenter" = true;
 

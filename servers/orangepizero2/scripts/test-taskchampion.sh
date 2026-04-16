@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Script para testar a instalação do taskchampion-sync-server
 
-set -e
+# Não usar 'set -e' aqui porque queremos tratar falhas individuais
+# (ex.: serviço inativo) e mostrar mensagens informativas ao usuário.
 
 echo "🧪 Testando Taskchampion Sync Server no Orange Pi Zero 2"
 echo "=========================================================="
@@ -84,7 +85,7 @@ echo ""
 echo "8️⃣  Informações do sistema:"
 echo "----------------------------"
 echo "Hostname: $(hostname)"
-echo "IP: $(ip -4 addr show end0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')"
+echo "IP: $(hostname -I | awk '{print $1}')"
 echo "Arquitetura: $(uname -m)"
 echo "Kernel: $(uname -r)"
 echo ""

@@ -1,4 +1,4 @@
 { pkgs }:
 {
-  ecs-exec       = pkgs.callPackage ./ecs-exec {};
+  ecs-exec = pkgs.callPackage ./ecs-exec { };
 }

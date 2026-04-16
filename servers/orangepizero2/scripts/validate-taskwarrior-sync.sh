@@ -3,7 +3,8 @@
 # Script para validar se os dados do Taskwarrior foram escritos no servidor
 # Uso: ./validate-taskwarrior-sync.sh
 
-set -e
+# Não usar 'set -e' para que possamos tratar falhas individuais
+# (ex.: serviço inativo, porta fechada) e apresentar mensagens úteis.
 
 echo "🔍 Validação de Sincronização do Taskwarrior"
 echo "=============================================="
