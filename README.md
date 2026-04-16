@@ -27,9 +27,7 @@ Configuração NixOS para dois dispositivos AMD com Wayland/Hyprland.
 │   ├── hardware/            # Drivers e configurações de hardware
 │   └── profiles/            # Perfis modulares de software
 ├── home/                    # Configurações do Home Manager
-│   └── taskwarrior/         # Configuração do Taskwarrior com sync
-└── pkgs/                    # Pacotes customizados
-```
+│   └── taskwarrior/         # Configuração do Taskwarrior com sync```
 
 ## Perfis Modulares
 

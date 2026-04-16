@@ -54,15 +54,11 @@
 
                 nixpkgs.config.allowUnfree = true;
 
-                nixpkgs.overlays = [
-                  (import ./pkgs/overlays.nix)
-                ];
-
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
 
                 home-manager.backupFileExtension = "back.tar.gz";
-                
+
                 # Passar hostname para home-manager
                 home-manager.extraSpecialArgs = {
                   hostName = hostname;
@@ -106,10 +102,6 @@
               {
                 networking.hostName = hostname;
                 nixpkgs.config.allowUnfree = true;
-
-                nixpkgs.overlays = [
-                  (import ./pkgs/overlays.nix)
-                ];
               }
             )
           ];
