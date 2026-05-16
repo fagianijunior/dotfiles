@@ -6,6 +6,8 @@
     cpuFreqGovernor = "performance";
   };
 
+  boot.kernelParams = [ "btusb.enable_iso" ];
+
   imports = [
     ./ai-services.nix
     ./gaming.nix

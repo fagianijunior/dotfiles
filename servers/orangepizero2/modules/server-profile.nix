@@ -2,7 +2,7 @@
 
 {
   # Habilitar Docker
-  virtualisation.docker = {
+  v = {
     enable = true;
     autoPrune = {
       enable = true;

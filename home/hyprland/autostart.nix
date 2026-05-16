@@ -2,7 +2,6 @@
   exec-once = [
     "pypr"
     "hyprpaper"
-    "hypridle"
     "poweralertd"
     "avizo-service"
     "systemctl --user start psi-notify"

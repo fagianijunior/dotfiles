@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ./nobita-hardware.nix
@@ -22,10 +23,28 @@
     ../modules/profiles/logitech.nix
   ];
 
+  environment.systemPackages = with pkgs; [
+    nfs-utils
+  ];
+
   # Enable ROCm support for RX 6600 GPU
   hardware.rocm.enable = true;
 
   networking.hostName = "nobita";
+
+  fileSystems."/mnt/allMedia" = {
+    device = "192.168.18.3:/Media/allMedia";
+    fsType = "nfs";
+    options = [
+      "x-systemd.automount"
+      "noauto"
+    ];
+  };
+
+  programs.nix-ld.enable = true;
+
+  virtualisation.docker.enable = true;
+  virtualisation.podman.enable = false;
 
   system.stateVersion = "25.11";
 }

@@ -7,6 +7,8 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
+    withRuby = false;
+    withPython3 = false;
 
     # Plugins will be added here as we progress through tasks
     plugins = with pkgs.vimPlugins; [

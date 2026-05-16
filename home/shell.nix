@@ -5,8 +5,8 @@
     cl = "clear";
     cat = "bat --style=numbers,changes --color=always";
     lgit = "lazygit";
-    ldocker = "lazydocker";
-    
+    #    ldocker = "lazydocker";
+
     # Taskwarrior aliases
     t = "task";
     ta = "task add";

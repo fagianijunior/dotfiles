@@ -31,11 +31,6 @@
         # service.grpc_port = 6334;
       };
     };
-
-    open-webui = {
-      enable = true;
-      host = "0.0.0.0";
-    };
   };
 
   # Ensure ollama user has access to GPU devices

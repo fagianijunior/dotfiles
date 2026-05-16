@@ -11,9 +11,7 @@
       "video"
       "audio"
       "networkmanager"
-      "docker"
       "gamemod"
-      "libvirtd"
       "render"
     ];
   };

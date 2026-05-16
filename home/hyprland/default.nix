@@ -11,7 +11,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    systemd.enable = true;
+    systemd.enable = false; # Gerenciado pelo NixOS via UWSM (withUWSM = true)
 
     settings = lib.mkMerge [
       (import ./variables.nix)
